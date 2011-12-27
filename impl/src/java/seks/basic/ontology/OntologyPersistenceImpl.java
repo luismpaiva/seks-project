@@ -28,7 +28,7 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
     
     private HashMap<String, String> params = new HashMap<String, String>() ;
     private String configFilePath = "./src" ;
-    private static final String configFileName = "jena.conf.xml" ;
+    private static final String configFileName = "jenaConfig.xml" ;
     private String sParams[] = {"ont_file", "db_url", "db_user", "db_passwd", "db", "db_driver"} ;
     private String sDbURL ;
     private String sDbUser ;
