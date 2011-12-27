@@ -14,8 +14,10 @@ DROP TABLE IF EXISTS `svdb`.`SemanticVector` ;
 
 SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `svdb`.`SemanticVector` (
-  `idSemanticVector` INT NOT NULL AUTO_INCREMENT ,
-  PRIMARY KEY (`idSemanticVector`) )
+  `documentUri` VARCHAR(45) NOT NULL ,
+  `description` VARCHAR(45) NULL ,
+  PRIMARY KEY (`documentUri`) ,
+  UNIQUE INDEX `documentUri_UNIQUE` (`documentUri` ASC) )
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -31,12 +33,12 @@ CREATE  TABLE IF NOT EXISTS `svdb`.`SemanticWeight` (
   `parentClass` VARCHAR(45) NULL ,
   `concept` VARCHAR(45) NOT NULL ,
   `weight` INT(11)  NULL ,
-  `SemanticVector_idSemanticVector` INT NOT NULL ,
-  PRIMARY KEY (`idSemanticWeight`, `SemanticVector_idSemanticVector`) ,
-  INDEX `fk_SemanticWeight_SemanticVector` (`SemanticVector_idSemanticVector` ASC) ,
+  `SemanticVector_documentUri` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`idSemanticWeight`, `SemanticVector_documentUri`) ,
+  INDEX `fk_SemanticWeight_SemanticVector` (`SemanticVector_documentUri` ASC) ,
   CONSTRAINT `fk_SemanticWeight_SemanticVector`
-    FOREIGN KEY (`SemanticVector_idSemanticVector` )
-    REFERENCES `svdb`.`SemanticVector` (`idSemanticVector` )
+    FOREIGN KEY (`SemanticVector_documentUri` )
+    REFERENCES `svdb`.`SemanticVector` (`documentUri` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -47,3 +49,24 @@ SHOW WARNINGS;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+-- -----------------------------------------------------
+-- Data for table `svdb`.`SemanticVector`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `svdb`;
+INSERT INTO `svdb`.`SemanticVector` (`documentUri`, `description`) VALUES ('xpto1', 'QQ COISA');
+INSERT INTO `svdb`.`SemanticVector` (`documentUri`, `description`) VALUES ('xpto2', 'fegdnh');
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `svdb`.`SemanticWeight`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `svdb`;
+INSERT INTO `svdb`.`SemanticWeight` (`idSemanticWeight`, `parentClass`, `concept`, `weight`, `SemanticVector_documentUri`) VALUES (1, 'dsgjb', 'flkbtdbr', 12, 'xpto1');
+INSERT INTO `svdb`.`SemanticWeight` (`idSemanticWeight`, `parentClass`, `concept`, `weight`, `SemanticVector_documentUri`) VALUES (2, 'fghstf', 'ghrdyt', 30, 'xpto1');
+INSERT INTO `svdb`.`SemanticWeight` (`idSemanticWeight`, `parentClass`, `concept`, `weight`, `SemanticVector_documentUri`) VALUES (3, 'gfngtf', 'sghrt', 10, 'xpto2');
+
+COMMIT;
