@@ -4,10 +4,19 @@
  */
 package seks.basic.database;
 
+
 /**
  *
  * @author Paulo Figueiras
  */
-public class DatabaseInteractionImpl {
+public class DatabaseInteraction {
+    
+    public DatabaseInteraction() {}
+
+    
+    public int numDocumentsByConcept(String concept) {
+        return 1 ;
+    }
+    
     
 }
