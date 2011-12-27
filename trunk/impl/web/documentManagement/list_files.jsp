@@ -36,7 +36,7 @@
                                     String folderName = request.getParameter("btnListFiles");
                                     String folderId = request.getParameter("folderId" + folderName);
                                     Class.forName("com.mysql.jdbc.Driver");
-                                    String connectionUrl = "jdbc:mysql://localhost:3306/lportal?"
+                                    String connectionUrl = "jdbc:mysql://172.16.3.139:3306/lportal?"
                                             + "user=root&password=gris";
                                     Connection con = DriverManager.getConnection(connectionUrl);
                                     CallableStatement statement = con.prepareCall("call lportal.list_files(" + folderId + ")");
