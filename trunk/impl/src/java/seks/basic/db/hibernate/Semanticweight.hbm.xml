@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 27/Dez/2011 14:33:40 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="seks.basic.db.hibernate.Semanticweight" table="semanticweight" catalog="svdb">
+        <composite-id name="id" class="seks.basic.db.hibernate.SemanticweightId">
+            <key-property name="idSemanticWeight" type="int">
+                <column name="idSemanticWeight" />
+            </key-property>
+            <key-property name="semanticVectorDocumentUri" type="string">
+                <column name="SemanticVector_documentUri" length="45" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="semanticvector" class="seks.basic.db.hibernate.Semanticvector" update="false" insert="false" fetch="select">
+            <column name="SemanticVector_documentUri" length="45" not-null="true" />
+        </many-to-one>
+        <property name="parentClass" type="string">
+            <column name="parentClass" length="45" />
+        </property>
+        <property name="concept" type="string">
+            <column name="concept" length="45" not-null="true" />
+        </property>
+        <property name="weight" type="java.lang.Integer">
+            <column name="weight" />
+        </property>
+    </class>
+</hibernate-mapping>
