@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 27/Dez/2011 14:33:40 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="seks.basic.db.hibernate.Semanticvector" table="semanticvector" catalog="svdb">
+        <id name="documentUri" type="string">
+            <column name="documentUri" length="45" />
+            <generator class="assigned" />
+        </id>
+        <property name="description" type="string">
+            <column name="description" length="45" />
+        </property>
+        <set name="semanticweights" inverse="true">
+            <key>
+                <column name="SemanticVector_documentUri" length="45" not-null="true" />
+            </key>
+            <one-to-many class="seks.basic.db.hibernate.Semanticweight" />
+        </set>
+    </class>
+</hibernate-mapping>
