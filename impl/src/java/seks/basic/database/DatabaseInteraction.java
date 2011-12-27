@@ -62,7 +62,7 @@ public class DatabaseInteraction {
         }
     }
     
-    public Connection openConnection () {
+    public Connection openConnection() {
         try {
             loadConfigParams(lportalConfigFile) ;
             Class.forName(dbDriver);
@@ -109,7 +109,7 @@ public class DatabaseInteraction {
         return null ;
     }
     
-    public ResultSet listFiles (Connection con, String folderId) {
+    public ResultSet listFiles(Connection con, String folderId) {
         try {
             CallableStatement statement = con.prepareCall("call lportal.list_files(" + folderId + ")");
             statement.execute();
@@ -121,9 +121,11 @@ public class DatabaseInteraction {
         return null ;
     }
     
-    public int numDocumentsByConcept(String concept) {
-        return 1 ;
+    public void closeConnection(Connection con) {
+        try {
+            con.close() ;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseInteraction.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
-    
 }
