@@ -4,6 +4,7 @@
     Author     : Administrador
 --%>
 <%@page import="java.sql.*"%>
+<%@page import="seks.basic.database.DatabaseInteraction"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
@@ -35,13 +36,16 @@
                                 try {
                                     String folderName = request.getParameter("btnListFiles");
                                     String folderId = request.getParameter("folderId" + folderName);
-                                    Class.forName("com.mysql.jdbc.Driver");
-                                    String connectionUrl = "jdbc:mysql://172.16.3.139:3306/lportal?"
-                                            + "user=root&password=gris";
-                                    Connection con = DriverManager.getConnection(connectionUrl);
-                                    CallableStatement statement = con.prepareCall("call lportal.list_files(" + folderId + ")");
-                                    statement.execute();
-                                    ResultSet rs = statement.getResultSet();
+                                    DatabaseInteraction di = new DatabaseInteraction() ;
+                                    Connection con = di.openConnection() ;
+                                    ResultSet rs = di.listFiles(con, folderId) ;
+                                    //Class.forName("com.mysql.jdbc.Driver");
+                                    //String connectionUrl = "jdbc:mysql://172.16.3.139:3306/lportal?"
+                                    //        + "user=root&password=gris";
+                                    //Connection con = DriverManager.getConnection(connectionUrl);
+                                    //CallableStatement statement = con.prepareCall("call lportal.list_files(" + folderId + ")");
+                                    //statement.execute();
+                                    //ResultSet rs = statement.getResultSet();
 
 
                                     //KnowledgeSource ks = new KnowledgeSource();
@@ -61,13 +65,9 @@
                     </tr>
                     <%
                                     }
-                                    rs.close();
-                                    statement.close();
-
+                                    di.closeConnection(con) ;
                                 } catch (SQLException e) {
                                     System.out.println("SQL Exception: " + e.toString());
-                                } catch (ClassNotFoundException cE) {
-                                    System.out.println("Class Not Found Exception: " + cE.toString());
                                 }
                     %>
                 </tbody>

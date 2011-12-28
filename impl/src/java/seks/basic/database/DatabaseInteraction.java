@@ -26,15 +26,21 @@ public class DatabaseInteraction {
     private HashMap<String, String> params = new HashMap<String, String>() ;
     private String dbUrl, dbUser, dbPasswd, dbDriver ;
     private String configFilePath = "./src" ;
-    private static final String lportalConfigFile = "lportalConfig.xml" ;
+    private String lportalConfigFile = "lportalConfig.xml" ;
     private String sParams[] = {"db_url", "db_user", "db_passwd", "db_driver"} ;
     
-    public DatabaseInteraction() {}
+    public DatabaseInteraction() {
+        //loadConfigParams(this.lportalConfigFile) ;
+        this.dbUrl = "jdbc:mysql://172.16.3.139:3306/lportal" ;
+        this.dbUser = "root" ;
+        this.dbPasswd = "gris" ;
+        this.dbDriver = "com.mysql.jdbc.Driver" ;
+    }
 
     private void loadConfigParams (String configFileName) {
         try {
             DOMParser domp = new DOMParser();
-            domp.parse(configFilePath + "/" + configFileName);
+            domp.parse(this.configFilePath + "/" + configFileName);
             Document doc = domp.getDocument() ;
             Element root = doc.getDocumentElement() ;
             for(String param: sParams){
@@ -64,9 +70,9 @@ public class DatabaseInteraction {
     
     public Connection openConnection() {
         try {
-            loadConfigParams(lportalConfigFile) ;
-            Class.forName(dbDriver);
-            String connectionUrl = dbUrl + "?user=" + dbUser + "&password=" + dbPasswd ;
+            Class.forName(this.dbDriver);
+            String connectionUrl = this.dbUrl + "?"
+                              + "user=" + this.dbUser + "&password=" + this.dbPasswd ;
             Connection con = DriverManager.getConnection(connectionUrl);
             return con ;
         } catch (ClassNotFoundException ex) {

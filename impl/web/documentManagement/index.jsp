@@ -33,14 +33,17 @@
         <%
                     //Cria Ligação à BD
                     try {
-                        Class.forName("com.mysql.jdbc.Driver");
-                        String connectionUrl = "jdbc:mysql://172.16.3.139:3306/lportal?"
-                                + "user=root&password=gris";
-                        Connection con = DriverManager.getConnection(connectionUrl);
-                        CallableStatement statement = con.prepareCall("call lportal.list_folders");
-                        statement.execute();
-                        ResultSet rs = statement.getResultSet();
-
+                        DatabaseInteraction di = new DatabaseInteraction() ;
+                        Connection con = di.openConnection() ;
+                        
+                        
+                        //String connectionUrl = "jdbc:mysql://172.16.3.139:3306/lportal?"
+                        //      + "user=root&password=gris";
+                        //Connection con = DriverManager.getConnection(connectionUrl);
+                        //CallableStatement statement = con.prepareCall("call lportal.list_folders");
+                        //statement.execute();
+                        //ResultSet rs = statement.getResultSet();
+                        ResultSet rs = di.listFolders(con) ;
 
                         //KnowledgeSource ks = new KnowledgeSource();
 
@@ -57,14 +60,10 @@
                 </tr>
         <%
                         }
-rs.close();
-statement.close();
-
+                        di.closeConnection(con);
                     } catch (SQLException e) {
                         System.out.println("SQL Exception: " + e.toString());
-                    } catch (ClassNotFoundException cE) {
-                        System.out.println("Class Not Found Exception: " + cE.toString());
-                    }
+                    } 
         %>
     </tbody>
         </table>
