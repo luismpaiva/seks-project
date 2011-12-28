@@ -69,6 +69,44 @@ ENGINE = InnoDB;
 
 SHOW WARNINGS;
 
+-- -----------------------------------------------------
+-- procedure getDocumentNumWithConcept
+-- -----------------------------------------------------
+
+USE `svdb`;
+DROP procedure IF EXISTS `svdb`.`getDocumentNumWithConcept`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `svdb`$$
+CREATE PROCEDURE `svdb`.`getDocumentNumWithConcept` (concept varchar(45))
+BEGIN
+    select count(*) as nDocument from semanticWeight where (`concept` = concept);
+END
+$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- procedure getTotalDocumentNum
+-- -----------------------------------------------------
+
+USE `svdb`;
+DROP procedure IF EXISTS `svdb`.`getTotalDocumentNum`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `svdb`$$
+CREATE PROCEDURE `svdb`.`getTotalDocumentNum` ()
+BEGIN
+    select count(*) as nDocument from Document ;
+END
+$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
@@ -79,8 +117,8 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `svdb`;
-INSERT INTO `svdb`.`Document` (`idDocument`, `description`, `isIndexed`) VALUES ('xpto1', 'QQ COISA', true);
-INSERT INTO `svdb`.`Document` (`idDocument`, `description`, `isIndexed`) VALUES ('xpto2', 'fegdnh', true);
+INSERT INTO `svdb`.`Document` (`idDocument`, `description`, `isIndexed`) VALUES ('xpto1', 'QQ COISA', NULL);
+INSERT INTO `svdb`.`Document` (`idDocument`, `description`, `isIndexed`) VALUES ('xpto2', 'fegdnh', NULL);
 
 COMMIT;
 
@@ -89,8 +127,8 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `svdb`;
-INSERT INTO `svdb`.`SemanticWeight` (`idSemanticWeight`, `parentClass`, `concept`, `weight`, `Document_idDocument`) VALUES (1, 'dsgjb', 'flkbtdbr', 12, 'xpto1');
-INSERT INTO `svdb`.`SemanticWeight` (`idSemanticWeight`, `parentClass`, `concept`, `weight`, `Document_idDocument`) VALUES (2, 'fghstf', 'ghrdyt', 30, 'xpto1');
-INSERT INTO `svdb`.`SemanticWeight` (`idSemanticWeight`, `parentClass`, `concept`, `weight`, `Document_idDocument`) VALUES (3, 'gfngtf', 'sghrt', 10, 'xpto2');
+INSERT INTO `svdb`.`SemanticWeight` (`idSemanticWeight`, `parentClass`, `concept`, `weight`, `Document_idDocument`) VALUES (1, 'dsgjb', 'flkbtdbr', 12, NULL);
+INSERT INTO `svdb`.`SemanticWeight` (`idSemanticWeight`, `parentClass`, `concept`, `weight`, `Document_idDocument`) VALUES (2, 'fghstf', 'ghrdyt', 30, NULL);
+INSERT INTO `svdb`.`SemanticWeight` (`idSemanticWeight`, `parentClass`, `concept`, `weight`, `Document_idDocument`) VALUES (3, 'gfngtf', 'sghrt', 10, NULL);
 
 COMMIT;
