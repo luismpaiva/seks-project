@@ -9,17 +9,17 @@ SHOW WARNINGS;
 USE `svdb` ;
 
 -- -----------------------------------------------------
--- Table `svdb`.`SemanticVector`
+-- Table `svdb`.`Document`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `svdb`.`SemanticVector` ;
+DROP TABLE IF EXISTS `svdb`.`Document` ;
 
 SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `svdb`.`SemanticVector` (
-  `documentUri` VARCHAR(45) NOT NULL ,
+CREATE  TABLE IF NOT EXISTS `svdb`.`Document` (
+  `idDocument` VARCHAR(45) NOT NULL ,
   `description` VARCHAR(45) NULL ,
   `isIndexed` TINYINT(1)  NOT NULL ,
-  PRIMARY KEY (`documentUri`) ,
-  UNIQUE INDEX `documentUri_UNIQUE` (`documentUri` ASC) )
+  PRIMARY KEY (`idDocument`) ,
+  UNIQUE INDEX `documentUri_UNIQUE` (`idDocument` ASC) )
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -35,12 +35,12 @@ CREATE  TABLE IF NOT EXISTS `svdb`.`SemanticWeight` (
   `parentClass` VARCHAR(45) NULL ,
   `concept` VARCHAR(45) NOT NULL ,
   `weight` INT(11)  NULL ,
-  `SemanticVector_documentUri` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`idSemanticWeight`, `SemanticVector_documentUri`) ,
-  INDEX `fk_SemanticWeight_SemanticVector` (`SemanticVector_documentUri` ASC) ,
-  CONSTRAINT `fk_SemanticWeight_SemanticVector`
-    FOREIGN KEY (`SemanticVector_documentUri` )
-    REFERENCES `svdb`.`SemanticVector` (`documentUri` )
+  `Document_idDocument` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`idSemanticWeight`, `Document_idDocument`) ,
+  INDEX `fk_SemanticWeight_Document` (`Document_idDocument` ASC) ,
+  CONSTRAINT `fk_SemanticWeight_Document`
+    FOREIGN KEY (`Document_idDocument` )
+    REFERENCES `svdb`.`Document` (`idDocument` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -48,36 +48,21 @@ ENGINE = InnoDB;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `svdb`.`StatVector`
+-- Table `svdb`.`StatisticWeight`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `svdb`.`StatVector` ;
+DROP TABLE IF EXISTS `svdb`.`StatisticWeight` ;
 
 SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `svdb`.`StatVector` (
-  `documentUri` VARCHAR(45) NOT NULL ,
-  `description` VARCHAR(45) NULL ,
-  PRIMARY KEY (`documentUri`) ,
-  UNIQUE INDEX `documentUri_UNIQUE` (`documentUri` ASC) )
-ENGINE = InnoDB;
-
-SHOW WARNINGS;
-
--- -----------------------------------------------------
--- Table `svdb`.`StatWeight`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `svdb`.`StatWeight` ;
-
-SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `svdb`.`StatWeight` (
+CREATE  TABLE IF NOT EXISTS `svdb`.`StatisticWeight` (
   `idSemanticWeight` INT NOT NULL AUTO_INCREMENT ,
   `keyword` VARCHAR(45) NOT NULL ,
   `weight` INT(11)  NULL ,
-  `StatVector_documentUri` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`idSemanticWeight`, `StatVector_documentUri`) ,
-  INDEX `fk_StatWeight_StatVector1` (`StatVector_documentUri` ASC) ,
-  CONSTRAINT `fk_StatWeight_StatVector1`
-    FOREIGN KEY (`StatVector_documentUri` )
-    REFERENCES `svdb`.`StatVector` (`documentUri` )
+  `Document_idDocument` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`idSemanticWeight`, `Document_idDocument`) ,
+  INDEX `fk_SemanticWeight_Document` (`Document_idDocument` ASC) ,
+  CONSTRAINT `fk_SemanticWeight_Document0`
+    FOREIGN KEY (`Document_idDocument` )
+    REFERENCES `svdb`.`Document` (`idDocument` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -90,12 +75,12 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
--- Data for table `svdb`.`SemanticVector`
+-- Data for table `svdb`.`Document`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `svdb`;
-INSERT INTO `svdb`.`SemanticVector` (`documentUri`, `description`, `isIndexed`) VALUES ('xpto1', 'QQ COISA', NULL);
-INSERT INTO `svdb`.`SemanticVector` (`documentUri`, `description`, `isIndexed`) VALUES ('xpto2', 'fegdnh', NULL);
+INSERT INTO `svdb`.`Document` (`idDocument`, `description`, `isIndexed`) VALUES ('xpto1', 'QQ COISA', true);
+INSERT INTO `svdb`.`Document` (`idDocument`, `description`, `isIndexed`) VALUES ('xpto2', 'fegdnh', true);
 
 COMMIT;
 
@@ -104,8 +89,8 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `svdb`;
-INSERT INTO `svdb`.`SemanticWeight` (`idSemanticWeight`, `parentClass`, `concept`, `weight`, `SemanticVector_documentUri`) VALUES (1, 'dsgjb', 'flkbtdbr', 12, 'xpto1');
-INSERT INTO `svdb`.`SemanticWeight` (`idSemanticWeight`, `parentClass`, `concept`, `weight`, `SemanticVector_documentUri`) VALUES (2, 'fghstf', 'ghrdyt', 30, 'xpto1');
-INSERT INTO `svdb`.`SemanticWeight` (`idSemanticWeight`, `parentClass`, `concept`, `weight`, `SemanticVector_documentUri`) VALUES (3, 'gfngtf', 'sghrt', 10, 'xpto2');
+INSERT INTO `svdb`.`SemanticWeight` (`idSemanticWeight`, `parentClass`, `concept`, `weight`, `Document_idDocument`) VALUES (1, 'dsgjb', 'flkbtdbr', 12, 'xpto1');
+INSERT INTO `svdb`.`SemanticWeight` (`idSemanticWeight`, `parentClass`, `concept`, `weight`, `Document_idDocument`) VALUES (2, 'fghstf', 'ghrdyt', 30, 'xpto1');
+INSERT INTO `svdb`.`SemanticWeight` (`idSemanticWeight`, `parentClass`, `concept`, `weight`, `Document_idDocument`) VALUES (3, 'gfngtf', 'sghrt', 10, 'xpto2');
 
 COMMIT;
