@@ -56,7 +56,7 @@ public final class list_005fnonIndexed_005ffiles_jsp extends org.apache.jasper.r
       out.write("    </head>\n");
       out.write("    <body>\n");
       out.write("        <h1>List of Non-Indexed Files!</h1>\n");
-      out.write("        <form name=\"list_nonIndex_files\" action=\"index.jsp\">\n");
+      out.write("        <form name=\"list_nonIndex_files\" action=\"indexation.jsp\">\n");
       out.write("            <table align=\"center\">\n");
       out.write("                <tbody>\n");
       out.write("                    ");
@@ -91,6 +91,8 @@ public final class list_005fnonIndexed_005ffiles_jsp extends org.apache.jasper.r
       out.write("                        </td>\n");
       out.write("                        <td><input type=\"hidden\" value=\"");
       out.print( rs.getString("idDocument"));
+      out.write("\" name=\"documentId");
+      out.print( rs.getString("idDocument"));
       out.write("\"/></td>\n");
       out.write("                        <td>");
       out.print( rs.getString("description"));
@@ -106,6 +108,7 @@ public final class list_005fnonIndexed_005ffiles_jsp extends org.apache.jasper.r
       out.write("\n");
       out.write("                </tbody>\n");
       out.write("            </table>\n");
+      out.write("                <input type=\"submit\" value=\"Indexation\" name=\"btnIndex\"  />\n");
       out.write("        </form>\n");
       out.write("        ");
 
