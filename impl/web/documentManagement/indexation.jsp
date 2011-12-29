@@ -43,7 +43,9 @@
             </tbody>
         </table>
         <%
-            rs = di.callProcedure(con, "get_document_url(" + fileId + ")");
+        rs = null;
+        rs = di.callProcedure(con, "get_document_url(" + fileId + ")");
+        rs.next();
         %>
         <a href=<%=rs.getString("documentUrl")%> > View Document</a>
         <%
