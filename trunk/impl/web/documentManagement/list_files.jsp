@@ -37,8 +37,11 @@
                                     String folderName = request.getParameter("btnListFiles");
                                     String folderId = request.getParameter("folderId" + folderName);
                                     DatabaseInteraction di = new DatabaseInteraction() ;
-                                    Connection con = di.openConnection() ;
-                                    ResultSet rs = di.listFiles(con, folderId) ;
+                                    Connection con = di.openConnection();
+                                    ResultSet rs= di.callProcedure(con, "list_files(" + folderId + ")");
+                                    
+                                    
+                                    //ResultSet rs = di.listFiles(con, folderId) ;
                                     //Class.forName("com.mysql.jdbc.Driver");
                                     //String connectionUrl = "jdbc:mysql://172.16.3.139:3306/lportal?"
                                     //        + "user=root&password=gris";
