@@ -675,7 +675,7 @@ CREATE TABLE `quartz_triggers` (
 
 LOCK TABLES `quartz_triggers` WRITE;
 /*!40000 ALTER TABLE `quartz_triggers` DISABLE KEYS */;
-INSERT INTO `quartz_triggers` VALUES ('com.liferay.portlet.admin.messaging.LDAPImportMessageListener','com.liferay.portlet.admin.messaging.LDAPImportMessageListener','com.liferay.portlet.admin.messaging.LDAPImportMessageListener','com.liferay.portlet.admin.messaging.LDAPImportMessageListener',0,NULL,1325171267250,1325170667250,5,'WAITING','SIMPLE',1325160467250,0,NULL,0,''),('com.liferay.portlet.admin.messaging.PluginRepositoriesMessageListener','com.liferay.portlet.admin.messaging.PluginRepositoriesMessageListener','com.liferay.portlet.admin.messaging.PluginRepositoriesMessageListener','com.liferay.portlet.admin.messaging.PluginRepositoriesMessageListener',0,NULL,1325246867249,1325160467249,5,'WAITING','SIMPLE',1325160467249,0,NULL,0,''),('com.liferay.portlet.announcements.messaging.CheckEntryMessageListener','com.liferay.portlet.announcements.messaging.CheckEntryMessageListener','com.liferay.portlet.announcements.messaging.CheckEntryMessageListener','com.liferay.portlet.announcements.messaging.CheckEntryMessageListener',0,NULL,1325171267162,1325170367162,5,'WAITING','SIMPLE',1325160467162,0,NULL,0,''),('com.liferay.portlet.blogs.messaging.LinkbackMessageListener','com.liferay.portlet.blogs.messaging.LinkbackMessageListener','com.liferay.portlet.blogs.messaging.LinkbackMessageListener','com.liferay.portlet.blogs.messaging.LinkbackMessageListener',0,NULL,1325171267380,1325170967380,5,'WAITING','SIMPLE',1325160467380,0,NULL,0,''),('com.liferay.portlet.calendar.messaging.CheckEventMessageListener','com.liferay.portlet.calendar.messaging.CheckEventMessageListener','com.liferay.portlet.calendar.messaging.CheckEventMessageListener','com.liferay.portlet.calendar.messaging.CheckEventMessageListener',0,NULL,1325171267059,1325170367059,5,'WAITING','SIMPLE',1325160467059,0,NULL,0,''),('com.liferay.portlet.journal.messaging.CheckArticleMessageListener','com.liferay.portlet.journal.messaging.CheckArticleMessageListener','com.liferay.portlet.journal.messaging.CheckArticleMessageListener','com.liferay.portlet.journal.messaging.CheckArticleMessageListener',0,NULL,1325171267285,1325170367285,5,'WAITING','SIMPLE',1325160467285,0,NULL,0,''),('com.liferay.portlet.messageboards.messaging.ExpireBanMessageListener','com.liferay.portlet.messageboards.messaging.ExpireBanMessageListener','com.liferay.portlet.messageboards.messaging.ExpireBanMessageListener','com.liferay.portlet.messageboards.messaging.ExpireBanMessageListener',0,NULL,1325174866945,1325160466945,5,'WAITING','SIMPLE',1325160466945,0,NULL,0,''),('com.liferay.portlet.social.messaging.CheckEquityLogMessageListener','com.liferay.portlet.social.messaging.CheckEquityLogMessageListener','com.liferay.portlet.social.messaging.CheckEquityLogMessageListener','com.liferay.portlet.social.messaging.CheckEquityLogMessageListener',0,NULL,1325246870064,1325160470064,5,'WAITING','SIMPLE',1325160470064,0,NULL,0,'');
+INSERT INTO `quartz_triggers` VALUES ('com.liferay.portlet.social.messaging.CheckEquityLogMessageListener','com.liferay.portlet.social.messaging.CheckEquityLogMessageListener','com.liferay.portlet.social.messaging.CheckEquityLogMessageListener','com.liferay.portlet.social.messaging.CheckEquityLogMessageListener',0,NULL,1325246870064,1325160470064,5,'WAITING','SIMPLE',1325160470064,0,NULL,0,'');
 /*!40000 ALTER TABLE `quartz_triggers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1210,7 +1210,7 @@ CREATE TABLE `quartz_simple_triggers` (
 
 LOCK TABLES `quartz_simple_triggers` WRITE;
 /*!40000 ALTER TABLE `quartz_simple_triggers` DISABLE KEYS */;
-INSERT INTO `quartz_simple_triggers` VALUES ('com.liferay.portlet.admin.messaging.LDAPImportMessageListener','com.liferay.portlet.admin.messaging.LDAPImportMessageListener',-1,600000,18),('com.liferay.portlet.admin.messaging.PluginRepositoriesMessageListener','com.liferay.portlet.admin.messaging.PluginRepositoriesMessageListener',-1,86400000,1),('com.liferay.portlet.announcements.messaging.CheckEntryMessageListener','com.liferay.portlet.announcements.messaging.CheckEntryMessageListener',-1,900000,12),('com.liferay.portlet.blogs.messaging.LinkbackMessageListener','com.liferay.portlet.blogs.messaging.LinkbackMessageListener',-1,300000,36),('com.liferay.portlet.calendar.messaging.CheckEventMessageListener','com.liferay.portlet.calendar.messaging.CheckEventMessageListener',-1,900000,12),('com.liferay.portlet.journal.messaging.CheckArticleMessageListener','com.liferay.portlet.journal.messaging.CheckArticleMessageListener',-1,900000,12),('com.liferay.portlet.messageboards.messaging.ExpireBanMessageListener','com.liferay.portlet.messageboards.messaging.ExpireBanMessageListener',-1,7200000,2),('com.liferay.portlet.social.messaging.CheckEquityLogMessageListener','com.liferay.portlet.social.messaging.CheckEquityLogMessageListener',-1,86400000,1);
+INSERT INTO `quartz_simple_triggers` VALUES ('com.liferay.portlet.social.messaging.CheckEquityLogMessageListener','com.liferay.portlet.social.messaging.CheckEquityLogMessageListener',-1,86400000,1);
 /*!40000 ALTER TABLE `quartz_simple_triggers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1548,7 +1548,7 @@ CREATE TABLE `quartz_job_details` (
 
 LOCK TABLES `quartz_job_details` WRITE;
 /*!40000 ALTER TABLE `quartz_job_details` DISABLE KEYS */;
-INSERT INTO `quartz_job_details` VALUES ('com.liferay.portlet.admin.messaging.LDAPImportMessageListener','com.liferay.portlet.admin.messaging.LDAPImportMessageListener',NULL,'com.liferay.portal.scheduler.job.MessageSenderJob',0,0,0,0,'¨Ì\0sr\0org.quartz.JobDataMapü∞ÉËø©∞À\0\0xr\0&org.quartz.utils.StringKeyDirtyFlagMapÇË√˚≈](\0Z\0allowsTransientDataxr\0org.quartz.utils.DirtyFlagMapÊ.≠(v\nŒ\0Z\0dirtyL\0mapt\0Ljava/util/Map;xpsr\0java.util.HashMap⁄¡√`—\0F\0\nloadFactorI\0	thresholdxp?@\0\0\0\0\0w\0\0\0\0\0\0t\0messagesr\0+com.liferay.portal.kernel.messaging.MessageôªAofgÑ^\0L\0_destinationNamet\0Ljava/lang/String;L\0_payloadt\0Ljava/lang/Object;L\0_responseDestinationNameq\0~\0	L\0_responseIdq\0~\0	L\0_valuesq\0~\0xpppppsq\0~\0?@\0\0\0\0\0w\0\0\0\0\0\0t\0receiver_keyt\0{com.liferay.portlet.admin.messaging.LDAPImportMessageListener:com.liferay.portlet.admin.messaging.LDAPImportMessageListenerxt\0descriptiont\0\0t\0destinationt\0\Zliferay/scheduler_dispatchx\0'),('com.liferay.portlet.admin.messaging.PluginRepositoriesMessageListener','com.liferay.portlet.admin.messaging.PluginRepositoriesMessageListener',NULL,'com.liferay.portal.scheduler.job.MessageSenderJob',0,0,0,0,'¨Ì\0sr\0org.quartz.JobDataMapü∞ÉËø©∞À\0\0xr\0&org.quartz.utils.StringKeyDirtyFlagMapÇË√˚≈](\0Z\0allowsTransientDataxr\0org.quartz.utils.DirtyFlagMapÊ.≠(v\nŒ\0Z\0dirtyL\0mapt\0Ljava/util/Map;xpsr\0java.util.HashMap⁄¡√`—\0F\0\nloadFactorI\0	thresholdxp?@\0\0\0\0\0w\0\0\0\0\0\0t\0messagesr\0+com.liferay.portal.kernel.messaging.MessageôªAofgÑ^\0L\0_destinationNamet\0Ljava/lang/String;L\0_payloadt\0Ljava/lang/Object;L\0_responseDestinationNameq\0~\0	L\0_responseIdq\0~\0	L\0_valuesq\0~\0xpppppsq\0~\0?@\0\0\0\0\0w\0\0\0\0\0\0t\0receiver_keyt\0ãcom.liferay.portlet.admin.messaging.PluginRepositoriesMessageListener:com.liferay.portlet.admin.messaging.PluginRepositoriesMessageListenerxt\0descriptiont\0\0t\0destinationt\0\Zliferay/scheduler_dispatchx\0'),('com.liferay.portlet.announcements.messaging.CheckEntryMessageListener','com.liferay.portlet.announcements.messaging.CheckEntryMessageListener',NULL,'com.liferay.portal.scheduler.job.MessageSenderJob',0,0,0,0,'¨Ì\0sr\0org.quartz.JobDataMapü∞ÉËø©∞À\0\0xr\0&org.quartz.utils.StringKeyDirtyFlagMapÇË√˚≈](\0Z\0allowsTransientDataxr\0org.quartz.utils.DirtyFlagMapÊ.≠(v\nŒ\0Z\0dirtyL\0mapt\0Ljava/util/Map;xpsr\0java.util.HashMap⁄¡√`—\0F\0\nloadFactorI\0	thresholdxp?@\0\0\0\0\0w\0\0\0\0\0\0t\0messagesr\0+com.liferay.portal.kernel.messaging.MessageôªAofgÑ^\0L\0_destinationNamet\0Ljava/lang/String;L\0_payloadt\0Ljava/lang/Object;L\0_responseDestinationNameq\0~\0	L\0_responseIdq\0~\0	L\0_valuesq\0~\0xpppppsq\0~\0?@\0\0\0\0\0w\0\0\0\0\0\0t\0receiver_keyt\0ãcom.liferay.portlet.announcements.messaging.CheckEntryMessageListener:com.liferay.portlet.announcements.messaging.CheckEntryMessageListenerxt\0descriptiont\0\0t\0destinationt\0\Zliferay/scheduler_dispatchx\0'),('com.liferay.portlet.blogs.messaging.LinkbackMessageListener','com.liferay.portlet.blogs.messaging.LinkbackMessageListener',NULL,'com.liferay.portal.scheduler.job.MessageSenderJob',0,0,0,0,'¨Ì\0sr\0org.quartz.JobDataMapü∞ÉËø©∞À\0\0xr\0&org.quartz.utils.StringKeyDirtyFlagMapÇË√˚≈](\0Z\0allowsTransientDataxr\0org.quartz.utils.DirtyFlagMapÊ.≠(v\nŒ\0Z\0dirtyL\0mapt\0Ljava/util/Map;xpsr\0java.util.HashMap⁄¡√`—\0F\0\nloadFactorI\0	thresholdxp?@\0\0\0\0\0w\0\0\0\0\0\0t\0messagesr\0+com.liferay.portal.kernel.messaging.MessageôªAofgÑ^\0L\0_destinationNamet\0Ljava/lang/String;L\0_payloadt\0Ljava/lang/Object;L\0_responseDestinationNameq\0~\0	L\0_responseIdq\0~\0	L\0_valuesq\0~\0xpppppsq\0~\0?@\0\0\0\0\0w\0\0\0\0\0\0t\0receiver_keyt\0wcom.liferay.portlet.blogs.messaging.LinkbackMessageListener:com.liferay.portlet.blogs.messaging.LinkbackMessageListenerxt\0descriptiont\0\0t\0destinationt\0\Zliferay/scheduler_dispatchx\0'),('com.liferay.portlet.calendar.messaging.CheckEventMessageListener','com.liferay.portlet.calendar.messaging.CheckEventMessageListener',NULL,'com.liferay.portal.scheduler.job.MessageSenderJob',0,0,0,0,'¨Ì\0sr\0org.quartz.JobDataMapü∞ÉËø©∞À\0\0xr\0&org.quartz.utils.StringKeyDirtyFlagMapÇË√˚≈](\0Z\0allowsTransientDataxr\0org.quartz.utils.DirtyFlagMapÊ.≠(v\nŒ\0Z\0dirtyL\0mapt\0Ljava/util/Map;xpsr\0java.util.HashMap⁄¡√`—\0F\0\nloadFactorI\0	thresholdxp?@\0\0\0\0\0w\0\0\0\0\0\0t\0messagesr\0+com.liferay.portal.kernel.messaging.MessageôªAofgÑ^\0L\0_destinationNamet\0Ljava/lang/String;L\0_payloadt\0Ljava/lang/Object;L\0_responseDestinationNameq\0~\0	L\0_responseIdq\0~\0	L\0_valuesq\0~\0xpppppsq\0~\0?@\0\0\0\0\0w\0\0\0\0\0\0t\0receiver_keyt\0Åcom.liferay.portlet.calendar.messaging.CheckEventMessageListener:com.liferay.portlet.calendar.messaging.CheckEventMessageListenerxt\0descriptiont\0\0t\0destinationt\0\Zliferay/scheduler_dispatchx\0'),('com.liferay.portlet.journal.messaging.CheckArticleMessageListener','com.liferay.portlet.journal.messaging.CheckArticleMessageListener',NULL,'com.liferay.portal.scheduler.job.MessageSenderJob',0,0,0,0,'¨Ì\0sr\0org.quartz.JobDataMapü∞ÉËø©∞À\0\0xr\0&org.quartz.utils.StringKeyDirtyFlagMapÇË√˚≈](\0Z\0allowsTransientDataxr\0org.quartz.utils.DirtyFlagMapÊ.≠(v\nŒ\0Z\0dirtyL\0mapt\0Ljava/util/Map;xpsr\0java.util.HashMap⁄¡√`—\0F\0\nloadFactorI\0	thresholdxp?@\0\0\0\0\0w\0\0\0\0\0\0t\0messagesr\0+com.liferay.portal.kernel.messaging.MessageôªAofgÑ^\0L\0_destinationNamet\0Ljava/lang/String;L\0_payloadt\0Ljava/lang/Object;L\0_responseDestinationNameq\0~\0	L\0_responseIdq\0~\0	L\0_valuesq\0~\0xpppppsq\0~\0?@\0\0\0\0\0w\0\0\0\0\0\0t\0receiver_keyt\0Écom.liferay.portlet.journal.messaging.CheckArticleMessageListener:com.liferay.portlet.journal.messaging.CheckArticleMessageListenerxt\0descriptiont\0\0t\0destinationt\0\Zliferay/scheduler_dispatchx\0'),('com.liferay.portlet.messageboards.messaging.ExpireBanMessageListener','com.liferay.portlet.messageboards.messaging.ExpireBanMessageListener',NULL,'com.liferay.portal.scheduler.job.MessageSenderJob',0,0,0,0,'¨Ì\0sr\0org.quartz.JobDataMapü∞ÉËø©∞À\0\0xr\0&org.quartz.utils.StringKeyDirtyFlagMapÇË√˚≈](\0Z\0allowsTransientDataxr\0org.quartz.utils.DirtyFlagMapÊ.≠(v\nŒ\0Z\0dirtyL\0mapt\0Ljava/util/Map;xpsr\0java.util.HashMap⁄¡√`—\0F\0\nloadFactorI\0	thresholdxp?@\0\0\0\0\0w\0\0\0\0\0\0t\0messagesr\0+com.liferay.portal.kernel.messaging.MessageôªAofgÑ^\0L\0_destinationNamet\0Ljava/lang/String;L\0_payloadt\0Ljava/lang/Object;L\0_responseDestinationNameq\0~\0	L\0_responseIdq\0~\0	L\0_valuesq\0~\0xpppppsq\0~\0?@\0\0\0\0\0w\0\0\0\0\0\0t\0receiver_keyt\0âcom.liferay.portlet.messageboards.messaging.ExpireBanMessageListener:com.liferay.portlet.messageboards.messaging.ExpireBanMessageListenerxt\0descriptiont\0\0t\0destinationt\0\Zliferay/scheduler_dispatchx\0'),('com.liferay.portlet.social.messaging.CheckEquityLogMessageListener','com.liferay.portlet.social.messaging.CheckEquityLogMessageListener',NULL,'com.liferay.portal.scheduler.job.MessageSenderJob',0,0,0,0,'¨Ì\0sr\0org.quartz.JobDataMapü∞ÉËø©∞À\0\0xr\0&org.quartz.utils.StringKeyDirtyFlagMapÇË√˚≈](\0Z\0allowsTransientDataxr\0org.quartz.utils.DirtyFlagMapÊ.≠(v\nŒ\0Z\0dirtyL\0mapt\0Ljava/util/Map;xpsr\0java.util.HashMap⁄¡√`—\0F\0\nloadFactorI\0	thresholdxp?@\0\0\0\0\0w\0\0\0\0\0\0t\0messagesr\0+com.liferay.portal.kernel.messaging.MessageôªAofgÑ^\0L\0_destinationNamet\0Ljava/lang/String;L\0_payloadt\0Ljava/lang/Object;L\0_responseDestinationNameq\0~\0	L\0_responseIdq\0~\0	L\0_valuesq\0~\0xpppppsq\0~\0?@\0\0\0\0\0w\0\0\0\0\0\0t\0receiver_keyt\0Öcom.liferay.portlet.social.messaging.CheckEquityLogMessageListener:com.liferay.portlet.social.messaging.CheckEquityLogMessageListenerxt\0descriptionpt\0destinationt\0\Zliferay/scheduler_dispatchx\0');
+INSERT INTO `quartz_job_details` VALUES ('com.liferay.portlet.social.messaging.CheckEquityLogMessageListener','com.liferay.portlet.social.messaging.CheckEquityLogMessageListener',NULL,'com.liferay.portal.scheduler.job.MessageSenderJob',0,0,0,0,'¨Ì\0sr\0org.quartz.JobDataMapü∞ÉËø©∞À\0\0xr\0&org.quartz.utils.StringKeyDirtyFlagMapÇË√˚≈](\0Z\0allowsTransientDataxr\0org.quartz.utils.DirtyFlagMapÊ.≠(v\nŒ\0Z\0dirtyL\0mapt\0Ljava/util/Map;xpsr\0java.util.HashMap⁄¡√`—\0F\0\nloadFactorI\0	thresholdxp?@\0\0\0\0\0w\0\0\0\0\0\0t\0messagesr\0+com.liferay.portal.kernel.messaging.MessageôªAofgÑ^\0L\0_destinationNamet\0Ljava/lang/String;L\0_payloadt\0Ljava/lang/Object;L\0_responseDestinationNameq\0~\0	L\0_responseIdq\0~\0	L\0_valuesq\0~\0xpppppsq\0~\0?@\0\0\0\0\0w\0\0\0\0\0\0t\0receiver_keyt\0Öcom.liferay.portlet.social.messaging.CheckEquityLogMessageListener:com.liferay.portlet.social.messaging.CheckEquityLogMessageListenerxt\0descriptionpt\0destinationt\0\Zliferay/scheduler_dispatchx\0');
 /*!40000 ALTER TABLE `quartz_job_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5010,8 +5010,8 @@ AFTER INSERT ON `lportal`.`dlfileentry`
 FOR EACH ROW
 BEGIN
 -- Insere um novo registo na tabela svdb.document
-    INSERT INTO svdb.document (idDocument, description, isIndexed)
-    VALUES (new.fileEntryId, new.description, 0);
+    INSERT INTO svdb.document (idDocument, title, description, extension, isIndexed)
+    VALUES (new.fileEntryId, new.title, new.description, new.extension, 0);
   END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -6643,7 +6643,7 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-12-29 15:04:20
+-- Dump completed on 2011-12-29 19:37:31
 CREATE DATABASE  IF NOT EXISTS `svdb` /*!40100 DEFAULT CHARACTER SET latin1 COLLATE latin1_bin */;
 USE `svdb`;
 -- MySQL dump 10.13  Distrib 5.5.9, for Win32 (x86)
@@ -6728,7 +6728,9 @@ DROP TABLE IF EXISTS `document`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `document` (
   `idDocument` varchar(45) COLLATE latin1_bin NOT NULL,
+  `title` varchar(45) COLLATE latin1_bin DEFAULT NULL,
   `description` varchar(45) COLLATE latin1_bin DEFAULT NULL,
+  `extension` varchar(45) COLLATE latin1_bin DEFAULT NULL,
   `isIndexed` tinyint(1) NOT NULL,
   PRIMARY KEY (`idDocument`),
   UNIQUE KEY `documentUri_UNIQUE` (`idDocument`)
@@ -6741,7 +6743,7 @@ CREATE TABLE `document` (
 
 LOCK TABLES `document` WRITE;
 /*!40000 ALTER TABLE `document` DISABLE KEYS */;
-INSERT INTO `document` VALUES ('12008','dsfsdf',0),('12015','dsfsdf',0),('xpto1','QQ COISA',1),('xpto2','fegdnh',1),('xpto3','dsfsdf',0),('xpto4','dsfsdf',0);
+INSERT INTO `document` VALUES ('12008','rotinas2','dsfsdf','txt',0),('12015','rotinas3','dsfsdf','txt',0),('xpto1','xpto1','QQ COISA','txt',1),('xpto2','xpto2','fegdnh','txt',1),('xpto3','xpto3','dsfsdf','txt',0),('xpto4','xpto4','dsfsdf','txt',0);
 /*!40000 ALTER TABLE `document` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -6760,7 +6762,42 @@ UNLOCK TABLES;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50020 DEFINER=`root`@`localhost`*/ /*!50003 PROCEDURE `getDocumentNumWithConcept`(concept varchar(45))
 BEGIN
-    select count(*) as nDocument from semanticWeight where (`concept` = concept);
+-- --------------------------------------------------------------------------------
+-- INPUT: concept
+-- OUTPUT: nDocument
+-- DESC: devolve o numero de documentos associados a um documentos
+-- --------------------------------------------------------------------------------
+
+    SELECT count(*) AS nDocument
+    FROM semanticWeight
+    WHERE (`concept` = concept);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getListNonIndexed` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`root`@`localhost`*/ /*!50003 PROCEDURE `getListNonIndexed`()
+BEGIN
+-- --------------------------------------------------------------------------------
+-- INPUT: 
+-- OUTPUT: idDocument, description
+-- DESC: devolve uma lista de documentos n√£o indexados
+-- --------------------------------------------------------------------------------
+
+    SELECT idDocument, title, description, extension
+    FROM Document
+    WHERE isIndexed=0;
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -6779,6 +6816,12 @@ DELIMITER ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50020 DEFINER=`root`@`localhost`*/ /*!50003 PROCEDURE `getTotalDocumentNum`()
 BEGIN
+-- --------------------------------------------------------------------------------
+-- INPUT: 
+-- OUTPUT: nDocument
+-- DESC: devolve o numero de documentos existentes
+-- --------------------------------------------------------------------------------
+
     SELECT count(*) AS nDocument
     FROM Document ;
 END */;;
@@ -6797,4 +6840,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-12-29 15:04:20
+-- Dump completed on 2011-12-29 19:37:31
