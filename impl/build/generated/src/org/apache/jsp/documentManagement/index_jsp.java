@@ -70,7 +70,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
                         try {
                             DatabaseInteraction di = new DatabaseInteraction();
                             Connection con = di.openConnection();
-                            ResultSet rs = di.callProcedure(con, "list_folders");
+                            ResultSet rs = di.callProcedure(con, "lportal.list_folders");
                             while (rs.next()) {
                     
       out.write("\n");
@@ -95,7 +95,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                    </tr>    \n");
       out.write("                    ");
 
-                        ResultSet rsSub = di.callProcedure(con, "list_subfolders(" + rs.getString("folderId") + ")");
+                        ResultSet rsSub = di.callProcedure(con, "lportal.list_subfolders(" + rs.getString("folderId") + ")");
                         while (rsSub.next()) {
                     
       out.write("\n");
