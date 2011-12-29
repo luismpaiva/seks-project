@@ -117,8 +117,8 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `svdb`;
-INSERT INTO `svdb`.`Document` (`idDocument`, `description`, `isIndexed`) VALUES ('xpto1', 'QQ COISA', NULL);
-INSERT INTO `svdb`.`Document` (`idDocument`, `description`, `isIndexed`) VALUES ('xpto2', 'fegdnh', NULL);
+INSERT INTO `svdb`.`Document` (`idDocument`, `description`, `isIndexed`) VALUES ('xpto1', 'QQ COISA', true);
+INSERT INTO `svdb`.`Document` (`idDocument`, `description`, `isIndexed`) VALUES ('xpto2', 'fegdnh', true);
 
 COMMIT;
 
@@ -127,8 +127,8 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `svdb`;
-INSERT INTO `svdb`.`SemanticWeight` (`idSemanticWeight`, `parentClass`, `concept`, `weight`, `Document_idDocument`) VALUES (1, 'dsgjb', 'flkbtdbr', 12, NULL);
-INSERT INTO `svdb`.`SemanticWeight` (`idSemanticWeight`, `parentClass`, `concept`, `weight`, `Document_idDocument`) VALUES (2, 'fghstf', 'ghrdyt', 30, NULL);
-INSERT INTO `svdb`.`SemanticWeight` (`idSemanticWeight`, `parentClass`, `concept`, `weight`, `Document_idDocument`) VALUES (3, 'gfngtf', 'sghrt', 10, NULL);
+INSERT INTO `svdb`.`SemanticWeight` (`idSemanticWeight`, `parentClass`, `concept`, `weight`, `Document_idDocument`) VALUES (1, 'dsgjb', 'flkbtdbr', 12, 'xpto1');
+INSERT INTO `svdb`.`SemanticWeight` (`idSemanticWeight`, `parentClass`, `concept`, `weight`, `Document_idDocument`) VALUES (2, 'fghstf', 'ghrdyt', 30, 'xpto1');
+INSERT INTO `svdb`.`SemanticWeight` (`idSemanticWeight`, `parentClass`, `concept`, `weight`, `Document_idDocument`) VALUES (3, 'gfngtf', 'sghrt', 10, 'xpto2');
 
 COMMIT;
