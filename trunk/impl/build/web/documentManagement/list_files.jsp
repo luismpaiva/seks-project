@@ -17,7 +17,7 @@
     </head>
     <body>
         <h1 align="center">List of files!</h1>
-        <form name="list_files" action="indexation.jsp">
+        <form name="list_files" action="list_detail.jsp">
             <table align="center">
                 <tbody>
 
@@ -29,7 +29,7 @@
                             String folderId = request.getParameter("folderId" + folderName);
                             DatabaseInteraction di = new DatabaseInteraction();
                             Connection con = di.openConnection();
-                            ResultSet rs = di.callProcedure(con, "list_files(" + folderId + ")");
+                            ResultSet rs = di.callProcedure(con, "lportal.list_files(" + folderId + ")");
                             while (rs.next()) {
                     %>
                     <tr>

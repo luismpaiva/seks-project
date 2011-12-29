@@ -28,7 +28,7 @@
                         try {
                             DatabaseInteraction di = new DatabaseInteraction();
                             Connection con = di.openConnection();
-                            ResultSet rs = di.callProcedure(con, "list_folders");
+                            ResultSet rs = di.callProcedure(con, "lportal.list_folders");
                             while (rs.next()) {
                     %>
                     <tr>
@@ -41,7 +41,7 @@
                         <td><input type="hidden" value="<%= rs.getString("folderId")%>" name="folderId<%= rs.getString("name")%>"></td>
                     </tr>    
                     <%
-                        ResultSet rsSub = di.callProcedure(con, "list_subfolders(" + rs.getString("folderId") + ")");
+                        ResultSet rsSub = di.callProcedure(con, "lportal.list_subfolders(" + rs.getString("folderId") + ")");
                         while (rsSub.next()) {
                     %>
                     <tr>

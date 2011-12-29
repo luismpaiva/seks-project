@@ -56,7 +56,7 @@ public final class indexation_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <title>JSP Page</title>\n");
       out.write("    </head>\n");
       out.write("    <body>\n");
-      out.write("        <h1>List of Folders</h1>\n");
+      out.write("        <h1>List of Tags</h1>\n");
       out.write("        <table border=\"1\" align=\"center\">\n");
       out.write("            <thead>\n");
       out.write("                <tr>\n");
@@ -73,7 +73,7 @@ public final class indexation_jsp extends org.apache.jasper.runtime.HttpJspBase
                         String fileId = request.getParameter("fileId" + fileName);
                         DatabaseInteraction di = new DatabaseInteraction();
                         Connection con = di.openConnection();
-                        ResultSet rs = di.callProcedure(con, "list_tags(" + fileId + ")");
+                        ResultSet rs = di.callProcedure(con, "lportal.list_tags(" + fileId + ")");
                         while (rs.next()) {
                 
       out.write("\n");

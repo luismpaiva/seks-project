@@ -85,7 +85,7 @@ public class DatabaseInteraction {
 
     public ResultSet callProcedure(Connection con, String procedure) {
         try {
-            CallableStatement statement = con.prepareCall("call lportal." + procedure);
+            CallableStatement statement = con.prepareCall("call " + procedure);
             statement.execute();
             ResultSet rs = statement.getResultSet();
             return rs;
