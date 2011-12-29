@@ -2,6 +2,7 @@
     Document   : list_files
     Created on : 28/Abr/2011, 16:11:15
     Author     : Administrador
+    Desctiption: Lista os vários ficheiros dentro de uma pasta
 --%>
 <%@page import="java.sql.*"%>
 <%@page import="seks.basic.database.DatabaseInteraction"%>
@@ -16,10 +17,8 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-
         <p>List Files!</p>
         <form name="list_files" action="indexation.jsp">
-
             <table border="1">
                 <thead>
                     <tr>
@@ -32,31 +31,15 @@
                 <tbody>
 
                     <%
-                                //Cria Ligação à BD
-                                try {
-                                    String folderName = request.getParameter("btnListFiles");
-                                    String folderId = request.getParameter("folderId" + folderName);
-                                    DatabaseInteraction di = new DatabaseInteraction() ;
-                                    Connection con = di.openConnection();
-                                    ResultSet rs= di.callProcedure(con, "list_files(" + folderId + ")");
-                                    
-                                    
-                                    //ResultSet rs = di.listFiles(con, folderId) ;
-                                    //Class.forName("com.mysql.jdbc.Driver");
-                                    //String connectionUrl = "jdbc:mysql://172.16.3.139:3306/lportal?"
-                                    //        + "user=root&password=gris";
-                                    //Connection con = DriverManager.getConnection(connectionUrl);
-                                    //CallableStatement statement = con.prepareCall("call lportal.list_files(" + folderId + ")");
-                                    //statement.execute();
-                                    //ResultSet rs = statement.getResultSet();
-
-
-                                    //KnowledgeSource ks = new KnowledgeSource();
-
-                                    //ResultSet rs = con.prepareCall("{call " + "list_folders}").getResultSet();
-                                    //ResultSet rs =  ks.callProcedure(con, "list_folders");
-
-                                    while (rs.next()) {
+                        //Cria Ligação à BD
+                        //Invoca o procedimento de list_files (lista os ficeiros)
+                        try {
+                            String folderName = request.getParameter("btnListFiles");
+                            String folderId = request.getParameter("folderId" + folderName);
+                            DatabaseInteraction di = new DatabaseInteraction();
+                            Connection con = di.openConnection();
+                            ResultSet rs = di.callProcedure(con, "list_files(" + folderId + ")");
+                            while (rs.next()) {
                     %>
                     <tr>
                         <td><%= rs.getString("title")%></td>
@@ -67,11 +50,11 @@
                         <td><input type="text" value="<%= rs.getString("fileEntryId")%>" name="fileId<%= rs.getString("title")%>"/></td>
                     </tr>
                     <%
-                                    }
-                                    di.closeConnection(con) ;
-                                } catch (SQLException e) {
-                                    System.out.println("SQL Exception: " + e.toString());
-                                }
+                            }
+                            di.closeConnection(con);
+                        } catch (SQLException e) {
+                            System.out.println("SQL Exception: " + e.toString());
+                        }
                     %>
                 </tbody>
             </table>

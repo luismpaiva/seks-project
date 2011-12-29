@@ -2,6 +2,7 @@
     Document   : index
     Created on : 14/Abr/2011, 16:57:14
     Author     : Administrador
+    Desctiption: Lista as várias pastas do sistema de gestão documental
 --%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.*"%>
@@ -16,66 +17,47 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <p>List Folders!</p>
-                <form name="list_folders" action="list_files.jsp">
+        <h1 align="center">List of Folders!</h1>
+        <form name="list_folders" action="list_files.jsp">
+            <table align="center">
+                <tbody>
 
-                <table border="1">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-
-        <%
-                    //Cria Ligação à BD
-                    try {
-                        DatabaseInteraction di = new DatabaseInteraction() ;
-                        Connection con = di.openConnection() ;
-                        
-                        
-                        //String connectionUrl = "jdbc:mysql://172.16.3.139:3306/lportal?"
-                        //      + "user=root&password=gris";
-                        //Connection con = DriverManager.getConnection(connectionUrl);
-                        //CallableStatement statement = con.prepareCall("call lportal.list_folders");
-                        //statement.execute();
-                        //ResultSet rs = statement.getResultSet();
-                        ResultSet rs = di.listFolders(con) ;
-
-                        //KnowledgeSource ks = new KnowledgeSource();
-
-                        //ResultSet rs = con.prepareCall("{call " + "list_folders}").getResultSet();
-                        //ResultSet rs =  ks.callProcedure(con, "list_folders");
-
-                        while (rs.next()) {
-        %>
-                <tr>
-                    <td><%= rs.getString("name")%></td>
-                    <td><%= rs.getString("description")%></td>
-                    <td><input type="submit" value="<%= rs.getString("name")%>" name="btnListFiles"  /></td>
-                    <td><input type="text" value="<%= rs.getString("folderId")%>" name="folderId<%= rs.getString("name")%>"/></td>
-                </tr>
-        <%
+                    <%
+                        //Cria Ligação à BD
+                        //Invoca o procedimento de list_folders (lista as pastas)
+                        try {
+                            DatabaseInteraction di = new DatabaseInteraction();
+                            Connection con = di.openConnection();
+                            ResultSet rs = di.callProcedure(con, "list_folders");
+                            while (rs.next()) {
+                    %>
+                    <tr>
+                        <td align="center">
+                            <img src="/images/folder.png" alt="<%= rs.getString("name")%>" width="20%" height="20%" >
+                            <br>
+                            <input type="submit" value="<%= rs.getString("name")%>" name="btnListFiles">
+                        </td>
+                        <td><i><%= rs.getString("description")%></i></td>
+                        <td><input type="hidden" value="<%= rs.getString("folderId")%>" name="folderId<%= rs.getString("name")%>"></td>
+                    </tr>
+                    <%
+                            }
+                            di.closeConnection(con);
+                        } catch (SQLException e) {
+                            System.out.println("SQL Exception: " + e.toString());
                         }
-                        di.closeConnection(con);
-                    } catch (SQLException e) {
-                        System.out.println("SQL Exception: " + e.toString());
-                    } 
-        %>
-    </tbody>
-        </table>
-    <input type="text" name="nome" value="123" />
+                    %>
+                </tbody>
+            </table>
+            <input type="hidden" name="nome" value="123">
         </form>
-    
-
-   
 
 
 
-   
 
-        </body>
+
+
+
+
+    </body>
 </html>

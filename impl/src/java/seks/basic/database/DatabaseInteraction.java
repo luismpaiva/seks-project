@@ -95,42 +95,6 @@ public class DatabaseInteraction {
         return null;
     }
 
-    public ResultSet listFolders(Connection con) {
-        try {
-            CallableStatement statement = con.prepareCall("call lportal.list_folders");
-            statement.execute();
-            ResultSet rs = statement.getResultSet();
-            return rs;
-        } catch (SQLException ex) {
-            Logger.getLogger(DatabaseInteraction.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    public ResultSet listMetadata(Connection con, String fileId) {
-        try {
-            CallableStatement statement = con.prepareCall("call lportal.list_tags(" + fileId + ")");
-            statement.execute();
-            ResultSet rs = statement.getResultSet();
-            return rs;
-        } catch (SQLException ex) {
-            Logger.getLogger(DatabaseInteraction.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    public ResultSet listFiles(Connection con, String folderId) {
-        try {
-            CallableStatement statement = con.prepareCall("call lportal.list_files(" + folderId + ")");
-            statement.execute();
-            ResultSet rs = statement.getResultSet();
-            return rs;
-        } catch (SQLException ex) {
-            Logger.getLogger(DatabaseInteraction.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
     public void closeConnection(Connection con) {
         try {
             con.close();
