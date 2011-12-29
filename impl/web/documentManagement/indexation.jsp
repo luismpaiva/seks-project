@@ -38,14 +38,19 @@
                     <td><%= rs.getString("name")%></td>
                 </tr>
                 <%
-                        }
-                        di.closeConnection(con);
-                    } catch (SQLException e) {
-                        System.out.println("SQL Exception: " + e.toString());
                     }
                 %>
             </tbody>
         </table>
-
+        <%
+            rs = di.callProcedure(con, "get_document_url(" + fileId + ")");
+        %>
+        <a href=<%=rs.getString("documentUrl")%> > View Document</a>
+        <%
+                di.closeConnection(con);
+            } catch (SQLException e) {
+                System.out.println("SQL Exception: " + e.toString());
+            }
+        %>
     </body>
 </html>

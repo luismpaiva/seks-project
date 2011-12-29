@@ -39,8 +39,22 @@
                         </td>
                         <td><i><%= rs.getString("description")%></i></td>
                         <td><input type="hidden" value="<%= rs.getString("folderId")%>" name="folderId<%= rs.getString("name")%>"></td>
+                    </tr>    
+                    <%
+                        ResultSet rsSub = di.callProcedure(con, "list_subfolders(" + rs.getString("folderId") + ")");
+                        while (rsSub.next()) {
+                    %>
+                    <tr>
+                        <td align="right">
+                            <img src="/images/folder.png" alt="<%= rsSub.getString("name")%>" width="20%" height="20%" >
+                            <br>
+                            <input type="submit" value="<%= rsSub.getString("name")%>" name="btnListFiles">
+                        </td>
+                        <td><i><%= rsSub.getString("description")%></i></td>
+                        <td><input type="hidden" value="<%= rsSub.getString("folderId")%>" name="folderId<%= rsSub.getString("name")%>"></td>
                     </tr>
                     <%
+                                }
                             }
                             di.closeConnection(con);
                         } catch (SQLException e) {
