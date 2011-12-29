@@ -57,7 +57,7 @@ public final class list_005ffiles_jsp extends org.apache.jasper.runtime.HttpJspB
       out.write("    </head>\n");
       out.write("    <body>\n");
       out.write("        <h1 align=\"center\">List of files!</h1>\n");
-      out.write("        <form name=\"list_files\" action=\"indexation.jsp\">\n");
+      out.write("        <form name=\"list_files\" action=\"list_detail.jsp\">\n");
       out.write("            <table align=\"center\">\n");
       out.write("                <tbody>\n");
       out.write("\n");

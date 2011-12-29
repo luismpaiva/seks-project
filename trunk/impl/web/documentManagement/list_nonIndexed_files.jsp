@@ -16,7 +16,7 @@
     </head>
     <body>
         <h1>List of Non-Indexed Files!</h1>
-        <form name="list_nonIndex_files" action="index.jsp">
+        <form name="list_nonIndex_files" action="indexation.jsp">
             <table align="center">
                 <tbody>
                     <%
@@ -39,7 +39,7 @@
                             <br>
                             <%= rs.getString("title")%>
                         </td>
-                        <td><input type="hidden" value="<%= rs.getString("idDocument")%>"/></td>
+                        <td><input type="hidden" value="<%= rs.getString("idDocument")%>" name="documentId<%= rs.getString("idDocument")%>"/></td>
                         <td><%= rs.getString("description")%></td>
                         <td><input type="checkbox" name="chk<%= rs.getString("idDocument")%>"></td>
                     </tr>
@@ -48,6 +48,7 @@
                     %>
                 </tbody>
             </table>
+                <input type="submit" value="Indexation" name="btnIndex"  />
         </form>
         <%
                 di.closeConnection(con);

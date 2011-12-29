@@ -13,5 +13,9 @@
     </head>
     <body>
         <h1>Hello World!</h1>
+        Indexing... 
+        <%
+        String folderName = request.getParameter("btnIndex");
+        %>
     </body>
 </html>

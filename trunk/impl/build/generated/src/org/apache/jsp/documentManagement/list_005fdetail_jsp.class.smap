@@ -1,0 +1,22 @@
+SMAP
+list_005fdetail_jsp.java
+JSP
+*S JSP
+*F
++ 0 list_detail.jsp
+documentManagement/list_detail.jsp
+*L
+6,22:46
+30,8:71
+37,2:79
+39:81,3
+40,2:84
+42,2:87
+43,4:89
+47,4:94
+50:98
+51:99,3
+52:102
+53,5:104
+57,4:109
+*E
