@@ -2,6 +2,7 @@
     Document   : indexation
     Created on : Dec 29, 2011, 6:50:23 PM
     Author     : RDDC
+    Desctiption: Efectua a indexação dos novos knowledge Sources
 --%>
 
 <%@page import="java.util.Enumeration"%>
