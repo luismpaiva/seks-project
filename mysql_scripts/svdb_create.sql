@@ -1,4 +1,4 @@
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+﻿SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
@@ -17,6 +17,8 @@ SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `svdb`.`Document` (
   `idDocument` VARCHAR(45) NOT NULL ,
   `description` VARCHAR(45) NULL ,
+  `title` VARCHAR(45) NULL ,
+  `extension` VARCHAR(45) NULL ,
   `isIndexed` TINYINT(1)  NOT NULL ,
   PRIMARY KEY (`idDocument`) ,
   UNIQUE INDEX `documentUri_UNIQUE` (`idDocument` ASC) )
@@ -34,7 +36,7 @@ CREATE  TABLE IF NOT EXISTS `svdb`.`SemanticWeight` (
   `idSemanticWeight` INT NOT NULL AUTO_INCREMENT ,
   `parentClass` VARCHAR(45) NULL ,
   `concept` VARCHAR(45) NOT NULL ,
-  `weight` INT(11)  NULL ,
+  `weight` DOUBLE NULL ,
   `Document_idDocument` VARCHAR(45) NOT NULL ,
   PRIMARY KEY (`idSemanticWeight`, `Document_idDocument`) ,
   INDEX `fk_SemanticWeight_Document` (`Document_idDocument` ASC) ,
@@ -56,7 +58,7 @@ SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `svdb`.`StatisticWeight` (
   `idSemanticWeight` INT NOT NULL AUTO_INCREMENT ,
   `keyword` VARCHAR(45) NOT NULL ,
-  `weight` INT(11)  NULL ,
+  `weight` DOUBLE NULL ,
   `Document_idDocument` VARCHAR(45) NOT NULL ,
   PRIMARY KEY (`idSemanticWeight`, `Document_idDocument`) ,
   INDEX `fk_SemanticWeight_Document` (`Document_idDocument` ASC) ,
@@ -83,6 +85,8 @@ CREATE PROCEDURE `svdb`.`getDocumentNumWithConcept` (concept varchar(45))
 BEGIN
     select count(*) as nDocument from semanticWeight where (`concept` = concept);
 END
+
+
 $$
 
 DELIMITER ;
@@ -102,6 +106,111 @@ CREATE PROCEDURE `svdb`.`getTotalDocumentNum` ()
 BEGIN
     select count(*) as nDocument from Document ;
 END
+
+$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- procedure getStatisticWeightsWithDocURI
+-- -----------------------------------------------------
+
+USE `svdb`;
+DROP procedure IF EXISTS `svdb`.`getStatisticWeightsWithDocURI`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `svdb`$$
+CREATE PROCEDURE `svdb`.`getStatisticWeightsWithDocURI` (docURI varchar(45))
+BEGIN
+    select * from `svdb`.`StatisticWeight` where (`Document_idDocument` = docURI) ;
+END
+
+
+
+$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- procedure getSemanticWeightsWithDocURI
+-- -----------------------------------------------------
+
+USE `svdb`;
+DROP procedure IF EXISTS `svdb`.`getSemanticWeightsWithDocURI`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `svdb`$$
+CREATE PROCEDURE `svdb`.`getSemanticWeightsWithDocURI` (docURI varchar(45))
+BEGIN
+    select * from `svdb`.`SemanticWeight` where (`Document_idDocument` = docURI) ;
+END
+
+
+
+$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- procedure getNotIndexedDocURI
+-- -----------------------------------------------------
+
+USE `svdb`;
+DROP procedure IF EXISTS `svdb`.`getNotIndexedDocURI`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `svdb`$$
+CREATE PROCEDURE `svdb`.`getNotIndexedDocURI` ()
+BEGIN
+    select * from `svdb`.`Document` where (`isIndexed` = false) ;
+END
+
+$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- procedure insertSemanticWeight
+-- -----------------------------------------------------
+
+USE `svdb`;
+DROP procedure IF EXISTS `svdb`.`insertSemanticWeight`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `svdb`$$
+CREATE PROCEDURE `svdb`.`insertSemanticWeight` (parentClass varchar(45), concept varchar(45), weight double, documentURI varchar(45))
+BEGIN
+    INSERT INTO `svdb`.`SemanticWeight` (`parentClass`, `concept`, `weight`, `Document_idDocument`) VALUES (parentClass, concept, weight, documentURI) ;
+END
+$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- procedure getListNonIndexed
+-- -----------------------------------------------------
+
+USE `svdb`;
+DROP procedure IF EXISTS `svdb`.`getListNonIndexed`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `svdb`$$
+CREATE PROCEDURE `svdb`.`getListNonIndexed` ()
+BEGIN
+    SELECT idDocument, title, description, extension
+    FROM Document
+    WHERE isIndexed=false;
+END
 $$
 
 DELIMITER ;
@@ -117,8 +226,8 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `svdb`;
-INSERT INTO `svdb`.`Document` (`idDocument`, `description`, `isIndexed`) VALUES ('xpto1', 'QQ COISA', true);
-INSERT INTO `svdb`.`Document` (`idDocument`, `description`, `isIndexed`) VALUES ('xpto2', 'fegdnh', true);
+INSERT INTO `svdb`.`Document` (`idDocument`, `description`, `title`, `extension`, `isIndexed`) VALUES ('xpto1', 'QQ COISA', 'QQ COISA', 'QQ COISA', true);
+INSERT INTO `svdb`.`Document` (`idDocument`, `description`, `title`, `extension`, `isIndexed`) VALUES ('xpto2', 'fegdnh', 'QQ COISA', 'QQ COISA', true);
 
 COMMIT;
 
