@@ -20,13 +20,12 @@
             DatabaseInteraction di = new DatabaseInteraction();
             Connection con = di.openConnection();
             String query = request.getParameter("q");
-
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT description FROM svdb.document WHERE description LIKE '" + query + "%'");
+            ResultSet rs = di.callProcedure(con, "ontomap.list_keywords('" + query + "')");
+            //ResultSet rs = stmt.executeQuery("SELECT description FROM svdb.document WHERE description LIKE '" + query + "%'");
             while (rs.next()) {
-                out.println(rs.getString("description"));
+                out.println(rs.getString("keyword"));
             }
             di.closeConnection(con);
-        %> 
+        %>
     </body>
 </html>
