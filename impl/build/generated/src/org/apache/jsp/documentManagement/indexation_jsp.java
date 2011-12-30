@@ -3,6 +3,8 @@ package org.apache.jsp.documentManagement;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
+import java.util.Enumeration;
+import org.hsqldb.lib.Collection;
 
 public final class indexation_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
@@ -44,6 +46,8 @@ public final class indexation_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("\n");
       out.write("\n");
+      out.write("\n");
+      out.write("\n");
       out.write("<!DOCTYPE html>\n");
       out.write("<html>\n");
       out.write("    <head>\n");
@@ -52,10 +56,18 @@ public final class indexation_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    </head>\n");
       out.write("    <body>\n");
       out.write("        <h1>Hello World!</h1>\n");
-      out.write("        Indexing... \n");
       out.write("        ");
 
-        String folderName = request.getParameter("btnIndex");
+        //String documentId = "";    
+        //String folderName = request.getParameter("btnIndex");
+            Enumeration paramNames = request.getParameterNames();
+            while (paramNames.hasMoreElements()) {
+                String paramName = (String) paramNames.nextElement();
+                String[] paramValues = request.getParameterValues(paramName);
+                String paramValue = paramValues[0];
+                if (request.getParameter("chk" + paramValue) != null)
+                out.print("<br><I>Indexing</I>" + paramValue);
+            }
         
       out.write("\n");
       out.write("    </body>\n");
