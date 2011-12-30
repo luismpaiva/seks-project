@@ -1,4 +1,4 @@
-﻿SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
@@ -56,13 +56,13 @@ DROP TABLE IF EXISTS `svdb`.`StatisticWeight` ;
 
 SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `svdb`.`StatisticWeight` (
-  `idSemanticWeight` INT NOT NULL AUTO_INCREMENT ,
+  `idStatisticWeight` INT NOT NULL AUTO_INCREMENT ,
   `keyword` VARCHAR(45) NOT NULL ,
   `weight` DOUBLE NULL ,
   `Document_idDocument` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`idSemanticWeight`, `Document_idDocument`) ,
-  INDEX `fk_SemanticWeight_Document` (`Document_idDocument` ASC) ,
-  CONSTRAINT `fk_SemanticWeight_Document0`
+  PRIMARY KEY (`idStatisticWeight`, `Document_idDocument`) ,
+  INDEX `fk_StatisticWeight_Document` (`Document_idDocument` ASC) ,
+  CONSTRAINT `fk_StatisticWeight_Document0`
     FOREIGN KEY (`Document_idDocument` )
     REFERENCES `svdb`.`Document` (`idDocument` )
     ON DELETE NO ACTION
@@ -226,8 +226,8 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `svdb`;
-INSERT INTO `svdb`.`Document` (`idDocument`, `description`, `title`, `extension`, `isIndexed`) VALUES ('xpto1', 'QQ COISA', 'QQ COISA', 'QQ COISA', true);
-INSERT INTO `svdb`.`Document` (`idDocument`, `description`, `title`, `extension`, `isIndexed`) VALUES ('xpto2', 'fegdnh', 'QQ COISA', 'QQ COISA', true);
+INSERT INTO `svdb`.`Document` (`idDocument`, `description`, `title`, `extension`, `isIndexed`) VALUES ('xpto1', 'QQ COISA', 'QQ COISA', 'QQ COISA', false);
+INSERT INTO `svdb`.`Document` (`idDocument`, `description`, `title`, `extension`, `isIndexed`) VALUES ('xpto2', 'fegdnh', 'QQ COISA', 'QQ COISA', false);
 
 COMMIT;
 
