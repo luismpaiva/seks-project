@@ -15,7 +15,7 @@ public interface OntologyPersistence {
 
     public OntModel getModel() ;
     
-    public void setSReload(boolean sReload) ;
+    public void setS_reload(boolean s_reload) ;
 
     public void closeCon() ;
 

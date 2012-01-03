@@ -4,6 +4,7 @@
     Author     : Administrador
     Desctiption: Lista as várias pastas do sistema de gestão documental
 --%>
+<%@page import="seks.basic.database.DatabaseInteractionImpl"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.*"%>
 <%@page import="seks.basic.database.DatabaseInteraction"%>
@@ -26,8 +27,8 @@
                         //Cria Ligação à BD
                         //Invoca o procedimento de list_folders (lista as pastas)
                         try {
-                            DatabaseInteraction di = new DatabaseInteraction();
-                            Connection con = di.openConnection();
+                            DatabaseInteraction di = new DatabaseInteractionImpl();
+                            Connection con = di.openConnection("lportalConfig.xml");
                             ResultSet rs = di.callProcedure(con, "lportal.list_folders");
                             while (rs.next()) {
                     %>

@@ -1,12 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package seks.basic.ontology;
-
 /**
  *
- * @author Paulo Figueiras
+ * @author Figueiras
  */
 
 import java.io.*;
@@ -14,7 +9,6 @@ import com.hp.hpl.jena.db.*;
 import com.hp.hpl.jena.ontology.*;
 import com.hp.hpl.jena.rdf.model.*;
 import com.hp.hpl.jena.util.FileManager;
-import seks.basic.exceptions.MissingParamException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,34 +17,31 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import seks.basic.exceptions.MissingParamException;
 
 public class OntologyPersistenceImpl implements OntologyPersistence {
-    
+
     private HashMap<String, String> params = new HashMap<String, String>() ;
     private String configFilePath = "./src" ;
     private static final String configFileName = "jenaConfig.xml" ;
-    private String sParams[] = {"ont_file", "db_url", "db_user", "db_passwd", "db", "db_driver"} ;
-    private String sDbURL ;
-    private String sDbUser ;
-    private String sDbPw ;
-    private String sDbType ;
-    private String sDbDriver ;
+
+    private String s_params[] = {"ont_file", "db_url", "db_user", "db_passwd", "db", "db_driver"} ;
+    private String s_dbURL ;
+    private String s_dbUser ;
+    private String s_dbPw ;
+    private String s_dbType ;
+    private String s_dbDriver ;
+    private static String ns = ("http://www.knowspaces.com/ontology_v1.owl#") ;
 
     // if true, reload the data
-    private boolean sReload = false;
+    private boolean s_reload = false;
 
     // source URL to load data from; if null, use default
-    private String sSource;
+    private String s_source;
 
     private ModelMaker maker ;
 
     private OntModel m ;
-
-    public OntologyPersistenceImpl(String configFilePath) throws MissingParamException, IOException, ClassNotFoundException {
-        
-        this.configFilePath = configFilePath ;
-        loadConfigParams();
-    }
 
     public OntologyPersistenceImpl() throws MissingParamException, IOException, ClassNotFoundException {
         loadConfigParams();
@@ -59,10 +50,12 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
     private void loadConfigParams() throws MissingParamException, IOException, ClassNotFoundException {
         DOMParser domp = new DOMParser();
         try {
+            this.configFilePath = this.getClass().getClassLoader().getResource(configFileName).toString() ;
+            configFilePath = configFilePath.substring(0, configFilePath.indexOf(configFileName)) ;
             domp.parse(configFilePath + "/" + configFileName);
             Document doc = domp.getDocument() ;
             Element root = doc.getDocumentElement() ;
-            for(String param: sParams){
+            for(String param: s_params){
                 NodeList paramNode = root.getElementsByTagName(param) ;
                 if(paramNode != null){
                     Element el = (Element) paramNode.item(0) ;
@@ -73,14 +66,13 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
                         throw new MissingParamException("Ficheiro de configuração incompleto.") ;
                 }
             }
-            sSource = configFilePath + "/" + params.get(sParams[0]) ;
-            sDbURL = params.get(sParams[1]) ;
-            sDbUser = params.get(sParams[2]) ;
-            //sDbPw = params.get(sParams[3]) ;
-            sDbPw = "" ;
-            sDbType = params.get(sParams[4]) ;
-            sDbDriver = params.get(sParams[5]) ;
-            Class.forName( sDbDriver );
+            s_source = "./src/" + params.get(s_params[0]) ;
+            s_dbURL = params.get(s_params[1]) ;
+            s_dbUser = params.get(s_params[2]) ;
+            s_dbPw = params.get(s_params[3]) ;
+            s_dbType = params.get(s_params[4]) ;
+            s_dbDriver = params.get(s_params[5]) ;
+            Class.forName( s_dbDriver );
         } catch (SAXException ex) {
             Logger.getLogger(OntologyPersistenceImpl.class.getName()).log(Level.SEVERE, null, ex);
             System.exit(1) ;
@@ -92,26 +84,25 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
         loadMaker() ;
     }
 
-    private OntModel loadMaker() {
-         if (isSReload()) {
+    private void loadMaker() {
+         if (isS_reload()) {
 
             // we pass cleanDB=true to clear out existing models
             // NOTE: this will remove ALL Jena models from the named persistent store, so
             // use with care if you have existing data stored
-            maker = getRDBMaker( sDbURL, sDbUser, sDbPw, sDbType, true ) ;
+            maker = getRDBMaker( s_dbURL, s_dbUser, s_dbPw, s_dbType, true ) ;
 
             // now load the source data into the newly cleaned db
-            loadDB( maker, sSource );
-            sReload = false ;
+            loadDB( maker, s_source );
+            s_reload = false ;
         }
 
         // now we list the classes in the database, to show that the persistence worked
-        maker = getRDBMaker( sDbURL, sDbUser, sDbPw, sDbType, false );
+        maker = getRDBMaker( s_dbURL, s_dbUser, s_dbPw, s_dbType, false );
 
-        Model base = maker.createModel( sSource, false );
+        Model base = maker.createModel( s_source, false );
 
         m = ModelFactory.createOntologyModel( getModelSpec( maker ), base );
-        return m ;
     }
 
     private void loadDB( ModelMaker maker, String source ) {
@@ -148,7 +139,6 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
             return ModelFactory.createModelRDBMaker( conn );
         }
         catch (Exception e) {
-            e.fillInStackTrace() ;
             System.exit( 1 );
         }
 
@@ -166,22 +156,22 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
 
     @Override
     public OntModel getModel() {
-        return loadMaker() ;
+        return m ;
     }
 
     /**
-     * @return the sReload
+     * @return the s_reload
      */
-    public boolean isSReload() {
-        return sReload;
+    public boolean isS_reload() {
+        return s_reload;
     }
 
     /**
-     * @param sReload 
+     * @param s_reload the s_reload to set
      */
     @Override
-    public void setSReload(boolean sReload) {
-        this.sReload = sReload;
+    public void setS_reload(boolean s_reload) {
+        this.s_reload = s_reload;
     }
 
     @Override
@@ -192,9 +182,12 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
 
     @Override
     public void reopenCon() {
-        /*this.maker.openModel(s_source, s_reload) ;
+        this.maker.openModel(s_source, s_reload) ;
         Model base = maker.createModel( s_source, false );
-        m = ModelFactory.createOntologyModel( getModelSpec( maker ), base );*/
-        loadMaker();
+        m = ModelFactory.createOntologyModel( getModelSpec( maker ), base );
+    }
+
+    public void writeOnt(OutputStream out) {
+        getModel().write(out, "RDF/XML") ;
     }
 }

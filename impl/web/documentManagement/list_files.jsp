@@ -4,6 +4,7 @@
     Author     : Administrador
     Desctiption: Lista os vários ficheiros dentro de uma pasta
 --%>
+<%@page import="seks.basic.database.DatabaseInteractionImpl"%>
 <%@page import="java.sql.*"%>
 <%@page import="seks.basic.database.DatabaseInteraction"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -27,8 +28,8 @@
                         try {
                             String folderName = request.getParameter("btnListFiles");
                             String folderId = request.getParameter("folderId" + folderName);
-                            DatabaseInteraction di = new DatabaseInteraction();
-                            Connection con = di.openConnection();
+                            DatabaseInteraction di = new DatabaseInteractionImpl();
+                            Connection con = di.openConnection("lportalConfig.xml");
                             ResultSet rs = di.callProcedure(con, "lportal.list_files(" + folderId + ")");
                             while (rs.next()) {
                     %>

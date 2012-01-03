@@ -157,26 +157,6 @@ DELIMITER ;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- procedure getNotIndexedDocURI
--- -----------------------------------------------------
-
-USE `svdb`;
-DROP procedure IF EXISTS `svdb`.`getNotIndexedDocURI`;
-SHOW WARNINGS;
-
-DELIMITER $$
-USE `svdb`$$
-CREATE PROCEDURE `svdb`.`getNotIndexedDocURI` ()
-BEGIN
-    select * from `svdb`.`Document` where (`isIndexed` = false) ;
-END
-
-$$
-
-DELIMITER ;
-SHOW WARNINGS;
-
--- -----------------------------------------------------
 -- procedure insertSemanticWeight
 -- -----------------------------------------------------
 

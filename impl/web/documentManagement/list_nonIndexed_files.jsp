@@ -5,6 +5,7 @@
     Desctiption: Lista os ficheiros que ainda não foram indexados
 --%>
 
+<%@page import="seks.basic.database.DatabaseInteractionImpl"%>
 <%@page import="java.sql.*"%>
 <%@page import="seks.basic.database.DatabaseInteraction"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -23,8 +24,8 @@
                         //Cria Ligação à BD
                         //Invoca o procedimento de list_tags (lista as tags associadas a cada ficheiro)
                         try {
-                            DatabaseInteraction di = new DatabaseInteraction();
-                            Connection con = di.openConnection();
+                            DatabaseInteraction di = new DatabaseInteractionImpl();
+                            Connection con = di.openConnection("svdbConfig.xml");
                             ResultSet rs = di.callProcedure(con, "svdb.getListNonIndexed");
                             while (rs.next()) {
                     %>
