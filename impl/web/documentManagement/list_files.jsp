@@ -6,6 +6,7 @@
 --%>
 <%@page import="seks.basic.database.DatabaseInteractionImpl"%>
 <%@page import="java.sql.*"%>
+<%@page import="seks.basic.database.DatabaseInteractionImpl"%>
 <%@page import="seks.basic.database.DatabaseInteraction"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"

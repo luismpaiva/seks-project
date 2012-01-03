@@ -4,6 +4,7 @@
  */
 package seks.advanced.semantic.vectors;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,8 +18,10 @@ import seks.basic.calculus.CalculusTools;
 import seks.basic.calculus.CalculusToolsImpl;
 import seks.basic.database.DatabaseInteraction;
 import seks.basic.database.DatabaseInteractionImpl;
+import seks.basic.exceptions.MissingParamException;
 import seks.basic.ontology.OntologyInteraction;
 import seks.basic.ontology.OntologyInteractionImpl;
+import seks.basic.ontology.OntologyPersistence;
 import seks.basic.ontology.OntologyPersistenceImpl;
 
 /**
@@ -38,7 +41,7 @@ public class KeywordBasedSVCreationImpl implements KeywordBasedSVCreation {
         try {
             DatabaseInteraction di = getDii() ;
             Connection con = di.openConnection("svdbConfig.xml") ;
-            ResultSet rs = di.callProcedure(con, "svdb.getStatisticWeightsWithDocURI('" + documentURI + "')") ;
+            ResultSet rs = di.getStatisticWeightsWithDocURI(con, documentURI) ;
             HashMap<String, Double> statVector = new HashMap<String, Double>() ;
             
             while (rs.next()) {
@@ -130,42 +133,36 @@ public class KeywordBasedSVCreationImpl implements KeywordBasedSVCreation {
     }
     
     @Override
-    public HashMap<String, Double> createKeywordBasedSemanticVector (String documentURI, HashMap<String, Double> conceptsAndWeights, ArrayList<String> sortedConcepts) {
+    public void createKeywordBasedSemanticVector (String documentURI, HashMap<String, Double> conceptsAndWeights, ArrayList<String> sortedConcepts) {
         DatabaseInteraction di = getDii() ;
         OntologyInteraction oi = getOii() ;
         CalculusTools ct = getCti() ;
         
-        HashMap<String, Double> semanticVector = new HashMap<String, Double>() ;
         Connection con = di.openConnection("svdbConfig.xml") ;
         String mostRelevantConcept = sortedConcepts.get(0) ;
         Double maxWeight = (Double) conceptsAndWeights.get(mostRelevantConcept) ; 
-        int totalDocNum = this.getTotalDocumentsNumber(con) ;
+        int totalDocNum = getTotalDocumentsNumber() ;
         
         for (int i = 0; i < sortedConcepts.size(); i++) {
             String concept = sortedConcepts.get(i) ;
             Double weight = (Double) conceptsAndWeights.get(concept) ;
-            int docNumWithConcept = this.getDocumentsNumberWithConcept(concept, con) + 1 ; // We have to take into accounnt the current document (+1)
+            int docNumWithConcept = getDocumentsNumberWithConcept(concept) ;
             Double result = ct.tfIdfAlgorithm(totalDocNum, docNumWithConcept, weight, maxWeight) ;
             String parentClass = oi.getIndividualDirectParentClass(concept) ;
-            try {
-                di.callProcedure(con, "svdb.insertSemanticWeight('" + parentClass + "','" + concept + "'," + result + ",'" + documentURI + "')") ;
-                semanticVector.put(concept, result) ;
-                
-            } catch (SQLException ex) {
-                Logger.getLogger(KeywordBasedSVCreationImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            di.insertSemanticWeight(con, parentClass, concept, result, documentURI);
         }
         di.closeConnection(con) ;
-        return semanticVector;
+        return ;
     }
     
-    private int getTotalDocumentsNumber(Connection con) {
+    private int getTotalDocumentsNumber() {
         try {
             DatabaseInteraction di = getDii() ;
-            ResultSet rs = di.callProcedure(con, "svdb.getTotalDocumentNum") ;
-            rs.next() ;
+            Connection con = di.openConnection("svdbConfig.xml") ;
+            ResultSet rs = di.getTotalDocumentNum(con) ;
             int result = rs.getInt("nDocument") ;
             rs.close() ;
+            di.closeConnection(con) ;
             return result ;
         } catch (SQLException ex) {
             Logger.getLogger(KeywordBasedSVCreationImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -173,13 +170,14 @@ public class KeywordBasedSVCreationImpl implements KeywordBasedSVCreation {
         return 0 ;
     }
     
-    private int getDocumentsNumberWithConcept(String concept, Connection con) {
+    private int getDocumentsNumberWithConcept(String concept) {
         try {
             DatabaseInteraction di = getDii() ;
-            ResultSet rs = di.callProcedure(con, "svdb.getDocumentNumWithConcept('" + concept + "')") ;
-            rs.next() ;
+            Connection con = di.openConnection("svdbConfig.xml") ;
+            ResultSet rs = di.getDocumentNumWithConcept(con, concept) ;
             int result = rs.getInt("nDocument") ;
             rs.close() ;
+            di.closeConnection(con) ;
             return result ;
         } catch (SQLException ex) {
             Logger.getLogger(KeywordBasedSVCreationImpl.class.getName()).log(Level.SEVERE, null, ex);
