@@ -20,5 +20,5 @@ public interface KeywordBasedSVCreation {
     
     public ArrayList<String> sortConceptsByRelevance(HashMap<String, Double> conceptsAndWeights) ;
     
-    public void createKeywordBasedSemanticVector (String documentURI, HashMap<String, Double> conceptsAndWeights, ArrayList<String> sortedConcepts) ;
+    public HashMap<String, Double> createKeywordBasedSemanticVector (String documentURI, HashMap<String, Double> conceptsAndWeights, ArrayList<String> sortedConcepts) ;
 }
