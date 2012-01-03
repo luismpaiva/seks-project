@@ -8,16 +8,18 @@ import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntResource;
+import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.NodeIterator;
 import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
-import seks.basic.exceptions.MissingParamException;
+import com.hp.hpl.jena.rdf.model.Statement;
+import com.hp.hpl.jena.rdf.model.StmtIterator;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import seks.basic.exceptions.MissingParamException;
 
 /**
  *
@@ -26,21 +28,23 @@ import java.util.logging.Logger;
 public class OntologyInteractionImpl implements OntologyInteraction {
     
     private static String namespace = ("http://www.knowspaces.com/ontology_v1.owl#") ;
-    private OntologyPersistence op ;
-    private OntModel m ;
+    OntModel m ;
     
     /*  Constructor  */
-    public OntologyInteractionImpl(){
-            try {
-                op = new OntologyPersistenceImpl() ;
-                m = op.getModel() ;
-            } catch (IOException ex) {
-                Logger.getLogger(OntologyInteractionImpl.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(OntologyInteractionImpl.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MissingParamException ex) {
-                Logger.getLogger(OntologyInteractionImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
+    public OntologyInteractionImpl() {
+        try {
+            OntologyPersistence op = new OntologyPersistenceImpl() ;
+            op.setS_reload(false) ;
+            op.load() ;
+            this.m = op.getModel() ;
+        } catch (MissingParamException ex) {
+            Logger.getLogger(OntologyInteractionImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(OntologyInteractionImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(OntologyInteractionImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
     }
     
     /*  Semantic Getters  */
@@ -52,13 +56,13 @@ public class OntologyInteractionImpl implements OntologyInteraction {
     
     @Override
     public String getIndividualDirectParentClass(String individualName) {
-        Individual individual = getIndividual(individualName) ;
+        Individual individual = this.getIndividual(individualName) ;
         return individual.getOntClass().getLocalName() ;
     }
     
     @Override
     public String getIndividualAbsoluteParentClass(String individualName) {
-        String className = getIndividualAbsoluteParentClass(individualName) ;
+        String className = this.getIndividualAbsoluteParentClass(individualName) ;
         while(!m.getOntClass(namespace + className).getSuperClass().getLocalName().equals("Concept")) {
             className = m.getOntClass(namespace + className).getSuperClass().getLocalName() ;
         }
@@ -77,26 +81,33 @@ public class OntologyInteractionImpl implements OntologyInteraction {
     
     @Override
     public ArrayList<String> getObjectsFromTriple(String subjectName, String propertyName) {
-        Individual individual = getIndividual(subjectName) ;
-        Property property = getProperty(propertyName) ;
-        NodeIterator iter = m.listObjectsOfProperty(individual, property) ;
+        Property property = this.getProperty(propertyName) ;
+        Resource res = m.getResource(namespace + subjectName) ;
+        
         ArrayList<String> list = new ArrayList<String>() ;
+        StmtIterator iter = res.listProperties(property) ;
         while (iter.hasNext()) {
-            RDFNode node = iter.nextNode() ;
-            list.add(node.toString()) ;
+            Statement stmt = iter.next() ;
+            list.add(stmt.getLiteral().getString());
         }
         return list ;
     }
     
     @Override
     public ArrayList<String> getSubjectsFromTriple(String objectName, String propertyName) {
-        Property property = getProperty(propertyName) ;
-        ResIterator iter = m.listSubjectsWithProperty(property, objectName) ;
         ArrayList<String> list = new ArrayList<String>() ;
-        while (iter.hasNext()) {
-            Resource res = iter.next() ;
-            list.add(res.getLocalName()) ;
-        }
+        Property property = this.getProperty(propertyName) ;
+        NodeIterator iter = m.listObjectsOfProperty(property) ;
+        while(iter.hasNext()) {
+            Literal node = iter.next().asLiteral() ;
+            if (node.getString().matches(objectName)) {
+                ResIterator i = m.listResourcesWithProperty(property, m.asRDFNode(node.asNode())) ;
+                while (i.hasNext()) {
+                    list.add(i.nextResource().getLocalName());
+                }
+            }
+        } 
+        
         return list ;
     }
     

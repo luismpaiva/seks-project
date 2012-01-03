@@ -11,5 +11,5 @@ import java.util.ArrayList;
  * @author Paulo Figueiras
  */
 public interface CalculusTools {
-    public double tfIdfAlgorithm(int docNum, int docNumByConcept, ArrayList<Double> conceptWeights, ArrayList<Double> absConceptWeights) ;
+    public double tfIdfAlgorithm(int docNum, int docNumByConcept, Double conceptWeight, Double absConceptWeight) ;
 }

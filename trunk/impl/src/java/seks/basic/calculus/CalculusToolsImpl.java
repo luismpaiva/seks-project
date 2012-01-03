@@ -16,19 +16,11 @@ public class CalculusToolsImpl implements CalculusTools {
     public CalculusToolsImpl() {}
     
     @Override
-    public double tfIdfAlgorithm(int docNum, int docNumByConcept, ArrayList<Double> conceptWeights, ArrayList<Double> absConceptWeights) {
-        double wdx = 0 ;
-        double maxywdy = 0 ;
+    public double tfIdfAlgorithm(int docNum, int docNumByConcept, Double conceptWeight, Double absConceptWeight) {
+        double wdx = conceptWeight ;
+        double maxywdy = absConceptWeight ;
         double dx = 0 ;
-        Iterator iter = conceptWeights.iterator() ;
-        
-        while (iter.hasNext()) {
-            wdx += (Double) iter.next() ;
-        }
-        iter = absConceptWeights.iterator() ;
-        while (iter.hasNext()) {
-            maxywdy += (Double) iter.next() ;
-        }
+       
         dx = (wdx/maxywdy)*Math.log(docNum/docNumByConcept) ;
         return dx ;
     }
