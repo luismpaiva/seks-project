@@ -6,6 +6,10 @@
 --%>
 
 
+<%@page import="java.util.Iterator"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="seks.basic.ontology.OntologyInteractionImpl"%>
+<%@page import="seks.basic.ontology.OntologyInteraction"%>
 <%@page import="seks.basic.database.DatabaseInteractionImpl"%>
 <%@page import="seks.basic.database.DatabaseInteraction"%>
 <%@page import="java.sql.*"%>
@@ -18,15 +22,24 @@
     </head>
     <body>
         <%
-            DatabaseInteraction di = new DatabaseInteractionImpl();
-            Connection con = di.openConnection("jenaConfig.xml");
+            //DatabaseInteraction di = new DatabaseInteractionImpl();
+            //Connection con = di.openConnection("jenaConfig.xml");
             String query = request.getParameter("q");
-            ResultSet rs = di.callProcedure(con, "ontomap.list_keywords('" + query + "')");
-            //ResultSet rs = stmt.executeQuery("SELECT description FROM svdb.document WHERE description LIKE '" + query + "%'");
-            while (rs.next()) {
-                out.println(rs.getString("keyword"));
+           /*ResultSet rs = di.callProcedure(con, "ontomap.list_keywords('" + query + "')");
+           //ResultSet rs = stmt.executeQuery("SELECT description FROM svdb.document WHERE description LIKE '" + query + "%'");
+           while (rs.next()) {
+               out.println(rs.getString("keyword"));
+           }
+           di.closeConnection(con);*/
+            OntologyInteraction oi = new OntologyInteractionImpl() ;
+            ArrayList<String> list = oi.getAllValuesFromProperty("has_Keyword") ;
+            Iterator iter = list.iterator() ;
+            while (iter.hasNext()) {
+                String keyword = (String) iter.next() ;
+                if (keyword.startsWith(query)) {
+                    out.println(keyword) ;
+                }
             }
-            di.closeConnection(con);
         %>
     </body>
 </html>

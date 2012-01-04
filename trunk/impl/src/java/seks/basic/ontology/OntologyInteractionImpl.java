@@ -111,6 +111,19 @@ public class OntologyInteractionImpl implements OntologyInteraction {
         return list ;
     }
     
+    @Override
+    public ArrayList<String> getAllValuesFromProperty(String propertyName) {
+        ArrayList<String> list = new ArrayList<String>() ;
+        Property property = this.getProperty(propertyName) ;
+        NodeIterator iter = m.listObjectsOfProperty(property) ;
+        
+        while (iter.hasNext()) {
+            list.add(iter.next().asLiteral().getString()) ;
+        }
+        
+        return list ;
+    }
+    
     /*  Semantic Boolean Operators  */
     
     @Override

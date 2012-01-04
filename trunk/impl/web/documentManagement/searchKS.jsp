@@ -18,10 +18,10 @@
     <body>
         <h1>Hello World!</h1>
         <form name="queryKS" action="listKSresults.jsp">
-            Please type your query here:<input type="text" id="txtQuery" name="txtQuery" size="100">
-            <script> 
-                $("#txtQuery").autocomplete("getdata.jsp");
-            </script> 
+            Please type your query here:<input type="text" id="txtQuery" name="txtQuery" size="100" >
+            <script type="text/javascript">
+                 $('#txtQuery').autocomplete('getdata.jsp', {multiple: true, multipleSeparator: ";"}) ;
+            </script>
             <input type="submit" name="btnSubmit" value="Search!">
         </form>
     </body>

@@ -29,6 +29,8 @@ public interface OntologyInteraction {
     
     public ArrayList<String> getSubjectsFromTriple(String objectName, String propertyName) ;
     
+    public ArrayList<String> getAllValuesFromProperty(String propertyName) ;
+    
     public boolean isIndividual(String objectName) ;
     
     public boolean isClass (String objectName) ;
