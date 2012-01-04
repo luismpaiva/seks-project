@@ -17,6 +17,7 @@ import seks.basic.calculus.CalculusTools;
 import seks.basic.calculus.CalculusToolsImpl;
 import seks.basic.database.DatabaseInteraction;
 import seks.basic.database.DatabaseInteractionImpl;
+import seks.basic.pojos.SemanticWeight;
 import seks.basic.ontology.OntologyInteraction;
 import seks.basic.ontology.OntologyInteractionImpl;
 import seks.basic.ontology.OntologyPersistenceImpl;
@@ -65,16 +66,18 @@ public class KeywordBasedSVCreationImpl implements KeywordBasedSVCreation {
         while(iter.hasNext()) {
             String keyword = (String) iter.next() ;
             ArrayList<String> concepts = oi.getSubjectsFromTriple(keyword, "has_Keyword") ;
-            for(int i = 0; i < concepts.size(); i++) {
-                if (conceptsAndKeywords.containsKey(concepts.get(i))) {
-                    keywords = (ArrayList<String>) conceptsAndKeywords.get(concepts.get(i)) ;
-                    keywords.add(keyword);
-                    conceptsAndKeywords.put(concepts.get(i), keywords) ;
-                }
-                else {
-                    keywords = new ArrayList<String>() ;
-                    keywords.add(keyword);
-                    conceptsAndKeywords.put(concepts.get(i), keywords) ;
+            if (!concepts.isEmpty()) {
+                for(int i = 0; i < concepts.size(); i++) {
+                    if (conceptsAndKeywords.containsKey(concepts.get(i))) {
+                        keywords = (ArrayList<String>) conceptsAndKeywords.get(concepts.get(i)) ;
+                        keywords.add(keyword);
+                        conceptsAndKeywords.put(concepts.get(i), keywords) ;
+                    }
+                    else {
+                        keywords = new ArrayList<String>() ;
+                        keywords.add(keyword);
+                        conceptsAndKeywords.put(concepts.get(i), keywords) ;
+                    }
                 }
             }
         }
@@ -87,15 +90,16 @@ public class KeywordBasedSVCreationImpl implements KeywordBasedSVCreation {
         Iterator iter = concepts.iterator() ;
         ArrayList<String> keywords = new ArrayList<String>() ;
         HashMap<String, Double> conceptsAndWeights = new HashMap<String, Double>() ;
-        
-        while (iter.hasNext()) {
-            String concept = (String) iter.next() ;
-            Double totalWeight = 0.0 ;
-            keywords = (ArrayList<String>) conceptsAndKeywords.get(concept) ;
-            for (int i = 0; i < keywords.size(); i++) {
-                totalWeight += (Double) statVector.get(keywords.get(i)) ;
+        if (!conceptsAndKeywords.isEmpty()) {
+            while (iter.hasNext()) {
+                String concept = (String) iter.next() ;
+                Double totalWeight = 0.0 ;
+                keywords = (ArrayList<String>) conceptsAndKeywords.get(concept) ;
+                for (int i = 0; i < keywords.size(); i++) {
+                    totalWeight += (Double) statVector.get(keywords.get(i)) ;
+                }
+                conceptsAndWeights.put(concept, totalWeight) ;
             }
-            conceptsAndWeights.put(concept, totalWeight) ;
         }
         return conceptsAndWeights ;
     }
@@ -103,27 +107,29 @@ public class KeywordBasedSVCreationImpl implements KeywordBasedSVCreation {
     @Override
     public ArrayList<String> sortConceptsByRelevance(HashMap<String, Double> conceptsAndWeights) {
         ArrayList<String> sortedConcepts = new ArrayList<String>() ;
-        Iterator iter = conceptsAndWeights.keySet().iterator() ;
-        
-        while(iter.hasNext()) {
-            String concept = (String) iter.next() ;
-            if (sortedConcepts.isEmpty()) {
-                sortedConcepts.add(concept) ;
-            }
-            else {
-                Double weight = conceptsAndWeights.get(concept) ;
-                for (int i = 0; i < sortedConcepts.size(); i++) {
-                    String current = sortedConcepts.get(i) ;
-                    Double currentWeight = conceptsAndWeights.get(current) ;
-                    if (weight >= currentWeight) {
-                        sortedConcepts.add(i, concept);
-                        break ;
+        if (!conceptsAndWeights.isEmpty()) {
+            Iterator iter = conceptsAndWeights.keySet().iterator() ;
+
+            while(iter.hasNext()) {
+                String concept = (String) iter.next() ;
+                if (sortedConcepts.isEmpty()) {
+                    sortedConcepts.add(concept) ;
+                }
+                else {
+                    Double weight = conceptsAndWeights.get(concept) ;
+                    for (int i = 0; i < sortedConcepts.size(); i++) {
+                        String current = sortedConcepts.get(i) ;
+                        Double currentWeight = conceptsAndWeights.get(current) ;
+                        if (weight >= currentWeight) {
+                            sortedConcepts.add(i, concept);
+                            break ;
+                        }
+                        else if (weight < currentWeight && i == sortedConcepts.size() - 1) {
+                            sortedConcepts.add(sortedConcepts.size(), concept);
+                            break ;
+                        }
+                        else continue ;
                     }
-                    else if (weight < currentWeight && i == sortedConcepts.size() - 1) {
-                        sortedConcepts.add(sortedConcepts.size(), concept);
-                        break ;
-                    }
-                    else continue ;
                 }
             }
         }
@@ -131,33 +137,46 @@ public class KeywordBasedSVCreationImpl implements KeywordBasedSVCreation {
     }
     
     @Override
-    public HashMap<String, Double> createKeywordBasedSemanticVector (String documentURI, HashMap<String, Double> conceptsAndWeights, ArrayList<String> sortedConcepts) {
+    public HashMap<String, SemanticWeight> createKeywordBasedSemanticVector (String documentURI, HashMap<String, Double> conceptsAndWeights, ArrayList<String> sortedConcepts) {
         DatabaseInteraction di = getDii() ;
         OntologyInteraction oi = getOii() ;
         CalculusTools ct = getCti() ;
         
-        HashMap<String, Double> semanticVector = new HashMap<String, Double>() ;
+        HashMap<String, SemanticWeight> semanticVector = new HashMap<String, SemanticWeight>() ;
         Connection con = di.openConnection("svdbConfig.xml") ;
         String mostRelevantConcept = sortedConcepts.get(0) ;
         Double maxWeight = (Double) conceptsAndWeights.get(mostRelevantConcept) ; 
         int totalDocNum = this.getTotalDocumentsNumber(con) ;
         
         for (int i = 0; i < sortedConcepts.size(); i++) {
+            
             String concept = sortedConcepts.get(i) ;
             Double weight = (Double) conceptsAndWeights.get(concept) ;
             int docNumWithConcept = this.getDocumentsNumberWithConcept(concept, con) + 1 ; // We have to take into accounnt the current document (+1)
             Double result = ct.tfIdfAlgorithm(totalDocNum, docNumWithConcept, weight, maxWeight) ;
             String parentClass = oi.getIndividualDirectParentClass(concept) ;
-            try {
-                di.callProcedure(con, "svdb.insertSemanticWeight('" + parentClass + "','" + concept + "'," + result + ",'" + documentURI + "')") ;
-                semanticVector.put(concept, result) ;
-                
-            } catch (SQLException ex) {
-                Logger.getLogger(KeywordBasedSVCreationImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            SemanticWeight sw = new SemanticWeight(documentURI, parentClass, concept, result) ;
+            semanticVector.put(concept, sw) ;
         }
         di.closeConnection(con) ;
         return semanticVector;
+    }
+    
+    @Override
+    public void storeSemanticVector(HashMap<String, SemanticWeight> semanticVector) {
+        DatabaseInteraction di = getDii() ;
+        OntologyInteraction oi = getOii() ;
+        Connection con = di.openConnection("svdbConfig.xml") ;
+        Iterator iter = semanticVector.keySet().iterator() ;
+        while (iter.hasNext()) {
+            try {
+                SemanticWeight sw = semanticVector.get((String) iter.next()) ;
+                di.callProcedure(con, "svdb.insertSemanticWeight('" + sw.getParentClass() + "','" + sw.getConcept() + "'," + sw.getWeight() + ",'" + sw.getIdDocument() + "')") ;
+            } catch (SQLException ex) {
+                Logger.getLogger(KeywordBasedSVCreationImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            di.closeConnection(con) ;
+        }
     }
     
     private int getTotalDocumentsNumber(Connection con) {

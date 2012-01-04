@@ -4,12 +4,12 @@
  */
 package seks.basic.calculus;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author Paulo Figueiras
  */
 public interface CalculusTools {
     public double tfIdfAlgorithm(int docNum, int docNumByConcept, Double conceptWeight, Double absConceptWeight) ;
+    
+    public double euclidianDistanceAlgorithm(double sharedWeightsSum, double vector1SquaredWeightsSum, double vector2SquaredWeightsSum) ;
 }

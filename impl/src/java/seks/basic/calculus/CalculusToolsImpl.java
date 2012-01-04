@@ -4,9 +4,6 @@
  */
 package seks.basic.calculus;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 /**
  *
  * @author Paulo Figueiras
@@ -25,5 +22,11 @@ public class CalculusToolsImpl implements CalculusTools {
         return dx ;
     }
     
-    
+    @Override
+    public double euclidianDistanceAlgorithm(double sharedWeightsSum, double vector1SquaredWeightsSum, double vector2SquaredWeightsSum) {
+        
+        double result = sharedWeightsSum/(Math.sqrt(vector1SquaredWeightsSum*vector2SquaredWeightsSum)) ;
+        
+        return result ;
+    }
 }
