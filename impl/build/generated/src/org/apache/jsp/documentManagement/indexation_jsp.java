@@ -67,6 +67,7 @@ public final class indexation_jsp extends org.apache.jasper.runtime.HttpJspBase
                 String paramValue = paramValues[0];
                 if (request.getParameter("chk" + paramValue) != null)
                 out.print("<br><I>Indexing</I>" + paramValue);
+                
             }
         
       out.write("\n");

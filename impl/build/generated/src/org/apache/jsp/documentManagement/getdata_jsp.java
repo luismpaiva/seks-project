@@ -3,6 +3,7 @@ package org.apache.jsp.documentManagement;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
+import seks.basic.database.DatabaseInteractionImpl;
 import seks.basic.database.DatabaseInteraction;
 import java.sql.*;
 
@@ -49,6 +50,7 @@ public final class getdata_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("\n");
       out.write("\n");
+      out.write("\n");
       out.write("<!DOCTYPE html>\n");
       out.write("<html>\n");
       out.write("    <head>\n");
@@ -58,8 +60,8 @@ public final class getdata_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    <body>\n");
       out.write("        ");
 
-            DatabaseInteraction di = new DatabaseInteraction();
-            Connection con = di.openConnection();
+            DatabaseInteraction di = new DatabaseInteractionImpl();
+            Connection con = di.openConnection("jenaConfig.xml");
             String query = request.getParameter("q");
             ResultSet rs = di.callProcedure(con, "ontomap.list_keywords('" + query + "')");
             //ResultSet rs = stmt.executeQuery("SELECT description FROM svdb.document WHERE description LIKE '" + query + "%'");

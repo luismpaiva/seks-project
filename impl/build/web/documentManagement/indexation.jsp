@@ -26,6 +26,7 @@
                 String paramValue = paramValues[0];
                 if (request.getParameter("chk" + paramValue) != null)
                 out.print("<br><I>Indexing</I>" + paramValue);
+                
             }
         %>
     </body>

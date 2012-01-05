@@ -3,6 +3,7 @@ package org.apache.jsp.documentManagement;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
+import seks.basic.database.DatabaseInteractionImpl;
 import java.sql.*;
 import seks.basic.database.DatabaseInteraction;
 
@@ -48,6 +49,7 @@ public final class list_005fnonIndexed_005ffiles_jsp extends org.apache.jasper.r
       out.write("\n");
       out.write("\n");
       out.write("\n");
+      out.write("\n");
       out.write("<!DOCTYPE html>\n");
       out.write("<html>\n");
       out.write("    <head>\n");
@@ -64,8 +66,8 @@ public final class list_005fnonIndexed_005ffiles_jsp extends org.apache.jasper.r
                         //Cria Ligação à BD
                         //Invoca o procedimento de list_tags (lista as tags associadas a cada ficheiro)
                         try {
-                            DatabaseInteraction di = new DatabaseInteraction();
-                            Connection con = di.openConnection();
+                            DatabaseInteraction di = new DatabaseInteractionImpl();
+                            Connection con = di.openConnection("svdbConfig.xml");
                             ResultSet rs = di.callProcedure(con, "svdb.getListNonIndexed");
                             while (rs.next()) {
                     
