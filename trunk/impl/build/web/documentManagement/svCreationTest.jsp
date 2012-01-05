@@ -137,10 +137,32 @@
                     <%
                  }
                 %>
-                
+                <br/>
+                <h1>Keyword-based Semantic Vector</h1>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Concept</th>
+                            <th>Weights after TF-IDF</th>
+                        </tr>
+                    </thead>
+                    <tbody>    
                 <%
-                    svCreator.createKeywordBasedSemanticVector("xpto1", conceptsAndWeights, sortedList);
+                    HashMap<String, Double> semanticVector = svCreator.createKeywordBasedSemanticVector("xpto1", conceptsAndWeights, sortedList);
+                    Iterator<String> j = semanticVector.keySet().iterator() ;
+                    while (j.hasNext()) {
+                        String concept = (String) j.next() ;
+                        Double weight = semanticVector.get(concept) ;
+                    %>
+                        <tr>
+                            <td><%= concept%></td>
+                            <td><%= weight%></td>
+                        </tr>
+                    <%  
+                    }
                 %>
+                    </tbody>
+                </table>
             </form>
 
         </body>

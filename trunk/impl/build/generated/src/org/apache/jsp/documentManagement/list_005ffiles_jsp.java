@@ -3,6 +3,7 @@ package org.apache.jsp.documentManagement;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
+import seks.basic.database.DatabaseInteractionImpl;
 import java.sql.*;
 import seks.basic.database.DatabaseInteraction;
 
@@ -47,6 +48,7 @@ public final class list_005ffiles_jsp extends org.apache.jasper.runtime.HttpJspB
       out.write("\n");
       out.write("\n");
       out.write("\n");
+      out.write("\n");
       out.write("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n");
       out.write("    \"http://www.w3.org/TR/html4/loose.dtd\">\n");
       out.write("\n");
@@ -68,8 +70,8 @@ public final class list_005ffiles_jsp extends org.apache.jasper.runtime.HttpJspB
                         try {
                             String folderName = request.getParameter("btnListFiles");
                             String folderId = request.getParameter("folderId" + folderName);
-                            DatabaseInteraction di = new DatabaseInteraction();
-                            Connection con = di.openConnection();
+                            DatabaseInteraction di = new DatabaseInteractionImpl();
+                            Connection con = di.openConnection("lportalConfig.xml");
                             ResultSet rs = di.callProcedure(con, "lportal.list_files(" + folderId + ")");
                             while (rs.next()) {
                     

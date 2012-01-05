@@ -6,6 +6,7 @@
 --%>
 
 
+<%@page import="seks.basic.database.DatabaseInteractionImpl"%>
 <%@page import="seks.basic.database.DatabaseInteraction"%>
 <%@page import="java.sql.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -17,8 +18,8 @@
     </head>
     <body>
         <%
-            DatabaseInteraction di = new DatabaseInteraction();
-            Connection con = di.openConnection();
+            DatabaseInteraction di = new DatabaseInteractionImpl();
+            Connection con = di.openConnection("jenaConfig.xml");
             String query = request.getParameter("q");
             ResultSet rs = di.callProcedure(con, "ontomap.list_keywords('" + query + "')");
             //ResultSet rs = stmt.executeQuery("SELECT description FROM svdb.document WHERE description LIKE '" + query + "%'");
