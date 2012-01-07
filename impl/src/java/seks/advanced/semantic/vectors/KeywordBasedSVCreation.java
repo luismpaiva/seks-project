@@ -23,5 +23,7 @@ public interface KeywordBasedSVCreation {
     
     public HashMap<String, SemanticWeight> createKeywordBasedSemanticVector (String documentURI, HashMap<String, Double> conceptsAndWeights, ArrayList<String> sortedConcepts) ;
     
+    public HashMap<String, SemanticWeight> semanticVectorNormalization(HashMap<String, SemanticWeight> semanticVector) ;
+    
     public void storeSemanticVector(HashMap<String, SemanticWeight> semanticVector) ;
 }

@@ -20,21 +20,25 @@ public class QueryTreatmentImpl implements QueryTreatment {
     public ArrayList<String> getQueryKeywords(String query) {
         ArrayList<String> keywords = new ArrayList<String>() ;
         String keyword = "";
-        int lastIndex = query.lastIndexOf(";") ;
-        
-        int index = query.indexOf(";") ;
-        while (index < lastIndex) {
-           keyword = query.substring(0, index) ;
-           query = query.substring(index + 1) ;
-           index = query.indexOf(";") ;
-           lastIndex = query.lastIndexOf(";") ;
-           keywords.add(keyword) ;
+        if (query.contains(", ")) {
+            int lastIndex = query.lastIndexOf(", ") ;
+
+            int index = query.indexOf(", ") ;
+            while (index < lastIndex) {
+               keyword = query.substring(0, index) ;
+               query = query.substring(index + 2) ;
+               index = query.indexOf(", ") ;
+               lastIndex = query.lastIndexOf(", ") ;
+               keywords.add(keyword) ;
+            }
+            keyword = query.substring(0, lastIndex) ;
+            keywords.add(keyword) ;
+            keyword = query.substring(lastIndex + 2) ;
+            keywords.add(keyword) ;
         }
-        keyword = query.substring(0, lastIndex) ;
-        keywords.add(keyword) ;
-        keyword = query.substring(lastIndex + 1) ;
-        keywords.add(keyword) ;
-        
+        else{
+            keywords.add(query);
+        }
         return keywords ;
     }
     

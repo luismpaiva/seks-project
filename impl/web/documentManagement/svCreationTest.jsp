@@ -3,6 +3,7 @@
     Created on : 14/Abr/2011, 16:57:14
     Author     : Administrador
 --%>
+<%@page import="seks.basic.pojos.SemanticWeight"%>
 <%@page import="java.io.OutputStream"%>
 <%@page import="java.io.Writer"%>
 <%@page import="com.hp.hpl.jena.rdf.model.NodeIterator"%>
@@ -148,11 +149,36 @@
                     </thead>
                     <tbody>    
                 <%
-                    HashMap<String, Double> semanticVector = svCreator.createKeywordBasedSemanticVector("xpto1", conceptsAndWeights, sortedList);
+                    HashMap<String, SemanticWeight> semanticVector = svCreator.createKeywordBasedSemanticVector("xpto1", conceptsAndWeights, sortedList);
                     Iterator<String> j = semanticVector.keySet().iterator() ;
                     while (j.hasNext()) {
                         String concept = (String) j.next() ;
-                        Double weight = semanticVector.get(concept) ;
+                        Double weight = semanticVector.get(concept).getWeight() ;
+                    %>
+                        <tr>
+                            <td><%= concept%></td>
+                            <td><%= weight%></td>
+                        </tr>
+                    <%  
+                    }
+                %>
+                    </tbody>
+                </table>
+                    
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Concept</th>
+                            <th>Weights after Normalization</th>
+                        </tr>
+                    </thead>
+                    <tbody>    
+                <%
+                    HashMap<String, SemanticWeight> normalizedSemanticVector = svCreator.semanticVectorNormalization(semanticVector) ;
+                    j = normalizedSemanticVector.keySet().iterator() ;
+                    while (j.hasNext()) {
+                        String concept = (String) j.next() ;
+                        Double weight = semanticVector.get(concept).getWeight() ;
                     %>
                         <tr>
                             <td><%= concept%></td>

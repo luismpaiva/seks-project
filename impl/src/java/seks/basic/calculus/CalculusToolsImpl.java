@@ -13,13 +13,19 @@ public class CalculusToolsImpl implements CalculusTools {
     public CalculusToolsImpl() {}
     
     @Override
-    public double tfIdfAlgorithm(int docNum, int docNumByConcept, Double conceptWeight, Double absConceptWeight) {
+    public double tfIdfAlgorithm(int docNum, int docNumByConcept, double conceptWeight, double absConceptWeight) {
         double wdx = conceptWeight ;
         double maxywdy = absConceptWeight ;
         double dx = 0 ;
        
-        dx = (wdx/maxywdy)*Math.log(docNum/docNumByConcept) ;
+        dx = (wdx/maxywdy)*Math.log(((double)docNum)/((double)docNumByConcept)) ;
         return dx ;
+    }
+    
+    @Override
+    public double normalization(double weightsTotal, double weight) {
+        double normalizedWeight = weight/weightsTotal ;
+        return normalizedWeight ;
     }
     
     @Override
