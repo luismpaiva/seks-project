@@ -10,9 +10,9 @@
 
 <root>
     <ont_file>knowspaces_v6.owl</ont_file>
-    <db_url>jdbc:mysql://172.16.3.139:3306/ontomap</db_url>
+    <db_url>jdbc:mysql://localhost:3306/ontomap</db_url>
     <db_user>root</db_user>
-    <db_passwd>gris</db_passwd>
+    <db_passwd> </db_passwd>
     <db>MySQL</db>
     <db_driver>com.mysql.jdbc.Driver</db_driver>
 </root>
