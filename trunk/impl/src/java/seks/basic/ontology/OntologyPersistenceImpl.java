@@ -28,7 +28,7 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
     private String s_params[] = {"ont_file", "db_url", "db_user", "db_passwd", "db", "db_driver"} ;
     private String s_dbURL ;
     private String s_dbUser ;
-    private String s_dbPw ;
+    private String s_dbPw = "" ;
     private String s_dbType ;
     private String s_dbDriver ;
     private static String ns = ("http://www.knowspaces.com/ontology_v1.owl#") ;
@@ -69,7 +69,7 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
             s_source = "./src/" + params.get(s_params[0]) ;
             s_dbURL = params.get(s_params[1]) ;
             s_dbUser = params.get(s_params[2]) ;
-            s_dbPw = params.get(s_params[3]) ;
+            //s_dbPw = params.get(s_params[3]) ;
             s_dbType = params.get(s_params[4]) ;
             s_dbDriver = params.get(s_params[5]) ;
             Class.forName( s_dbDriver );

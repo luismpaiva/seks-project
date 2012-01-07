@@ -146,7 +146,7 @@ public class KeywordBasedSVCreationImpl implements KeywordBasedSVCreation {
         Connection con = di.openConnection("svdbConfig.xml") ;
         String mostRelevantConcept = sortedConcepts.get(0) ;
         Double maxWeight = (Double) conceptsAndWeights.get(mostRelevantConcept) ; 
-        int totalDocNum = this.getTotalDocumentsNumber(con) ;
+        int totalDocNum = this.getTotalDocumentsNumber(con) + 1 ; // IMPORTANTE: para já tem que se somar o documento actual porque ele ainda não está na BD. Mais tarde terá de se tirar este 1 daqui
         
         for (int i = 0; i < sortedConcepts.size(); i++) {
             
@@ -160,6 +160,33 @@ public class KeywordBasedSVCreationImpl implements KeywordBasedSVCreation {
         }
         di.closeConnection(con) ;
         return semanticVector;
+    }
+    
+    @Override
+    public HashMap<String, SemanticWeight> semanticVectorNormalization(HashMap<String, SemanticWeight> semanticVector) {
+        Iterator itr = semanticVector.keySet().iterator() ;
+        HashMap<String, SemanticWeight> normalizedSemanticVector = new HashMap<String, SemanticWeight>() ;
+        
+        CalculusTools ct = getCti() ;
+        double weightsTotal = 0 ;
+        
+        while(itr.hasNext()) {
+            String concept = (String) itr.next() ;
+            SemanticWeight sw = semanticVector.get(concept) ;
+            weightsTotal += sw.getWeight() ;
+        }
+        
+        itr = semanticVector.keySet().iterator() ;
+        
+        while (itr.hasNext()) {
+            String concept = (String) itr.next() ;
+            SemanticWeight sw = semanticVector.get(concept) ;
+            double normalizedWeight = ct.normalization(weightsTotal, sw.getWeight()) ;
+            sw.setWeight(normalizedWeight) ;
+            normalizedSemanticVector.put(concept, sw) ;
+        }
+        
+        return normalizedSemanticVector ;
     }
     
     @Override
