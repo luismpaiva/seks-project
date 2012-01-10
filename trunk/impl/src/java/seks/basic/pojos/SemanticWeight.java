@@ -1,11 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package seks.basic.pojos;
 
 /**
- *
+ * Semantic Weight object class.
+ * 
  * @author Paulo Figueiras
  */
 public class SemanticWeight {
@@ -15,8 +12,19 @@ public class SemanticWeight {
     private int idSemanticWeight;
     private double weight;
     
+    /**
+     * Class constructor.
+     */
     public SemanticWeight() {}
     
+    /**
+     * Class constructor with parameter insertion.
+     * 
+     * @param idDocument    An unique document's URI
+     * @param parentClass   The concept's parent class local name
+     * @param concept       The concept's local name
+     * @param weight        The concept's weight
+     */
     public SemanticWeight(String idDocument, String parentClass, String concept, double weight) {
         this.idDocument = idDocument ;
         this.parentClass = parentClass ;

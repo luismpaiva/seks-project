@@ -1,21 +1,28 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package seks.basic.pojos;
 
 /**
- *
+ * Document Result object class.
+ * 
  * @author Paulo Figueiras
  */
 public class DocumentResult {
     
     private String idDocument ;
-    private Double relevancePercentage ;
+    private int relevancePercentage ;
     
+    /**
+     * Class constructor.
+     */
     public DocumentResult() {}
     
-    public DocumentResult(String idDocument, Double relevancePercentage) {
+    /**
+     * Class constructor with parameter insertion
+     * 
+     * @param idDocument            An unique document's URI
+     * @param relevancePercentage   The relevance percentage of the document, in 
+     *                              comparison with a specific query
+     */
+    public DocumentResult(String idDocument, int relevancePercentage) {
         this.idDocument = idDocument ;
         this.relevancePercentage = relevancePercentage ;
     }
@@ -37,14 +44,14 @@ public class DocumentResult {
     /**
      * @return the relevancePercentage
      */
-    public Double getRelevancePercentage() {
+    public int getRelevancePercentage() {
         return relevancePercentage;
     }
 
     /**
      * @param relevancePercentage the relevancePercentage to set
      */
-    public void setRelevancePercentage(Double relevancePercentage) {
+    public void setRelevancePercentage(int relevancePercentage) {
         this.relevancePercentage = relevancePercentage;
     }
     

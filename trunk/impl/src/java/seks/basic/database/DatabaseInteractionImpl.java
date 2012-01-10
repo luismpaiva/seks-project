@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package seks.basic.database;
 
 import java.io.IOException;
@@ -17,21 +13,39 @@ import org.xml.sax.SAXException;
 import seks.basic.exceptions.MissingParamException;
 
 /**
- *
+ * Implementation class for interface DatabaseInteraction
+ * 
  * @author Paulo Figueiras
  */
 public class DatabaseInteractionImpl implements DatabaseInteraction {
 
     private HashMap<String, String> params = new HashMap<String, String>();
-    private String dbUrl, dbUser, dbPasswd, dbDriver;
+    private String dbUrl, dbUser, dbPasswd = "", dbDriver;
     private String configFilePath = "../../";
     private String lportalConfigFile = "lportalConfig.xml";
     private String sParams[] = {"db_url", "db_user", "db_passwd", "db_driver"};
 
+    
+    /**
+     * Class constructor.
+     * 
+     * @see #loadConfigParams(java.lang.String) 
+     */
     public DatabaseInteractionImpl() {
         loadConfigParams(this.lportalConfigFile) ;
     }
-
+    
+    /**
+     * Loads a XML file with the database URL, user, password and MySQL driver
+     * used to oper a connection link to the database.
+     * 
+     * @param configFileName    The name and path of the XML configuration file
+     * 
+     * @see MissingParamException
+     * @see DOMParser
+     * @see Document
+     * @see Element
+     */
     private void loadConfigParams(String configFileName) {
         try {
             configFilePath = this.getClass().getClassLoader().getResource(configFileName).toString() ;
@@ -54,8 +68,7 @@ public class DatabaseInteractionImpl implements DatabaseInteraction {
             }
             dbUrl = params.get(sParams[0]);
             dbUser = params.get(sParams[1]);
-            //dbPasswd = params.get(sParams[2]);
-            dbPasswd = "" ;
+            dbPasswd = params.get(sParams[2]);
             dbDriver = params.get(sParams[3]);
 
         } catch (MissingParamException ex) {
@@ -67,6 +80,15 @@ public class DatabaseInteractionImpl implements DatabaseInteraction {
         }
     }
 
+    /**
+     * Establishes a new connection with the database.
+     * 
+     * @param configFileName    The name and path of the XML configuration file
+     * @return                  A {@link Connection} object
+     * 
+     * @see #loadConfigParams(java.lang.String) 
+     * @see Connection
+     */
     @Override
     public Connection openConnection(String configFileName) {
         try {
@@ -84,6 +106,20 @@ public class DatabaseInteractionImpl implements DatabaseInteraction {
         return null;
     }
 
+    /**
+     * Executes a MySQL database routine/procedure with name given by the input 
+     * parameter <code>procedure</code>.
+     * 
+     * @param con       A {@link Connection} object to manage the link to the 
+     *                  database
+     * @param procedure The name of the routine
+     * 
+     * @return          The result of the routine execution, in the form of a
+     *                  {@link ResultSet} object
+     * 
+     * @see Connection
+     * @see ResultSet
+     */
     @Override
     public ResultSet callProcedure(Connection con, String procedure) {
         try {
@@ -97,6 +133,13 @@ public class DatabaseInteractionImpl implements DatabaseInteraction {
         return null;
     }
 
+    /**
+     * Kills the input {@link Connection} link object.
+     * 
+     * @param con   A {@link Connection} object
+     * 
+     * @see Connection
+     */
     @Override
     public void closeConnection(Connection con) {
         try {

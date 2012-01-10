@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package seks.advanced.queries;
 
 import java.util.ArrayList;
@@ -9,13 +5,26 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 /**
- *
+ * Implementation class for interface QueryTreatment
+ * 
  * @author Paulo Figueiras
  */
 public class QueryTreatmentImpl implements QueryTreatment {
     
+    /**
+     * Class constructor.
+     */
     public QueryTreatmentImpl() {}
     
+    /**
+     * Prepares and manages query strings into separate keywords
+     * 
+     * @param query A query string
+     * 
+     * @return      An {@link ArrayList} object with keywords
+     * 
+     * @see ArrayList
+     */
     @Override
     public ArrayList<String> getQueryKeywords(String query) {
         ArrayList<String> keywords = new ArrayList<String>() ;
@@ -42,6 +51,19 @@ public class QueryTreatmentImpl implements QueryTreatment {
         return keywords ;
     }
     
+    /**
+     * Mimics the creation of statistic vectors through data-mining techniques, 
+     * to generate a statistical vector for the query. The query is then 
+     * considered a pseudo-document.
+     * 
+     * @param keywords  The query's keywords
+     * 
+     * @return          A statistic vector for the query, in the form of a 
+     *                  {@ link HashMap} object, whith the keywords as the set 
+     *                  of keys and the weights for the keywords as values
+     * 
+     * @see HashMap
+     */
     @Override
     public HashMap<String, Double> createQueryStatisticVector(ArrayList<String> keywords) {
         HashMap<String, Double> queryStatVector = new HashMap<String, Double>() ;

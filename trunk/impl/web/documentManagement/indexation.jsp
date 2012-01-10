@@ -5,6 +5,7 @@
     Desctiption: Efectua a indexação dos novos knowledge Sources
 --%>
 
+<%@page import="seks.basic.pojos.SemanticWeight"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.HashMap"%>
@@ -36,16 +37,16 @@
                 HashMap<String, ArrayList<String>> conceptsAndKeywords = svCreator.getConceptsFromKeywords(statVector) ;
                 HashMap<String, Double> conceptsAndWeights = svCreator.getConceptsTotalWeights(statVector, conceptsAndKeywords) ;
                 ArrayList<String> sortedList = svCreator.sortConceptsByRelevance(conceptsAndWeights) ;
-                HashMap<String, Double> semanticVector = svCreator.createKeywordBasedSemanticVector("xpto1", conceptsAndWeights, sortedList);
+                HashMap<String, SemanticWeight> semanticVector = svCreator.createKeywordBasedSemanticVector("xpto1", conceptsAndWeights, sortedList);
                 //svCreator.storeSemanticVector(semanticVector, paramValue);
                 Iterator<String> j = semanticVector.keySet().iterator() ;
                 while (j.hasNext()) {
                     String concept = (String) j.next() ;
-                    Double weight = semanticVector.get(concept) ;
+                    SemanticWeight sw = semanticVector.get(concept) ;
                 %>
                     <tr>
                         <td><%= concept%></td>
-                        <td><%= weight%></td>
+                        <td><%= sw.getWeight()%></td>
                     </tr>
                 <%  
                 }

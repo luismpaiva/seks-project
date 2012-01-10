@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package seks.advanced.semantic.vectors;
 
 import java.sql.Connection;
@@ -20,7 +16,8 @@ import seks.basic.pojos.DocumentResult;
 import seks.basic.pojos.SemanticWeight;
 
 /**
- *
+ *Implementation class for interface SemanticVectorComparison
+ * 
  * @author Paulo Figueiras
  */
 public class SemanticVectorComparisonImpl implements SemanticVectorComparison {
@@ -28,8 +25,20 @@ public class SemanticVectorComparisonImpl implements SemanticVectorComparison {
     private DatabaseInteractionImpl dii ;
     private CalculusToolsImpl cti ;
     
+    /**
+     * Class constructor.
+     */
     public SemanticVectorComparisonImpl () {}
     
+    /**
+     * Infers on the concepts shared between two semantic vectors.
+     * 
+     * @param semanticVector1   The document's semantic vector
+     * @param semanticVector2   The query's semantic vector
+     * 
+     * @return                  The list of shared concepts, in the form of a 
+     *                          {@link ArrayList} object
+     */
     @Override
     public ArrayList<String> getSharedConcepts(HashMap<String, SemanticWeight> semanticVector1, HashMap<String, SemanticWeight> semanticVector2) {
         ArrayList<String> sharedConcepts = new ArrayList<String>() ;
@@ -50,6 +59,24 @@ public class SemanticVectorComparisonImpl implements SemanticVectorComparison {
         return sharedConcepts ;
     }
     
+    /**
+     * Compares two semantic vectors, through the application of the Euclidean 
+     * Distance Algorithm.
+     * 
+     * @param semanticVector1   The document's semantic vector
+     * @param semanticVector2   The query's semantic vector
+     * @param sharedConcepts    The list of shared concepts between the two 
+     *                          vectors
+     *  
+     * @return                  The percentage of likeliness between the 
+     *                          document and the query, in the form of a 
+     *                          {@link DocumentResult} object
+     * 
+     * @see #getSharedConcepts(java.util.HashMap, java.util.HashMap) 
+     * @see DocumentResult
+     * @see CalculusTools
+     * @see CalculusTools#euclidianDistanceAlgorithm(double, double, double) 
+     */
     @Override
     public DocumentResult compareSemanticVectors(HashMap<String, SemanticWeight> semanticVector1, HashMap<String, SemanticWeight> semanticVector2, ArrayList<String> sharedConcepts) {
         double sharedWeightsSum = 0.0 ;
@@ -61,7 +88,7 @@ public class SemanticVectorComparisonImpl implements SemanticVectorComparison {
         
         if (sharedConcepts.isEmpty()) {
             docResult.setIdDocument(documentURI) ;
-            docResult.setRelevancePercentage(0.0) ;
+            docResult.setRelevancePercentage(0) ;
         }
         else {
             Iterator iter = sharedConcepts.iterator() ;
@@ -85,13 +112,33 @@ public class SemanticVectorComparisonImpl implements SemanticVectorComparison {
                 vector2WeightsSum += weight*weight ;
             }
             
-            double result = Math.abs(ct.euclidianDistanceAlgorithm(sharedWeightsSum, vector1WeightsSum, vector2WeightsSum)) ;
+            int result = ct.euclidianDistanceAlgorithm(sharedWeightsSum, vector1WeightsSum, vector2WeightsSum) ;
             docResult.setIdDocument(documentURI) ;
-            docResult.setRelevancePercentage(result*100) ;
+            docResult.setRelevancePercentage(result) ;
         }
         return docResult ;
     }
     
+    /**
+     * Retrieves from the database the set of {@link SemanticWeight} instances 
+     * which have the foreign key given by the input parameter.
+     * 
+     * @param documentID    An unique document's URI
+     * 
+     * @return              A document's semantic vector, in the form of an 
+     *                      {@link HashMap} object, with the most relevant 
+     *                      concepts as the set of keys, and the {@link SemanticWeight}
+     *                      objects as values
+     * 
+     * @see DatabaseInteraction
+     * @see DatabaseInteraction#openConnection(java.lang.String) 
+     * @see DatabaseInteraction#callProcedure(java.sql.Connection, java.lang.String) 
+     * @see DatabaseInteraction#closeConnection(java.sql.Connection) 
+     * @see SemanticWeight
+     * @see HashMap
+     * @see Connection
+     * @see ResultSet
+     */
     @Override
     public HashMap<String, SemanticWeight> getSemanticVectorByDocumentID(String documentID) {
         DatabaseInteraction di = getDii() ;
@@ -110,6 +157,18 @@ public class SemanticVectorComparisonImpl implements SemanticVectorComparison {
         return semanticVector ;
     }
     
+    /**
+     * Retrieves the URI's of all documents comprised in the system's document 
+     * repository.
+     * 
+     * @return  The list of URI's in the form of an {@link ArrayList} object
+     * 
+     * @see DatabaseInteraction
+     * @see DatabaseInteraction#openConnection(java.lang.String) 
+     * @see DatabaseInteraction#callProcedure(java.sql.Connection, java.lang.String) 
+     * @see DatabaseInteraction#closeConnection(java.sql.Connection) 
+     * @see ArrayList
+     */
     @Override
     public ArrayList<String> getDocumentURIs() {
         DatabaseInteraction di = getDii() ;
@@ -126,21 +185,33 @@ public class SemanticVectorComparisonImpl implements SemanticVectorComparison {
         return URIs ;
     }
     
+    /**
+     * Sorts the documents which form the response to a specific query, 
+     * according to their relevance to resolve the query.
+     * 
+     * @param documentResults   The list of {@link DocumentResult} objects to be 
+     *                          sorted
+     * @return                  The list of sorted {@link DocumentResult} 
+     *                          objects
+     * 
+     * @see DocumentResult
+     * @see ArrayList
+     */
     @Override
     public ArrayList<DocumentResult> sortDocumentResultsByRelevance(ArrayList<DocumentResult> documentResults) {
         ArrayList<DocumentResult> sortedResults = new ArrayList<DocumentResult>() ;
         Iterator iter = documentResults.iterator() ;
         while (iter.hasNext()) {
             DocumentResult dr = (DocumentResult) iter.next() ;
-            if (!dr.getRelevancePercentage().equals(0.0)) {
+            if (!(dr.getRelevancePercentage() == 0)) {
                 if (sortedResults.isEmpty()) {
                     sortedResults.add(dr) ;
                 }
                 else {
-                    double relevance = dr.getRelevancePercentage() ;
+                    int relevance = dr.getRelevancePercentage() ;
                     for (int i = 0; i < sortedResults.size(); i++) {
                         DocumentResult current = sortedResults.get(i) ;
-                        double currRelevance = current.getRelevancePercentage() ;
+                        int currRelevance = current.getRelevancePercentage() ;
                         if (relevance >= currRelevance) {
                             sortedResults.add(i, dr) ;
                             break ;
