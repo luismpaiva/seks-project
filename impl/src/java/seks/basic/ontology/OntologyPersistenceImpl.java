@@ -1,8 +1,4 @@
 package seks.basic.ontology;
-/**
- *
- * @author Figueiras
- */
 
 import java.io.*;
 import com.hp.hpl.jena.db.*;
@@ -19,6 +15,13 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import seks.basic.exceptions.MissingParamException;
 
+/**
+ * Implementation class of interface {@link OntologyPersistence}
+ * 
+ * @author Paulo Figueiras
+ * 
+ * @see OntologyPersistence
+ */
 public class OntologyPersistenceImpl implements OntologyPersistence {
 
     private HashMap<String, String> params = new HashMap<String, String>() ;
@@ -43,10 +46,32 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
 
     private OntModel m ;
 
+    /**
+     * Class Constructor
+     * 
+     * @throws MissingParamException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * 
+     * @see #loadConfigParams() 
+     */
     public OntologyPersistenceImpl() throws MissingParamException, IOException, ClassNotFoundException {
         loadConfigParams();
     }
 
+    /**
+     * Loads the XML file with the database URL, user, password and MySQL driver
+     * used to open a link to the ontology's persistence model
+     * 
+     * @throws MissingParamException
+     * @throws IOException
+     * @throws ClassNotFoundException 
+     * 
+     * @see DOMParser
+     * @see Document
+     * @see Element
+     * @see MissingParamException
+     */
     private void loadConfigParams() throws MissingParamException, IOException, ClassNotFoundException {
         DOMParser domp = new DOMParser();
         try {
@@ -63,13 +88,13 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
                     if(paramVal != null)
                         params.put(param, paramVal) ;
                     else
-                        throw new MissingParamException("Ficheiro de configuração incompleto.") ;
+                        throw new MissingParamException("Configuration file incomplete.") ;
                 }
             }
             s_source = "./src/" + params.get(s_params[0]) ;
             s_dbURL = params.get(s_params[1]) ;
             s_dbUser = params.get(s_params[2]) ;
-            //s_dbPw = params.get(s_params[3]) ;
+            s_dbPw = params.get(s_params[3]) ;
             s_dbType = params.get(s_params[4]) ;
             s_dbDriver = params.get(s_params[5]) ;
             Class.forName( s_dbDriver );
@@ -79,11 +104,23 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
         } 
     }
 
+    /**
+     * Loads the ontology's persistence model.
+     * 
+     * @see #loadMaker() 
+     */
     @Override
     public void load() {
         loadMaker() ;
     }
 
+    /**
+     * Generates the persistence model in the database, if not created (flag 
+     * {@link #s_reload}), and load the persisted model.
+     * 
+     * @see #getRDBMaker(java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean) 
+     * @see #loadDB(com.hp.hpl.jena.rdf.model.ModelMaker, java.lang.String) 
+     */
     private void loadMaker() {
          if (isS_reload()) {
 
@@ -105,6 +142,18 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
         m = ModelFactory.createOntologyModel( getModelSpec( maker ), base );
     }
 
+    /**
+     * Reads the ontology file (.owl or .rdf), and creates the ontology's 
+     * persistence model
+     * 
+     * @param maker     A {@link ModelMaker} object
+     * @param source    The name and path for an ontology file
+     * 
+     * @see #getModelSpec(com.hp.hpl.jena.rdf.model.ModelMaker) 
+     * @see OntModel
+     * @see ModelFactory
+     * @see InputStream
+     */
     private void loadDB( ModelMaker maker, String source ) {
         // use the model maker to get the base model as a persistent model
         // strict=false, so we get an existing model by that name if it exists
@@ -124,6 +173,23 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
         // now load the source document, which will also load any imports
         m.read( in,  "" );
     }
+    
+    /**
+     * Creates a new connection to the database and generates an empty 
+     * persistence {@link ModelMaker}, which will contain the persisted ontology's 
+     * model.
+     * 
+     * @param dbURL     An URL to the database
+     * @param dbUser    A username for the database
+     * @param dbPw      The user's password for the database
+     * @param dbType    A database type (MySQL, PostGRES, Oracle)
+     * @param cleanDB   If <code>true</code>, cleans the database
+     * 
+     * @return          A ontology's empty persistence {@link ModelMaker}
+     * 
+     * @see IDBConnection
+     * @see ModelMaker
+     */
 
     private ModelMaker getRDBMaker( String dbURL, String dbUser, String dbPw, String dbType, boolean cleanDB ) {
         try {
@@ -145,15 +211,29 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
         return null;
     }
 
+    /**
+     * Creates a spec for the new ont model that will use no inference over 
+     * models made by the given maker (which is where we get the persistent 
+     * models from).
+     * 
+     * @param maker     A {@link ModelMaker} object
+     * 
+     * @return          An {@link OntModelSpec} object
+     * 
+     * @see ModelMaker
+     * @see OntModelSpec
+     */
     public OntModelSpec getModelSpec( ModelMaker maker ) {
-        // create a spec for the new ont model that will use no inference over models
-        // made by the given maker (which is where we get the persistent models from)
         OntModelSpec spec = new OntModelSpec( OntModelSpec.OWL_MEM );
         spec.setImportModelMaker( maker );
 
         return spec;
     }
 
+    /**
+     * 
+     * @return the model
+     */
     @Override
     public OntModel getModel() {
         return m ;
@@ -174,12 +254,25 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
         this.s_reload = s_reload;
     }
 
+    /**
+     * Closes the connection with the persistence model.
+     * 
+     * @see OntModel
+     * @see ModelMaker
+     */
     @Override
     public void closeCon() {
         m = null ;
         this.maker.close();
     }
 
+    /**
+     * Establishes a new connection with the persistence model.
+     * 
+     * @see OntModel
+     * @see ModelMaker
+     * @see ModelFactory
+     */
     @Override
     public void reopenCon() {
         this.maker.openModel(s_source, s_reload) ;
@@ -187,6 +280,13 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
         m = ModelFactory.createOntologyModel( getModelSpec( maker ), base );
     }
 
+    /**
+     * Writes the ontology in RDF form, through an {@link OutputStream} object.
+     * 
+     * @param out   An {@link OutputStream} object
+     * 
+     * @see OutputStream
+     */
     public void writeOnt(OutputStream out) {
         getModel().write(out, "RDF/XML") ;
     }

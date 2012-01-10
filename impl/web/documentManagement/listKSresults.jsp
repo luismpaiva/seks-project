@@ -221,7 +221,7 @@
                             %>
                             <tr>
                                 <td><%= res.getIdDocument()%></td>
-                                <td><%= res.getRelevancePercentage()%></td>
+                                <td><%= res.getRelevancePercentage()%>%</td>
                             </tr>
                             <%
                         }

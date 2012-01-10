@@ -1,16 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package seks.basic.exceptions;
 
 /**
- *
- * @author Figueiras
+ * Exception thrown when there is one or more parameters missing from a XML 
+ * configuration file.
+ * 
+ * @author Paulo Figueiras
  */
 public class MissingParamException extends Exception {
 
+    /**
+     * Class constructor.
+     * 
+     * @param msg   Error message to be logged
+     */
     public MissingParamException(String msg) {
         super(msg) ;
     }
