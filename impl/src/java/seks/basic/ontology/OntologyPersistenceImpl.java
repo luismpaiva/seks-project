@@ -63,14 +63,14 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
      * Loads the XML file with the database URL, user, password and MySQL driver
      * used to open a link to the ontology's persistence model
      * 
-     * @throws MissingParamException
+     * @throws seks.basic.exceptions.MissingParamException
      * @throws IOException
      * @throws ClassNotFoundException 
      * 
      * @see DOMParser
      * @see Document
      * @see Element
-     * @see MissingParamException
+     * @see seks.basic.exceptions.MissingParamException
      */
     private void loadConfigParams() throws MissingParamException, IOException, ClassNotFoundException {
         DOMParser domp = new DOMParser();
@@ -116,10 +116,11 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
 
     /**
      * Generates the persistence model in the database, if not created (flag 
-     * {@link #s_reload}), and load the persisted model.
+     * {@link seks.basic.ontology.OntologyPersistence#s_reload}), and load the 
+     * persisted model.
      * 
-     * @see #getRDBMaker(java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean) 
-     * @see #loadDB(com.hp.hpl.jena.rdf.model.ModelMaker, java.lang.String) 
+     * @see seks.basic.ontology.OntologyPersistence#getRDBMaker(java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean) 
+     * @see seks.basic.ontology.OntologyPersistence#loadDB(com.hp.hpl.jena.rdf.model.ModelMaker, java.lang.String) 
      */
     private void loadMaker() {
          if (isS_reload()) {
@@ -146,12 +147,12 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
      * Reads the ontology file (.owl or .rdf), and creates the ontology's 
      * persistence model
      * 
-     * @param maker     A {@link ModelMaker} object
+     * @param maker     A {@link com.hp.hpl.jena.rdf.model.ModelMaker} object
      * @param source    The name and path for an ontology file
      * 
-     * @see #getModelSpec(com.hp.hpl.jena.rdf.model.ModelMaker) 
-     * @see OntModel
-     * @see ModelFactory
+     * @see seks.basic.ontology.OntologyPersistence#getModelSpec(com.hp.hpl.jena.rdf.model.ModelMaker) 
+     * @see com.hp.hpl.jena.ontology.OntModel
+     * @see com.hp.hpl.jena.rdf.model.ModelFactory
      * @see InputStream
      */
     private void loadDB( ModelMaker maker, String source ) {
@@ -185,10 +186,11 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
      * @param dbType    A database type (MySQL, PostGRES, Oracle)
      * @param cleanDB   If <code>true</code>, cleans the database
      * 
-     * @return          A ontology's empty persistence {@link ModelMaker}
+     * @return          A ontology's empty persistence 
+     *                  {@link com.hp.hpl.jena.rdf.model.ModelMaker}
      * 
-     * @see IDBConnection
-     * @see ModelMaker
+     * @see com.hp.hpl.jena.db.IDBConnection
+     * @see com.hp.hpl.jena.rdf.model.ModelMaker
      */
 
     private ModelMaker getRDBMaker( String dbURL, String dbUser, String dbPw, String dbType, boolean cleanDB ) {
@@ -216,12 +218,12 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
      * models made by the given maker (which is where we get the persistent 
      * models from).
      * 
-     * @param maker     A {@link ModelMaker} object
+     * @param maker     A {@link com.hp.hpl.jena.rdf.model.ModelMaker} object
      * 
-     * @return          An {@link OntModelSpec} object
+     * @return          An {@link com.hp.hpl.jena.ontology.OntModelSpec} object
      * 
-     * @see ModelMaker
-     * @see OntModelSpec
+     * @see com.hp.hpl.jena.rdf.model.ModelMaker
+     * @see com.hp.hpl.jena.ontology.OntModelSpec
      */
     public OntModelSpec getModelSpec( ModelMaker maker ) {
         OntModelSpec spec = new OntModelSpec( OntModelSpec.OWL_MEM );
@@ -257,8 +259,8 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
     /**
      * Closes the connection with the persistence model.
      * 
-     * @see OntModel
-     * @see ModelMaker
+     * @see com.hp.hpl.jena.ontology.OntModel
+     * @see com.hp.hpl.jena.rdf.model.ModelMaker
      */
     @Override
     public void closeCon() {
@@ -269,9 +271,9 @@ public class OntologyPersistenceImpl implements OntologyPersistence {
     /**
      * Establishes a new connection with the persistence model.
      * 
-     * @see OntModel
-     * @see ModelMaker
-     * @see ModelFactory
+     * @see com.hp.hpl.jena.ontology.OntModel
+     * @see com.hp.hpl.jena.rdf.model.ModelMaker
+     * @see com.hp.hpl.jena.rdf.model.ModelFactory
      */
     @Override
     public void reopenCon() {

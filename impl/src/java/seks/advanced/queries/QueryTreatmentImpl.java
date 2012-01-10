@@ -21,9 +21,9 @@ public class QueryTreatmentImpl implements QueryTreatment {
      * 
      * @param query A query string
      * 
-     * @return      An {@link ArrayList} object with keywords
+     * @return      An {@link java.util.ArrayList} object with keywords
      * 
-     * @see ArrayList
+     * @see java.util.ArrayList
      */
     @Override
     public ArrayList<String> getQueryKeywords(String query) {
@@ -59,10 +59,11 @@ public class QueryTreatmentImpl implements QueryTreatment {
      * @param keywords  The query's keywords
      * 
      * @return          A statistic vector for the query, in the form of a 
-     *                  {@ link HashMap} object, whith the keywords as the set 
-     *                  of keys and the weights for the keywords as values
+     *                  {@link java.util.HashMap} object, whith the keywords as 
+     *                  the set of keys and the weights for the keywords as 
+     *                  values
      * 
-     * @see HashMap
+     * @see java.util.HashMap
      */
     @Override
     public HashMap<String, Double> createQueryStatisticVector(ArrayList<String> keywords) {
