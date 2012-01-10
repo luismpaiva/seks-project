@@ -23,7 +23,7 @@ public interface OntologyPersistence {
      * 
      * @return the model
      * 
-     * @see OntModel
+     * @see com.hp.hpl.jena.ontology.OntModel
      */
     public OntModel getModel() ;
     
@@ -35,17 +35,17 @@ public interface OntologyPersistence {
     /**
      * Closes the connection with the persistence model.
      * 
-     * @see OntModel
-     * @see ModelMaker
+     * @see com.hp.hpl.jena.ontology.OntModel
+     * @see com.hp.hpl.jena.rdf.model.ModelMaker
      */
     public void closeCon() ;
 
     /**
      * Establishes a new connection with the persistence model.
      * 
-     * @see OntModel
-     * @see ModelMaker
-     * @see ModelFactory
+     * @see com.hp.hpl.jena.ontology.OntModel
+     * @see com.hp.hpl.jena.rdf.model.ModelMaker
+     * @see com.hp.hpl.jena.rdf.model.ModelFactory
      */
     public void reopenCon() ;
 }

@@ -20,7 +20,7 @@ public interface SemanticVectorComparison {
      * @param semanticVector2   The query's semantic vector
      * 
      * @return                  The list of shared concepts, in the form of a 
-     *                          {@link ArrayList} object
+     *                          {@link java.util.ArrayList} object
      */
     public ArrayList<String> getSharedConcepts(HashMap<String, SemanticWeight> semanticVector1, HashMap<String, SemanticWeight> semanticVector2) ;
     
@@ -35,34 +35,34 @@ public interface SemanticVectorComparison {
      *  
      * @return                  The percentage of likeliness between the 
      *                          document and the query, in the form of a 
-     *                          {@link DocumentResult} object
+     *                          {@link seks.basic.pojos.DocumentResult} object
      * 
-     * @see #getSharedConcepts(java.util.HashMap, java.util.HashMap) 
-     * @see DocumentResult
-     * @see CalculusTools
-     * @see CalculusTools#euclidianDistanceAlgorithm(double, double, double) 
+     * @see seks.advanced.semantic.vectors.SemanticVectorComparison#getSharedConcepts(java.util.HashMap, java.util.HashMap) 
+     * @see seks.basic.pojos.DocumentResult
+     * @see seks.basic.calculus.CalculusTools
+     * @see seks.basic.calculus.CalculusTools#euclidianDistanceAlgorithm(double, double, double) 
      */
     public DocumentResult compareSemanticVectors(HashMap<String, SemanticWeight> semanticVector1, HashMap<String, SemanticWeight> semanticVector2, ArrayList<String> sharedConcepts) ;
     
     /**
-     * Retrieves from the database the set of {@link SemanticWeight} instances 
+     * Retrieves from the database the set of {@link seks.basic.pojos.SemanticWeight} instances 
      * which have the foreign key given by the input parameter.
      * 
      * @param documentID    An unique document's URI
      * 
      * @return              A document's semantic vector, in the form of an 
-     *                      {@link HashMap} object, with the most relevant 
-     *                      concepts as the set of keys, and the {@link SemanticWeight}
+     *                      {@link java.util.HashMap} object, with the most relevant 
+     *                      concepts as the set of keys, and the {@link seks.basic.pojos.SemanticWeight}
      *                      objects as values
      * 
-     * @see DatabaseInteraction
-     * @see DatabaseInteraction#openConnection(java.lang.String) 
-     * @see DatabaseInteraction#callProcedure(java.sql.Connection, java.lang.String) 
-     * @see DatabaseInteraction#closeConnection(java.sql.Connection) 
-     * @see SemanticWeight
-     * @see HashMap
-     * @see Connection
-     * @see ResultSet
+     * @see seks.basic.database.DatabaseInteraction
+     * @see seks.basic.database.DatabaseInteraction#openConnection(java.lang.String) 
+     * @see seks.basic.database.DatabaseInteraction#callProcedure(java.sql.Connection, java.lang.String) 
+     * @see seks.basic.database.DatabaseInteraction#closeConnection(java.sql.Connection) 
+     * @see seks.basic.pojos.SemanticWeight
+     * @see java.util.HashMap
+     * @see java.sql.Connection
+     * @see java.sql.ResultSet
      */
     public HashMap<String, SemanticWeight> getSemanticVectorByDocumentID(String documentID) ;
     
@@ -70,13 +70,13 @@ public interface SemanticVectorComparison {
      * Retrieves the URI's of all documents comprised in the system's document 
      * repository.
      * 
-     * @return  The list of URI's in the form of an {@link ArrayList} object
+     * @return  The list of URI's in the form of an {@link java.util.ArrayList} object
      * 
-     * @see DatabaseInteraction
-     * @see DatabaseInteraction#openConnection(java.lang.String) 
-     * @see DatabaseInteraction#callProcedure(java.sql.Connection, java.lang.String) 
-     * @see DatabaseInteraction#closeConnection(java.sql.Connection) 
-     * @see ArrayList
+     * @see seks.basic.database.DatabaseInteraction
+     * @see seks.basic.database.DatabaseInteraction#openConnection(java.lang.String) 
+     * @see seks.basic.database.DatabaseInteraction#callProcedure(java.sql.Connection, java.lang.String) 
+     * @see seks.basic.database.DatabaseInteraction#closeConnection(java.sql.Connection) 
+     * @see java.util.ArrayList
      */
     public ArrayList<String> getDocumentURIs() ;
     
@@ -84,14 +84,14 @@ public interface SemanticVectorComparison {
      * Sorts the documents which form the response to a specific query, 
      * according to their relevance to resolve the query.
      * 
-     * @param documentResults   The list of {@link DocumentResult} objects to be 
+     * @param documentResults   The list of {@link seks.basic.pojos.DocumentResult} objects to be 
      *                          sorted
-     * @return                  The list of sorted {@link DocumentResult} 
+     * @return                  The list of sorted {@link seks.basic.pojos.DocumentResult} 
      *                          objects
      * 
-     * @see #compareSemanticVectors(java.util.HashMap, java.util.HashMap, java.util.ArrayList) 
-     * @see DocumentResult
-     * @see ArrayList
+     * @see seks.advanced.semantic.vectors.SemanticVectorComparison#compareSemanticVectors(java.util.HashMap, java.util.HashMap, java.util.ArrayList) 
+     * @see seks.basic.pojos.DocumentResult
+     * @see java.util.ArrayList
      */
     public ArrayList<DocumentResult> sortDocumentResultsByRelevance(ArrayList<DocumentResult> documentResults) ;
 }

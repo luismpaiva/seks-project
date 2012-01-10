@@ -17,19 +17,19 @@ public interface DatabaseInteraction {
      * Establishes a new connection with the database.
      * 
      * @param configFileName    The name and path of the XML configuration file
-     * @return                  A {@link Connection} object
+     * @return                  A {@link java.sql.Connection} object
      * 
-     * @see #loadConfigParams(java.lang.String) 
-     * @see Connection
+     * @see seks.basic.database.DatabaseInteraction#loadConfigParams(java.lang.String) 
+     * @see java.sql.Connection
      */
     public Connection openConnection(String configFileName) ;
     
     /**
-     * Kills the input {@link Connection} link object.
+     * Kills the input {@link java.sql.Connection} link object.
      * 
-     * @param con   A {@link Connection} object
+     * @param con   A {@link java.sql.Connection} object
      * 
-     * @see Connection
+     * @see java.sql.Connection
      */
     public void closeConnection(Connection con) ;
     
@@ -40,15 +40,15 @@ public interface DatabaseInteraction {
      * Executes a MySQL database routine/procedure with name given by the input 
      * parameter <code>procedure</code>.
      * 
-     * @param con       A {@link Connection} object to manage the link to the 
+     * @param con       A {@link java.sql.Connection} object to manage the link to the 
      *                  database
      * @param procedure The name of the routine
      * 
      * @return          The result of the routine execution, in the form of a
-     *                  {@link ResultSet} object
+     *                  {@link java.sql.ResultSet} object
      * 
-     * @see Connection
-     * @see ResultSet
+     * @see java.sql.Connection
+     * @see java.sql.ResultSet
      */
     public ResultSet callProcedure(Connection con, String procedure) ;
     

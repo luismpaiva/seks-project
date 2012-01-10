@@ -24,12 +24,12 @@ public interface KeywordBasedSVCreation {
      *                      object, comprising a set of keywords as keys and 
      *                      their respective weights as values
      * 
-     * @see DatabaseInteraction
-     * @see DatabaseInteraction#openConnection(java.lang.String) 
-     * @see DatabaseInteraction#callProcedure(java.sql.Connection, java.lang.String) 
-     * @see DatabaseInteraction#closeConnection(java.sql.Connection) 
-     * @see Connection
-     * @see ResultSet
+     * @see seks.basic.database.DatabaseInteraction
+     * @see seks.basic.database.DatabaseInteraction#openConnection(java.lang.String) 
+     * @see seks.basic.database.DatabaseInteraction#callProcedure(java.sql.Connection, java.lang.String) 
+     * @see seks.basic.database.DatabaseInteraction#closeConnection(java.sql.Connection) 
+     * @see java.sql.Connection
+     * @see java.sql.ResultSet
      * @see HashMap
      */
     public HashMap<String, Double> getStatisticalVectorByDocumentURI(String documentURI) ;
@@ -49,9 +49,9 @@ public interface KeywordBasedSVCreation {
      *                      {@link ArrayList} objects with the 
      *                      concepts' matched keywords as values
      * 
-     * @see #getStatisticalVectorByDocumentURI(java.lang.String)
-     * @see OntologyInteraction
-     * @see OntologyInteraction#getSubjectsFromTriple(java.lang.String, java.lang.String) 
+     * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#getStatisticalVectorByDocumentURI(java.lang.String)
+     * @see seks.basic.ontology.OntologyInteraction
+     * @see seks.basic.ontology.OntologyInteraction#getSubjectsFromTriple(java.lang.String, java.lang.String) 
      * @see HashMap
      * @see ArrayList
      */
@@ -78,8 +78,8 @@ public interface KeywordBasedSVCreation {
      *                              and the calculated total weights for each 
      *                              concept as values
      * 
-     * @see #getConceptsFromKeywords(java.util.HashMap) 
-     * @see #getStatisticalVectorByDocumentURI(java.lang.String)
+     * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#getConceptsFromKeywords(java.util.HashMap) 
+     * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#getStatisticalVectorByDocumentURI(java.lang.String)
      * @see HashMap
      * @see ArrayList
      */
@@ -100,9 +100,9 @@ public interface KeywordBasedSVCreation {
      * @return                      The hierarchical array of concepts, in the 
      *                              form of a {@link ArrayList} object
      * 
-     * @see #getConceptsTotalWeights(java.util.HashMap, java.util.HashMap) 
-     * @see #getConceptsFromKeywords(java.util.HashMap) 
-     * @see #getStatisticalVectorByDocumentURI(java.lang.String)
+     * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#getConceptsTotalWeights(java.util.HashMap, java.util.HashMap) 
+     * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#getConceptsFromKeywords(java.util.HashMap) 
+     * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#getStatisticalVectorByDocumentURI(java.lang.String)
      * @see HashMap
      * @see ArrayList
      */
@@ -135,21 +135,21 @@ public interface KeywordBasedSVCreation {
      *                              concept's weight, ontological parent class, 
      *                              and other data
      * 
-     * @see #sortConceptsByRelevance(java.util.HashMap) 
-     * @see #getConceptsTotalWeights(java.util.HashMap, java.util.HashMap) 
-     * @see #getConceptsFromKeywords(java.util.HashMap) 
-     * @see #getStatisticalVectorByDocumentURI(java.lang.String)
-     * @see SemanticWeight
-     * @see CalculusTools
-     * @see CalculusTools#tfIdfAlgorithm(int, int, double, double)
-     * @see DatabaseInteraction
-     * @see DatabaseInteraction#openConnection(java.lang.String) 
-     * @see DatabaseInteraction#callProcedure(java.sql.Connection, java.lang.String) 
-     * @see DatabaseInteraction#closeConnection(java.sql.Connection) 
-     * @see OntologyInteraction
-     * @see OntologyInteraction#getIndividualDirectParentClass(java.lang.String) 
-     * @see Connection
-     * @see ResultSet
+     * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#sortConceptsByRelevance(java.util.HashMap) 
+     * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#getConceptsTotalWeights(java.util.HashMap, java.util.HashMap) 
+     * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#getConceptsFromKeywords(java.util.HashMap) 
+     * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#getStatisticalVectorByDocumentURI(java.lang.String)
+     * @see seks.basic.pojos.SemanticWeight
+     * @see seks.basic.calculus.CalculusTools
+     * @see seks.basic.calculus.CalculusTools#tfIdfAlgorithm(int, int, double, double)
+     * @see seks.basic.database.DatabaseInteraction
+     * @see seks.basic.database.DatabaseInteraction#openConnection(java.lang.String) 
+     * @see seks.basic.database.DatabaseInteraction#callProcedure(java.sql.Connection, java.lang.String) 
+     * @see seks.basic.database.DatabaseInteraction#closeConnection(java.sql.Connection) 
+     * @see seks.basic.ontology.OntologyInteraction
+     * @see seks.basic.ontology.OntologyInteraction#getIndividualDirectParentClass(java.lang.String) 
+     * @see java.sql.Connection
+     * @see java.sql.ResultSet
      * @see HashMap
      * @see ArrayList
      */
@@ -162,21 +162,20 @@ public interface KeywordBasedSVCreation {
      * 
      * @param semanticVector    The document's semantic vector, in the form of a
      *                          {@link HashMap} object, with the relevant 
-     *                          concepts as the set of keys, and a {@link SemanticWeight} 
+     *                          concepts as the set of keys, and a {@link seks.basic.pojos.SemanticWeight} 
      *                          object with the concept's weight, ontological 
      *                          parent class, and other data
      * 
      * @return                  The document's semantic vector with the weights 
      *                          normalized
      * 
-     * @see #createKeywordBasedSemanticVector(java.lang.String, java.util.HashMap, java.util.ArrayList) 
-     * @see #sortConceptsByRelevance(java.util.HashMap) 
-     * @see #getConceptsTotalWeights(java.util.HashMap, java.util.HashMap) 
-     * @see #getConceptsFromKeywords(java.util.HashMap) 
-     * @see #getStatisticalVectorByDocumentURI(java.lang.String)
-     * @see SemanticWeight
-     * @see CalculusTools
-     * @see CalculusTools#normalization(double, double) 
+     * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#createKeywordBasedSemanticVector(java.lang.String, java.util.HashMap, java.util.ArrayList) 
+     * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#sortConceptsByRelevance(java.util.HashMap) 
+     * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#getConceptsTotalWeights(java.util.HashMap, java.util.HashMap) 
+     * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#getConceptsFromKeywords(java.util.HashMap) 
+     * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#getStatisticalVectorByDocumentURI(java.lang.String)
+     * @see seks.basic.calculus.CalculusTools
+     * @see seks.basic.calculus.CalculusTools#normalization(double, double) 
      */
     public HashMap<String, SemanticWeight> semanticVectorNormalization(HashMap<String, SemanticWeight> semanticVector) ;
     
@@ -187,20 +186,20 @@ public interface KeywordBasedSVCreation {
      * 
      * @param semanticVector    The document's semantic vector, in the form of a
      *                          {@link HashMap} object, with the relevant 
-     *                          concepts as the set of keys, and a {@link SemanticWeight} 
+     *                          concepts as the set of keys, and a {@link seks.basic.pojos.SemanticWeight} 
      *                          object with the concept's weight, ontological 
      *                          parent class, and other data
      * 
-     * @see #semanticVectorNormalization(java.util.HashMap) 
-     * @see #createKeywordBasedSemanticVector(java.lang.String, java.util.HashMap, java.util.ArrayList) 
-     * @see #sortConceptsByRelevance(java.util.HashMap) 
-     * @see #getConceptsTotalWeights(java.util.HashMap, java.util.HashMap) 
-     * @see #getConceptsFromKeywords(java.util.HashMap) 
-     * @see #getStatisticalVectorByDocumentURI(java.lang.String)
-     * @see DatabaseInteraction
-     * @see DatabaseInteraction#openConnection(java.lang.String) 
-     * @see DatabaseInteraction#callProcedure(java.sql.Connection, java.lang.String) 
-     * @see DatabaseInteraction#closeConnection(java.sql.Connection) 
+     * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#semanticVectorNormalization(java.util.HashMap) 
+     * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#createKeywordBasedSemanticVector(java.lang.String, java.util.HashMap, java.util.ArrayList) 
+     * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#sortConceptsByRelevance(java.util.HashMap) 
+     * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#getConceptsTotalWeights(java.util.HashMap, java.util.HashMap) 
+     * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#getConceptsFromKeywords(java.util.HashMap) 
+     * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#getStatisticalVectorByDocumentURI(java.lang.String)
+     * @see seks.basic.database.DatabaseInteraction
+     * @see seks.basic.database.DatabaseInteraction#openConnection(java.lang.String) 
+     * @see seks.basic.database.DatabaseInteraction#callProcedure(java.sql.Connection, java.lang.String) 
+     * @see seks.basic.database.DatabaseInteraction#closeConnection(java.sql.Connection) 
      */
     public void storeSemanticVector(HashMap<String, SemanticWeight> semanticVector) ;
 }
