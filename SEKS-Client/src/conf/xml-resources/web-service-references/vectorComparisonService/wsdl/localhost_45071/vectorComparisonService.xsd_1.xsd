@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Metro/2.1.1-b09 (branches/2.1-6834; 2011-07-16T17:14:48+0000) JAXWS-RI/2.2.5-promoted-b04 JAXWS/2.2. --><xs:schema xmlns:tns="http://services.web.advanced.seks/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://services.web.advanced.seks/">
+
+<xs:element name="compareSemanticVectors" type="tns:compareSemanticVectors"/>
+
+<xs:element name="compareSemanticVectorsResponse" type="tns:compareSemanticVectorsResponse"/>
+
+<xs:element name="getDocumentIds" type="tns:getDocumentIds"/>
+
+<xs:element name="getDocumentIdsResponse" type="tns:getDocumentIdsResponse"/>
+
+<xs:element name="getSemanticVectorByDocumentId" type="tns:getSemanticVectorByDocumentId"/>
+
+<xs:element name="getSemanticVectorByDocumentIdResponse" type="tns:getSemanticVectorByDocumentIdResponse"/>
+
+<xs:element name="getSharedConcepts" type="tns:getSharedConcepts"/>
+
+<xs:element name="getSharedConceptsResponse" type="tns:getSharedConceptsResponse"/>
+
+<xs:element name="sortDocumentResultsByRelevance" type="tns:sortDocumentResultsByRelevance"/>
+
+<xs:element name="sortDocumentResultsByRelevanceResponse" type="tns:sortDocumentResultsByRelevanceResponse"/>
+
+<xs:complexType name="getSharedConcepts">
+<xs:sequence>
+<xs:element name="documentSemanticVector" type="xs:string" minOccurs="0"/>
+<xs:element name="querySemanticVector" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getSharedConceptsResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="compareSemanticVectors">
+<xs:sequence>
+<xs:element name="documentSemanticVector" type="xs:string" minOccurs="0"/>
+<xs:element name="querySemanticVector" type="xs:string" minOccurs="0"/>
+<xs:element name="sharedConcepts" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="compareSemanticVectorsResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:documentResult" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="documentResult">
+<xs:sequence>
+<xs:element name="idDocument" type="xs:string" minOccurs="0"/>
+<xs:element name="relevancePercentage" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sortDocumentResultsByRelevance">
+<xs:sequence>
+<xs:element name="documentResults" type="tns:documentResult" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sortDocumentResultsByRelevanceResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:documentResult" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getSemanticVectorByDocumentId">
+<xs:sequence>
+<xs:element name="documentId" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getSemanticVectorByDocumentIdResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getDocumentIds">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getDocumentIdsResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

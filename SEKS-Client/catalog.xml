@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://localhost:45071/querySemanticVectorsService?wsdl" uri="src/conf/xml-resources/web-service-references/querySemanticVectorsService/wsdl/localhost_45071/querySemanticVectorsService.wsdl"/>
+    <system systemId="http://localhost:45071/querySemanticVectorsService?xsd=1" uri="src/conf/xml-resources/web-service-references/querySemanticVectorsService/wsdl/localhost_45071/querySemanticVectorsService.xsd_1.xsd"/>
+    <system systemId="http://localhost:45071/vectorComparisonService?wsdl" uri="src/conf/xml-resources/web-service-references/vectorComparisonService/wsdl/localhost_45071/vectorComparisonService.wsdl"/>
+    <system systemId="http://localhost:45071/vectorComparisonService?xsd=1" uri="src/conf/xml-resources/web-service-references/vectorComparisonService/wsdl/localhost_45071/vectorComparisonService.xsd_1.xsd"/>
+    <system systemId="http://localhost:45071/documentSemanticVectorsService?wsdl" uri="src/conf/xml-resources/web-service-references/documentSemanticVectorsService/wsdl/localhost_45071/documentSemanticVectorsService.wsdl"/>
+    <system systemId="http://localhost:45071/documentSemanticVectorsService?xsd=1" uri="src/conf/xml-resources/web-service-references/documentSemanticVectorsService/wsdl/localhost_45071/documentSemanticVectorsService.xsd_1.xsd"/>
+</catalog>
