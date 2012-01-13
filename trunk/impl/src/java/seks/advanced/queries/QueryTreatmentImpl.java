@@ -3,6 +3,9 @@ package seks.advanced.queries;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import seks.basic.ontology.OntologyInteraction;
+import seks.basic.ontology.OntologyInteractionImpl;
+import seks.basic.pojos.SemanticWeight;
 
 /**
  * Implementation class for interface QueryTreatment
@@ -10,6 +13,8 @@ import java.util.Iterator;
  * @author Paulo Figueiras
  */
 public class QueryTreatmentImpl implements QueryTreatment {
+    
+    private OntologyInteractionImpl oii ;
     
     /**
      * Class constructor.
@@ -76,5 +81,68 @@ public class QueryTreatmentImpl implements QueryTreatment {
             queryStatVector.put((String) iter.next(), keywordWeight) ;
         }
         return queryStatVector ;
+    }
+    
+    /**
+     * Mimics the creation of semantic vectors through the application of the 
+     * tf-idf algorithm, to generate a semantic vector for the query. The query 
+     * is considered a pseudo-document.
+     * 
+     * @param conceptsAndWeights    The query's concepts and respective weights, 
+     *                              in the form of a {@ link java.util.HashMap} 
+     *                              object, with the concepts as a set of keys
+     *                              and the weights as values
+     * 
+     * @return                      A semantic vector for the query, in the form 
+     *                              of a {@ link java.util.HashMap} object, whith 
+     *                              the concepts as the set of keys and 
+     *                              {@link seks.basic.pojos.SemanticWeight} 
+     *                              objects as values
+     * 
+     * @see seks.basic.pojos.SemanticWeight
+     * @see java.util.HashMap
+     */
+    @Override
+    public HashMap<String, SemanticWeight> createQuerySemanticVector(HashMap<String, Double> conceptsAndWeights) {
+        HashMap<String, SemanticWeight> semanticVector = new HashMap<String, SemanticWeight>() ;
+        OntologyInteraction oi = getOii() ;
+        Iterator iter = conceptsAndWeights.keySet().iterator() ;
+        
+        while (iter.hasNext()) {
+            String concept = (String) iter.next() ;
+            double weight = conceptsAndWeights.get(concept) ;
+            String parentClass = oi.getIndividualDirectParentClass(concept) ;
+            SemanticWeight sw = new SemanticWeight("query", parentClass, concept, weight) ;
+            semanticVector.put(concept, sw) ;
+        }
+        return semanticVector ;
+    }
+    
+    /**
+     * Retrieves all keywords from ontology.
+     * 
+     * @return  All ontology keywords, in the form of an {@link java.util.ArrayList}
+     *          object
+     */
+    @Override
+    public ArrayList<String> getKeywords() {
+        OntologyInteraction oi = new OntologyInteractionImpl() ;
+        String keyword = "" ;
+        ArrayList<String> list = oi.getAllValuesFromProperty("has_Keyword") ;
+        return list ;
+    }
+
+    /**
+     * @return the oii
+     */
+    public OntologyInteractionImpl getOii() {
+        return new OntologyInteractionImpl() ;
+    }
+
+    /**
+     * @param oii the oii to set
+     */
+    public void setOii(OntologyInteractionImpl oii) {
+        this.oii = oii;
     }
 }

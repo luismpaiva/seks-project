@@ -68,7 +68,7 @@ public class DatabaseInteractionImpl implements DatabaseInteraction {
             }
             dbUrl = params.get(sParams[0]);
             dbUser = params.get(sParams[1]);
-            dbPasswd = params.get(sParams[2]);
+            //dbPasswd = params.get(sParams[2]);
             dbDriver = params.get(sParams[3]);
 
         } catch (MissingParamException ex) {
