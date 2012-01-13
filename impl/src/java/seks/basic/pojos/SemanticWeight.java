@@ -1,11 +1,13 @@
 package seks.basic.pojos;
 
+import java.io.Serializable;
+
 /**
  * Semantic Weight object class.
  * 
  * @author Paulo Figueiras
  */
-public class SemanticWeight {
+public class SemanticWeight implements Serializable{
     private String idDocument ;
     private String parentClass ;
     private String concept;

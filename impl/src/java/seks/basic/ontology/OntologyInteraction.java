@@ -142,6 +142,17 @@ public interface OntologyInteraction {
      */
     public ArrayList<String> getAllValuesFromProperty(String propertyName) ;
     
+    /**
+     * Retrives the taxonomical depth of the ontology class with localname given 
+     * by the input parameter.
+     * 
+     * @param className The localname for an ontology class
+     * 
+     * @return          The taxonomical depth of that class
+     * 
+     * @see com.hp.hpl.jena.ontology.OntClass
+     */
+    public int getClassDepth(String className) ;
     
     /*  Semantic Boolean Operators  */
     

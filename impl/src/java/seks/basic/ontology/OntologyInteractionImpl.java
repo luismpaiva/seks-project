@@ -236,6 +236,28 @@ public class OntologyInteractionImpl implements OntologyInteraction {
         return list ;
     }
     
+    /**
+     * Retrives the taxonomical depth of the ontology class with localname given 
+     * by the input parameter.
+     * 
+     * @param className The localname for an ontology class
+     * 
+     * @return          The taxonomical depth of that class
+     * 
+     * @see com.hp.hpl.jena.ontology.OntClass
+     */
+    @Override
+    public int getClassDepth(String className) {
+        int depth = 0 ;
+        OntClass cls = this.getClass(className) ;
+        while (!cls.getLocalName().equals("Concept")) {
+            depth++ ;
+            cls = cls.getSuperClass() ;
+        }
+        return depth ;
+    }
+    
+    
     /*  Semantic Boolean Operators  */
     
     /**

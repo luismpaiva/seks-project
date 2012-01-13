@@ -1,11 +1,13 @@
 package seks.basic.pojos;
 
+import java.io.Serializable;
+
 /**
  * Document Result object class.
  * 
  * @author Paulo Figueiras
  */
-public class DocumentResult {
+public class DocumentResult implements Serializable {
     
     private String idDocument ;
     private int relevancePercentage ;
