@@ -56,4 +56,44 @@ public interface CalculusTools {
      *                                  the two vectors
      */
     public int euclidianDistanceAlgorithm(double sharedWeightsSum, double vector1SquaredWeightsSum, double vector2SquaredWeightsSum) ;
+    
+    /**
+     * Calculates the similarity factor between two homologous concepts with depths given, respectively, by
+     * <code>depthA</code> and <code>depthB</code>, and total numbers of sub-classes, respectively, by
+     * <code>sonsA</code> and <code>sonsB</code>.
+     * 
+     * @param alpha     Adjusts the weight of the ancestor concept (<code>depthA</code>)
+     * 
+     * @param beta      Adjusts the weight of the distance between the concepts (<code>dAB</code>)
+     * 
+     * @param depthA    Taxonomical depth of the ancestor concept
+     * 
+     * @param depthB    Taxonomical depth of the sibling concept
+     * 
+     * @param sonsA     Total number of sub-concepts of the ancestor concept
+     * 
+     * @param sonsB     Total number of sub-concepts of the sibling concept
+     * 
+     * @return          The value of the taxonomical similarity factor between the homologous concepts
+     */
+    public double homologousFactorAlgorithm(double alpha, double beta, int depthA, int depthB, int sonsA, int sonsB) ;
+    
+    /**
+     * Calculates the similarity factor between two non-homologous concepts with depths given, respectively, by
+     * <code>depthA</code> and <code>depthB</code>, and total numbers of sub-classes, respectively, by
+     * <code>sonsA</code> and <code>sonsB</code>.
+     * 
+     * @param alpha     Adjusts the weight of the ancestor concept (<code>depthR</code>)
+     * 
+     * @param beta      Adjusts the weight of the distance between the concepts (<code>dAB</code>)
+     * 
+     * @param depthA    Taxonomical depth of the first concept
+     * @param depthB    Taxonomical depth of the second concept
+     * @param depthR    Taxonomical depth of the ancestor concept
+     * @param sonsA     Total number of sub-concepts of the first concept
+     * @param sonsB     Total number of sub-concepts of the second concept
+     * @param sonsR     Total number of sub-concepts of the ancestor concept
+     * @return          The value of the taxonomical similarity factor between the non-homologous concepts
+     */
+    public double nonHomologousFactorAlgorithm(double alpha, double beta, int depthA, int depthB, int depthR, int sonsA, int sonsB, int sonsR) ;
 }

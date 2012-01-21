@@ -11,6 +11,7 @@ import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
+import com.hp.hpl.jena.util.iterator.ExtendedIterator;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -70,41 +71,95 @@ public class OntologyInteractionImpl implements OntologyInteraction {
     }
     
     /**
+     * 
+     * @param className
+     * @return
+     */
+    @Override
+    public int getSubClassesNumber(String className) {
+        OntClass cls = this.getClass(className) ;
+        int count = 0 ;
+        if(cls.hasSubClass()) {
+            ExtendedIterator iter = cls.listSubClasses() ;
+            while (iter.hasNext()) {
+                cls = (OntClass) iter.next() ;
+                count++ ;
+                count += this.getSubClassesNumber(cls.getLocalName());
+            }
+        }
+        return count ;
+    }
+    
+    /**
      * Retrieves the local name of the first (direct) ontology class that is 
-     * parent of the individual who's local name is the input parameter.
+     * parent of the ontology resource who's local name is the input parameter.
      * 
-     * @param individualName    The {@link com.hp.hpl.jena.ontology.Individual}'s local name
+     * @param resourceName    The {@link com.hp.hpl.jena.ontology.OntResource}'s local name
      * 
-     * @return                  The {@link com.hp.hpl.jena.ontology.Individual}'s direct parent class local name
+     * @return                  The {@link com.hp.hpl.jena.ontology.OntResource}'s direct parent class local name
      * 
-     * @see seks.basic.ontology.OntologyInteraction#getIndividualAbsoluteParentClass(java.lang.String) 
-     * @see seks.basic.ontology.OntologyInteraction#getIndividual(java.lang.String) 
+     * @see seks.basic.ontology.OntologyInteraction#getAbsoluteParentClass(java.lang.String) 
+     * @see seks.basic.ontology.OntologyInteraction#isIndividual(java.lang.String) 
+     * @see seks.basic.ontology.OntologyInteraction#isClass(java.lang.String)
+     * @see seks.basic.ontology.OntologyInteraction#getIndividual(java.lang.String)
      * @see com.hp.hpl.jena.ontology.Individual
      */
     @Override
-    public String getIndividualDirectParentClass(String individualName) {
-        Individual individual = this.getIndividual(individualName) ;
-        return individual.getOntClass().getLocalName() ;
+    public String getDirectParentClass(String resourceName) {
+        OntResource resource = m.getOntResource(namespace + resourceName) ;
+        if (this.isClass(resourceName)) {
+            OntClass cls = resource.asClass() ;
+            return cls.getSuperClass().getLocalName() ;
+        }
+        else if (this.isIndividual(resourceName)) {
+            Individual ind = this.getIndividual(resourceName) ;
+            return ind.getOntClass().getLocalName() ;
+        }
+        else return null ;
     }
     
     /**
      * Retrieves the local name of the last (absolute) ontology class that is 
-     * parent of the individual who's local name is the input parameter.
+     * parent of the ontology resource who's local name is the input parameter.
      * 
-     * @param individualName    The {@link com.hp.hpl.jena.ontology.Individual}'s local name
+     * @param resourceName    The {@link com.hp.hpl.jena.ontology.OntResource}'s local name
      * 
-     * @return                  The {@link com.hp.hpl.jena.ontology.Individual}'s parent absolute class local name
+     * @return                  The {@link com.hp.hpl.jena.ontology.OntResource}'s parent absolute class local name
      * 
-     * @see seks.basic.ontology.OntologyInteraction#getIndividualDirectParentClass(java.lang.String) 
+     * @see seks.basic.ontology.OntologyInteraction#getDirectParentClass(java.lang.String) 
      * @see com.hp.hpl.jena.ontology.OntModel
      */
     @Override
-    public String getIndividualAbsoluteParentClass(String individualName) {
-        String className = this.getIndividualAbsoluteParentClass(individualName) ;
+    public String getAbsoluteParentClass(String resourceName) {
+        String className = this.getAbsoluteParentClass(resourceName) ;
         while(!m.getOntClass(namespace + className).getSuperClass().getLocalName().equals("Concept")) {
             className = m.getOntClass(namespace + className).getSuperClass().getLocalName() ;
         }
         return className ;
+    }
+    
+    /**
+     * Retrieves the local names of all ontology classes that are 
+     * parents of the ontology resource who's local name is the input parameter.
+     * 
+     * @param resourceName    The {@link com.hp.hpl.jena.ontology.OntResource}'s local name
+     * 
+     * @return                  The {@link com.hp.hpl.jena.ontology.OntResource}'s 
+     *                          parent classes local names, in the form of an {@link java.util.ArrayList}
+     *                          object
+     * 
+     * @see seks.basic.ontology.OntologyInteraction#getDirectParentClass(java.lang.String) 
+     */
+    @Override
+    public ArrayList<String> getAllParentClasses(String resourceName) {
+        ArrayList<String> superClasses = new ArrayList<String>() ;
+        String className = this.getDirectParentClass(resourceName) ;
+        while (!className.equals("Concept")) {
+            superClasses.add(className) ;
+            className = this.getDirectParentClass(className) ;
+        }
+        superClasses.add("Concept") ;
+        return superClasses ;
     }
     
     /**
@@ -237,19 +292,28 @@ public class OntologyInteractionImpl implements OntologyInteraction {
     }
     
     /**
-     * Retrives the taxonomical depth of the ontology class with localname given 
+     * Retrives the taxonomical depth of the ontology resource with localname given 
      * by the input parameter.
      * 
-     * @param className The localname for an ontology class
+     * @param resourceName The localname for an ontology resource
      * 
-     * @return          The taxonomical depth of that class
+     * @return          The taxonomical depth of that resource
      * 
      * @see com.hp.hpl.jena.ontology.OntClass
      */
     @Override
-    public int getClassDepth(String className) {
+    public int getDepth(String resourceName) {
         int depth = 0 ;
-        OntClass cls = this.getClass(className) ;
+        OntClass cls = null ;
+        if (this.isClass(resourceName)) {
+            cls = this.getClass(resourceName) ;
+        }
+        else if (this.isIndividual(resourceName)) {
+            cls = this.getClass(this.getDirectParentClass(resourceName)) ;
+        }
+        if(cls.getLocalName().equals("Concept")) {
+            return 0 ;
+        }
         while (!cls.getLocalName().equals("Concept")) {
             depth++ ;
             cls = cls.getSuperClass() ;

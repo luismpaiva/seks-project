@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
   <services>
-    <service name="documentSemanticVectorsService">
-      <implementation-class>seks.advanced.web.services.documentSemanticVectorsService</implementation-class>
-    </service>
     <service name="querySemanticVectorsService">
       <implementation-class>seks.advanced.web.services.querySemanticVectorsService</implementation-class>
     </service>
     <service name="vectorComparisonService">
       <implementation-class>seks.advanced.web.services.vectorComparisonService</implementation-class>
+    </service>
+    <service name="documentSemanticVectorsService">
+      <implementation-class>seks.advanced.web.services.documentSemanticVectorsService</implementation-class>
     </service>
   </services>
   <clients/>

@@ -85,4 +85,65 @@ public class CalculusToolsImpl implements CalculusTools {
         }
         return resultInt ;
     }
+    
+    /**
+     * Calculates the similarity factor between two homologous concepts with depths given, respectively, by
+     * <code>depthA</code> and <code>depthB</code>, and total numbers of sub-classes, respectively, by
+     * <code>sonsA</code> and <code>sonsB</code>.
+     * 
+     * @param alpha     Adjusts the weight of the ancestor concept (<code>depthA</code>)
+     * 
+     * @param beta      Adjusts the weight of the distance between the concepts (<code>dAB</code>)
+     * 
+     * @param depthA    Taxonomical depth of the ancestor concept
+     * 
+     * @param depthB    Taxonomical depth of the sibling concept
+     * 
+     * @param sonsA     Total number of sub-concepts of the ancestor concept
+     * 
+     * @param sonsB     Total number of sub-concepts of the sibling concept
+     * 
+     * @return          The value of the taxonomical similarity factor between the homologous concepts
+     */
+    @Override
+    public double homologousFactorAlgorithm(double alpha, double beta, int depthA, int depthB, int sonsA, int sonsB) {
+        double result = 0.0 ;
+        /*
+         A - Ancestor node
+         B - Sibling node
+         */
+        double dAB = (double)depthB - (double)depthA ;
+        result = (1-(alpha/((double)depthA + 1)))*(beta/dAB)*((double)sonsB/(double)sonsA) ;
+        return result ;
+    }
+    
+    /**
+     * Calculates the similarity factor between two non-homologous concepts with depths given, respectively, by
+     * <code>depthA</code> and <code>depthB</code>, and total numbers of sub-classes, respectively, by
+     * <code>sonsA</code> and <code>sonsB</code>.
+     * 
+     * @param alpha     Adjusts the weight of the ancestor concept (<code>depthR</code>)
+     * 
+     * @param beta      Adjusts the weight of the distance between the concepts (<code>dAB</code>)
+     * 
+     * @param depthA    Taxonomical depth of the first concept
+     * @param depthB    Taxonomical depth of the second concept
+     * @param depthR    Taxonomical depth of the ancestor concept
+     * @param sonsA     Total number of sub-concepts of the first concept
+     * @param sonsB     Total number of sub-concepts of the second concept
+     * @param sonsR     Total number of sub-concepts of the ancestor concept
+     * @return          The value of the taxonomical similarity factor between the non-homologous concepts
+     */
+    @Override
+    public double nonHomologousFactorAlgorithm(double alpha, double beta, int depthA, int depthB, int depthR, int sonsA, int sonsB, int sonsR) {
+        double result = 0.0 ;
+        // In the paper the two values below are inverse-calculated, which means that they would be negative, so I changed the parameters of both subtractions
+        double dRA = (double) depthA - (double) depthR ;
+        double dRB = (double) depthB - (double) depthR ;
+        double dAB = dRA + dRB ;
+        
+        result = (1-(alpha/((double)depthR + 1)))*(beta/dAB)*(((double)sonsA + (double)sonsB)/sonsR) ;
+        
+        return result ;
+    }
 }

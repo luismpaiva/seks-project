@@ -145,7 +145,7 @@ public class SemanticVectorComparisonImpl implements SemanticVectorComparison {
         HashMap<String, SemanticWeight> semanticVector = new HashMap<String, SemanticWeight>() ;
         Connection con = di.openConnection("svdbConfig.xml") ;
         try {
-            ResultSet params = di.callProcedure(con, "svdb.getSemanticWeightsWithDocURI(\"" + documentID + "\")") ;
+            ResultSet params = di.callProcedure(con, "svdb.getSemanticWeightsWithDocID(\"" + documentID + "\")") ;
             while (params.next()) { 
                 SemanticWeight sw = new SemanticWeight(documentID, params.getString("parentClass"), params.getString("concept"), params.getDouble("weight")) ;
                 semanticVector.put(sw.getConcept(), sw) ;
@@ -175,7 +175,7 @@ public class SemanticVectorComparisonImpl implements SemanticVectorComparison {
         ArrayList<String> URIs = new ArrayList<String>() ;
         Connection con = di.openConnection("svdbConfig.xml") ;
         try {
-            ResultSet rs = di.callProcedure(con, "svdb.getDocumentURIs") ;
+            ResultSet rs = di.callProcedure(con, "svdb.getDocumentIDs") ;
             while(rs.next()) {
                 URIs.add(rs.getString("idDocument")) ;
             }

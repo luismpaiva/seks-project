@@ -60,7 +60,7 @@ public class KeywordBasedSVCreationImpl implements KeywordBasedSVCreation {
         try {
             DatabaseInteraction di = getDii() ;
             Connection con = di.openConnection("svdbConfig.xml") ;
-            ResultSet rs = di.callProcedure(con, "svdb.getStatisticWeightsWithDocURI('" + documentURI + "')") ;
+            ResultSet rs = di.callProcedure(con, "svdb.getStatisticWeightsWithDocID('" + documentURI + "')") ;
             HashMap<String, Double> statVector = new HashMap<String, Double>() ;
             
             while (rs.next()) {
@@ -108,6 +108,7 @@ public class KeywordBasedSVCreationImpl implements KeywordBasedSVCreation {
             ArrayList<String> concepts = oi.getSubjectsFromTriple(keyword, "has_Keyword") ;
             if (!concepts.isEmpty()) {
                 for(int i = 0; i < concepts.size(); i++) {
+                    
                     if (conceptsAndKeywords.containsKey(concepts.get(i))) {
                         keywords = (ArrayList<String>) conceptsAndKeywords.get(concepts.get(i)) ;
                         keywords.add(keyword);
@@ -155,11 +156,44 @@ public class KeywordBasedSVCreationImpl implements KeywordBasedSVCreation {
         Iterator iter = concepts.iterator() ;
         ArrayList<String> keywords = new ArrayList<String>() ;
         HashMap<String, Double> conceptsAndWeights = new HashMap<String, Double>() ;
+        
+        HashMap<String, Integer> conceptsPerKeyword = new HashMap<String, Integer>() ;
+        
         if (!conceptsAndKeywords.isEmpty()) {
+            
+            while (iter.hasNext()) {
+                String concept = (String) iter.next() ;
+                keywords = conceptsAndKeywords.get(concept) ;
+                
+                for (int i = 0; i < keywords.size(); i++) {
+                    if (conceptsPerKeyword.containsKey(keywords.get(i))) {
+                        int value = conceptsPerKeyword.get(keywords.get(i)) + 1 ;
+                        conceptsPerKeyword.put(keywords.get(i), value) ;
+                    }
+                    else {
+                        conceptsPerKeyword.put(keywords.get(i), 1) ;
+                    }
+                }
+            }
+            
+            iter = conceptsPerKeyword.keySet().iterator() ;
+            
+            while (iter.hasNext()) {
+                String keyword = (String) iter.next() ;
+                if (conceptsPerKeyword.get(keyword) > 1) {
+                    double conceptsNum = (double)conceptsPerKeyword.get(keyword) ;
+                    double value = statVector.get(keyword) ;
+                    statVector.put(keyword, (value/conceptsNum)) ;
+                }
+            }
+            
+            iter = concepts.iterator() ;
+            
             while (iter.hasNext()) {
                 String concept = (String) iter.next() ;
                 Double totalWeight = 0.0 ;
                 keywords = (ArrayList<String>) conceptsAndKeywords.get(concept) ;
+                
                 for (int i = 0; i < keywords.size(); i++) {
                     totalWeight += (Double) statVector.get(keywords.get(i)) ;
                 }
@@ -275,15 +309,29 @@ public class KeywordBasedSVCreationImpl implements KeywordBasedSVCreation {
         Connection con = di.openConnection("svdbConfig.xml") ;
         String mostRelevantConcept = sortedConcepts.get(0) ;
         Double maxWeight = (Double) conceptsAndWeights.get(mostRelevantConcept) ; 
-        int totalDocNum = this.getTotalDocumentsNumber(con) + 1 ; // IMPORTANTE: para já tem que se somar o documento actual porque ele ainda não está na BD. Mais tarde terá de se tirar este 1 daqui
+        int totalDocNum = this.getTotalDocumentsNumber(con) ;
+        if (!documentURI.equals("query"))
+        {
+            totalDocNum++ ; // IMPORTANTE: para já tem que se somar o documento actual porque ele ainda não está na BD. Mais tarde terá de se tirar este 1 daqui
+        }
         
         for (int i = 0; i < sortedConcepts.size(); i++) {
             
             String concept = sortedConcepts.get(i) ;
             Double weight = (Double) conceptsAndWeights.get(concept) ;
-            int docNumWithConcept = this.getDocumentsNumberWithConcept(concept, con) + 1 ; // We have to take into accounnt the current document (+1)
-            Double result = ct.tfIdfAlgorithm(totalDocNum, docNumWithConcept, weight, maxWeight) ;
-            String parentClass = oi.getIndividualDirectParentClass(concept) ;
+            Double result = 0.0 ;
+            int docNumWithConcept = this.getDocumentsNumberWithConcept(concept, con) ; // We have to take into accounnt the current document (+1)
+            if (!documentURI.equals("query")){
+                docNumWithConcept++ ;
+            }
+            
+            if (docNumWithConcept == 0 && documentURI.equals("query")) {
+                result = 0.0 ;
+            }
+            else {
+                result = ct.tfIdfAlgorithm(totalDocNum, docNumWithConcept, weight, maxWeight) ;
+            }
+            String parentClass = oi.getDirectParentClass(concept) ;
             SemanticWeight sw = new SemanticWeight(documentURI, parentClass, concept, result) ;
             semanticVector.put(concept, sw) ;
         }
