@@ -111,7 +111,7 @@ public class QueryTreatmentImpl implements QueryTreatment {
         while (iter.hasNext()) {
             String concept = (String) iter.next() ;
             double weight = conceptsAndWeights.get(concept) ;
-            String parentClass = oi.getIndividualDirectParentClass(concept) ;
+            String parentClass = oi.getDirectParentClass(concept) ;
             SemanticWeight sw = new SemanticWeight("query", parentClass, concept, weight) ;
             semanticVector.put(concept, sw) ;
         }

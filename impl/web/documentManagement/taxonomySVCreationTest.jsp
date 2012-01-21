@@ -4,6 +4,8 @@
     Author     : Paulo Figueiras
 --%>
 
+<%@page import="seks.advanced.semantic.vectors.TaxonomyBasedSVCreationImpl"%>
+<%@page import="seks.advanced.semantic.vectors.TaxonomyBasedSVCreation"%>
 <%@page import="seks.basic.ontology.OntologyInteractionImpl"%>
 <%@page import="seks.basic.ontology.OntologyInteraction"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -17,8 +19,11 @@
         <h1>Hello World!</h1>
         <%
             OntologyInteraction oi = new OntologyInteractionImpl() ;
-            int i = oi.getClassDepth("Design_Actor") ;
+            int j = oi.getSubClassesNumber("Actor");
+            TaxonomyBasedSVCreation tbsvCreator = new TaxonomyBasedSVCreationImpl() ;
+            String i = tbsvCreator.checkHomologyBetweenConcepts("Architect", "Project") ;
         %>
         <p><%= i%></p>
+        <p><%= j%></p>
     </body>
 </html>

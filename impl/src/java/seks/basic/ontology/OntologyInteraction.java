@@ -3,10 +3,9 @@ package seks.basic.ontology;
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.ontology.OntResource;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.ontology.OntResource ;
 import java.util.ArrayList;
 
 /**
@@ -32,32 +31,50 @@ public interface OntologyInteraction {
      */
     public Individual getIndividual(String individualName) ;
     
+    public int getSubClassesNumber(String className) ;
+    
     /**
      * Retrieves the local name of the first (direct) ontology class that is 
-     * parent of the individual who's local name is the input parameter.
+     * parent of the ontology resource who's local name is the input parameter.
      * 
-     * @param individualName    The {@link com.hp.hpl.jena.ontology.Individual}'s local name
+     * @param resourceName    The {@link com.hp.hpl.jena.ontology.OntResource}'s local name
      * 
-     * @return                  The {@link com.hp.hpl.jena.ontology.Individual}'s direct parent class local name
+     * @return                  The {@link com.hp.hpl.jena.ontology.OntResource}'s direct parent class local name
      * 
-     * @see seks.basic.ontology.OntologyInteraction#getIndividualAbsoluteParentClass(java.lang.String) 
-     * @see seks.basic.ontology.OntologyInteraction#getIndividual(java.lang.String) 
+     * @see seks.basic.ontology.OntologyInteraction#getAbsoluteParentClass(java.lang.String) 
+     * @see seks.basic.ontology.OntologyInteraction#isIndividual(java.lang.String) 
+     * @see seks.basic.ontology.OntologyInteraction#isClass(java.lang.String)
+     * @see seks.basic.ontology.OntologyInteraction#getIndividual(java.lang.String)
      * @see com.hp.hpl.jena.ontology.Individual
      */
-    public String getIndividualDirectParentClass(String individualName) ;
+    public String getDirectParentClass(String resourceName) ;
     
     /**
      * Retrieves the local name of the last (absolute) ontology class that is 
-     * parent of the individual who's local name is the input parameter.
+     * parent of the ontology resource who's local name is the input parameter.
      * 
-     * @param individualName    The {@link com.hp.hpl.jena.ontology.Individual}'s local name
+     * @param resourceName    The {@link com.hp.hpl.jena.ontology.OntResource}'s local name
      * 
-     * @return                  The {@link com.hp.hpl.jena.ontology.Individual}'s parent absolute class local name
+     * @return                  The {@link com.hp.hpl.jena.ontology.OntResource}'s parent absolute class local name
      * 
-     * @see seks.basic.ontology.OntologyInteraction#getIndividualDirectParentClass(java.lang.String) 
+     * @see seks.basic.ontology.OntologyInteraction#getDirectParentClass(java.lang.String) 
      * @see com.hp.hpl.jena.ontology.OntModel
      */
-    public String getIndividualAbsoluteParentClass(String individualName) ;
+    public String getAbsoluteParentClass(String resourceName) ;
+    
+    /**
+     * Retrieves the local names of all ontology classes that are 
+     * parents of the ontology resource who's local name is the input parameter.
+     * 
+     * @param resourceName    The {@link com.hp.hpl.jena.ontology.OntResource}'s local name
+     * 
+     * @return                  The {@link com.hp.hpl.jena.ontology.OntResource}'s 
+     *                          parent classes local names, in the form of an {@link java.util.ArrayList}
+     *                          object
+     * 
+     * @see seks.basic.ontology.OntologyInteraction#getDirectParentClass(java.lang.String) 
+     */
+    public ArrayList<String> getAllParentClasses(String resourceName) ;
     
     /**
      * Retrieves the {@link com.hp.hpl.jena.ontology.Property} object that has the input parameter as 
@@ -100,7 +117,7 @@ public interface OntologyInteraction {
      * 
      * @see seks.basic.ontology.OntologyInteraction#getProperty(java.lang.String) 
      * @see com.hp.hpl.jena.ontology.Property
-     * @see com.hp.hpl.jena.ontology.Resource
+     * @see com.hp.hpl.jena.ontology.OntResource
      * @see java.util.ArrayList
      */
     public ArrayList<String> getObjectsFromTriple(String subjectName, String propertyName) ;
@@ -120,7 +137,7 @@ public interface OntologyInteraction {
      * 
      * @see seks.basic.ontology.OntologyInteraction#getProperty(java.lang.String) 
      * @see com.hp.hpl.jena.ontology.Property
-     * @see com.hp.hpl.jena.ontology.Literal
+     * @see com.hp.hpl.jena.rdf.model.Literal
      * @see java.util.ArrayList
      */
     public ArrayList<String> getSubjectsFromTriple(String objectName, String propertyName) ;
@@ -143,16 +160,16 @@ public interface OntologyInteraction {
     public ArrayList<String> getAllValuesFromProperty(String propertyName) ;
     
     /**
-     * Retrives the taxonomical depth of the ontology class with localname given 
+     * Retrives the taxonomical depth of the ontology resource with localname given 
      * by the input parameter.
      * 
-     * @param className The localname for an ontology class
+     * @param resourceName The localname for an ontology resource
      * 
-     * @return          The taxonomical depth of that class
+     * @return          The taxonomical depth of that resource
      * 
      * @see com.hp.hpl.jena.ontology.OntClass
      */
-    public int getClassDepth(String className) ;
+    public int getDepth(String resourceName) ;
     
     /*  Semantic Boolean Operators  */
     
