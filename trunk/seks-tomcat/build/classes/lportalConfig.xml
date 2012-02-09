@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : lportalConfig.xml
+    Created on : 27 de Dezembro de 2011, 16:54
+    Author     : Paulo Figueiras
+    Description:
+        Configuration file for lportal schema.
+-->
+
+<root>
+    <db_url>jdbc:mysql://localhost:3306/lportal</db_url>
+    <db_user>seks</db_user>
+    <db_passwd>gris</db_passwd>
+    <db_driver>com.mysql.jdbc.Driver</db_driver>
+</root>

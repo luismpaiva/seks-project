@@ -80,7 +80,7 @@ DROP procedure IF EXISTS `svdb`.`getDocumentIDs`;
 
 DELIMITER $$
 USE `svdb`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getDocumentIDs`()
+CREATE DEFINER=`seks`@`localhost` PROCEDURE `getDocumentIDs`()
 BEGIN
     select (idDocument) from Document ;
 END$$
@@ -96,7 +96,7 @@ DROP procedure IF EXISTS `svdb`.`getDocumentNumWithConcept`;
 
 DELIMITER $$
 USE `svdb`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getDocumentNumWithConcept`(con varchar(45))
+CREATE DEFINER=`seks`@`localhost` PROCEDURE `getDocumentNumWithConcept`(con varchar(45))
 BEGIN
     select count(idSemanticWeight) as nDocument from semanticWeight where (concept = con);
 END$$
@@ -112,7 +112,7 @@ DROP procedure IF EXISTS `svdb`.`getListNonIndexed`;
 
 DELIMITER $$
 USE `svdb`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getListNonIndexed`()
+CREATE DEFINER=`seks`@`localhost` PROCEDURE `getListNonIndexed`()
 BEGIN
     SELECT idDocument, title, description, extension
     FROM Document
@@ -130,7 +130,7 @@ DROP procedure IF EXISTS `svdb`.`getSemanticWeightsWithDocID`;
 
 DELIMITER $$
 USE `svdb`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getSemanticWeightsWithDocID`(documentURI varchar(45))
+CREATE DEFINER=`seks`@`localhost` PROCEDURE `getSemanticWeightsWithDocID`(documentURI varchar(45))
 BEGIN
     select idSemanticWeight, parentClass, concept, weight from semanticWeight where (Document_idDocument = documentURI) ;
 END$$
@@ -146,7 +146,7 @@ DROP procedure IF EXISTS `svdb`.`getStatisticWeightsWithDocID`;
 
 DELIMITER $$
 USE `svdb`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getStatisticWeightsWithDocID`(docURI varchar(45))
+CREATE DEFINER=`seks`@`localhost` PROCEDURE `getStatisticWeightsWithDocID`(docURI varchar(45))
 BEGIN
     select * from `svdb`.`StatisticWeight` where (`Document_idDocument` = docURI) ;
 END$$
@@ -162,7 +162,7 @@ DROP procedure IF EXISTS `svdb`.`getTotalDocumentNum`;
 
 DELIMITER $$
 USE `svdb`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getTotalDocumentNum`()
+CREATE DEFINER=`seks`@`localhost` PROCEDURE `getTotalDocumentNum`()
 BEGIN
     select count(idDocument) as nDocument from Document ;
 END$$
@@ -178,7 +178,7 @@ DROP procedure IF EXISTS `svdb`.`insertSemanticWeight`;
 
 DELIMITER $$
 USE `svdb`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insertSemanticWeight`(parentClass varchar(45), concept varchar(45), weight double, documentURI varchar(45))
+CREATE DEFINER=`seks`@`localhost` PROCEDURE `insertSemanticWeight`(parentClass varchar(45), concept varchar(45), weight double, documentURI varchar(45))
 BEGIN
     INSERT INTO `svdb`.`SemanticWeight` (`parentClass`, `concept`, `weight`, `Document_idDocument`) VALUES (parentClass, concept, weight, documentURI) ;
 END$$
