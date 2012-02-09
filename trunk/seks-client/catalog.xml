@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://localhost:8080/seks-tomcat/DocumentSemanticVectorsService?wsdl" uri="src/conf/xml-resources/web-service-references/DocumentSemanticVectorsService/wsdl/localhost_8080/seks-tomcat/DocumentSemanticVectorsService.wsdl"/>
+    <system systemId="http://localhost:8080/seks-tomcat/DocumentSemanticVectorsService?xsd=1" uri="src/conf/xml-resources/web-service-references/DocumentSemanticVectorsService/wsdl/localhost_8080/seks-tomcat/DocumentSemanticVectorsService.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/seks-tomcat/QuerySemanticVectorsService?wsdl" uri="src/conf/xml-resources/web-service-references/QuerySemanticVectorsService/wsdl/localhost_8080/seks-tomcat/QuerySemanticVectorsService.wsdl"/>
+    <system systemId="http://localhost:8080/seks-tomcat/QuerySemanticVectorsService?xsd=1" uri="src/conf/xml-resources/web-service-references/QuerySemanticVectorsService/wsdl/localhost_8080/seks-tomcat/QuerySemanticVectorsService.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/seks-tomcat/ClientSupportService?wsdl" uri="src/conf/xml-resources/web-service-references/ClientSupportService/wsdl/localhost_8080/seks-tomcat/ClientSupportService.wsdl"/>
+    <system systemId="http://localhost:8080/seks-tomcat/ClientSupportService?xsd=1" uri="src/conf/xml-resources/web-service-references/ClientSupportService/wsdl/localhost_8080/seks-tomcat/ClientSupportService.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/seks-tomcat/VectorComparisonService?wsdl" uri="src/conf/xml-resources/web-service-references/VectorComparisonService/wsdl/localhost_8080/seks-tomcat/VectorComparisonService.wsdl"/>
+    <system systemId="http://localhost:8080/seks-tomcat/VectorComparisonService?xsd=1" uri="src/conf/xml-resources/web-service-references/VectorComparisonService/wsdl/localhost_8080/seks-tomcat/VectorComparisonService.xsd_1.xsd"/>
+</catalog>

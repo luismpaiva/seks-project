@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2.3-b01-. --><xs:schema xmlns:tns="http://services.web.advanced.seks/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://services.web.advanced.seks/">
+
+<xs:element name="getJSONOntologyTree" type="tns:getJSONOntologyTree" />
+
+<xs:element name="getJSONOntologyTreeResponse" type="tns:getJSONOntologyTreeResponse" />
+
+<xs:element name="getKeywords" type="tns:getKeywords" />
+
+<xs:element name="getKeywordsResponse" type="tns:getKeywordsResponse" />
+
+<xs:complexType name="getJSONOntologyTree">
+<xs:sequence>
+<xs:element name="obj" type="xs:string" minOccurs="0" />
+<xs:element name="clsName" type="xs:string" minOccurs="0" />
+<xs:element name="last" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getJSONOntologyTreeResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getKeywords">
+<xs:sequence />
+</xs:complexType>
+
+<xs:complexType name="getKeywordsResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
