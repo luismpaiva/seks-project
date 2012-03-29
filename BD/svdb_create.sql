@@ -132,6 +132,7 @@ CREATE TABLE `ontologyrelation` (
 
 LOCK TABLES `ontologyrelation` WRITE;
 /*!40000 ALTER TABLE `ontologyrelation` DISABLE KEYS */;
+INSERT INTO `ontologyrelation` VALUES (1,'Architect','Construction_Preparation_Phase','has_Actor_Phase',1),(2,'Space_Designer','Construction_Preparation_Phase','has_Actor_Phase',1),(3,'Counsultant','Construction_Preparation_Phase','has_Actor_Phase',1),(4,'Planner','Construction_Preparation_Phase','has_Actor_Phase',1),(5,'Developer','Construction_Preparation_Phase','has_Actor_Phase',1),(6,'Planting','Planting_Product','has_Project_Product',1),(7,'Coordinator','Construction_Preparation_Phase','has_Actor_Phase',1),(8,'Project','Meeting','has_Project_Meeting',1),(9,'Project','Agenda','has_Project_Agenda',1),(10,'Planting','Exterior_Plant','has_Project_Product',2),(11,'Planting','Planting_Accessory','has_Project_Product',2),(12,'Transportation_Route','Roadway_And_Runway','has_Project_Product',1),(13,'Supervisor','Monitoring','has_Actor_Skill',1),(14,'Building','Structural_Wall','has_Project_Product',1),(15,'Design_Actor','Drawing','has_Information_Need',1),(16,'Project','Issue','has_Project_Issue',1),(17,'Contractor','Contract','has_Information_Need',1);
 /*!40000 ALTER TABLE `ontologyrelation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -158,6 +159,7 @@ CREATE TABLE `relationimportance` (
 
 LOCK TABLES `relationimportance` WRITE;
 /*!40000 ALTER TABLE `relationimportance` DISABLE KEYS */;
+INSERT INTO `relationimportance` VALUES (1,'has_Actor_Phase','Architect','Construction_Preparation_Phase',0.8),(2,'has_Actor_Phase','Space_Designer','Construction_Preparation_Phase',0.8),(3,'has_Actor_Phase','Counsultant','Construction_Preparation_Phase',0.8),(4,'has_Actor_Phase','Planner','Construction_Preparation_Phase',0.8),(5,'has_Actor_Phase','Developer','Construction_Preparation_Phase',0.8),(6,'has_Actor_Phase','Coordinator','Construction_Preparation_Phase',0.8),(7,'has_Project_Product','Planting','Planting_Product',0.8),(8,'has_Project_Product','Planting','Exterior_Plant',0.8),(9,'has_Project_Product','Planting','Planting_Accessory',0.8),(10,'has_Project_Product','Transportation_Route','Roadway_And_Runway',0.8),(11,'has_Project_Product','Building','Structural_Wall',0.8),(12,'has_Project_Meeting','Project','Meeting',0.8),(13,'has_Project_Agenda','Project','Agenda',0.8),(14,'has_Actor_Skill','Supervisor','Monitoring',0.8),(15,'has_Project_Issue','Project','Issue',0.8),(16,'has_Information_Need','Contractor','Contract',0.8),(17,'has_Information_Need','Design_Actor','Drawing',0.8);
 /*!40000 ALTER TABLE `relationimportance` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -335,6 +337,7 @@ CREATE TABLE `taxonomyrelation` (
 
 LOCK TABLES `taxonomyrelation` WRITE;
 /*!40000 ALTER TABLE `taxonomyrelation` DISABLE KEYS */;
+INSERT INTO `taxonomyrelation` VALUES (0,'Architect','Space_Designer',0,3),(1,'Partnership','Association',0,2),(2,'Ornament_And_Decoration','Planting_Product',0,1),(3,'Planting_Accessory','Planting_Product',0,1),(4,'Ornament_And_Decoration','Planting_Accessory',0,1),(5,'Design_Actor','Architect',1,3),(6,'Design_Actor','Space_Designer',1,3),(7,'Territory','District',0,2),(8,'Wall_Covering','Structural_Wall',0,1),(9,'Wall_Covering','Ancillary_Product_For_Coverings_And_Claddings',0,1),(10,'Organization','Corporation',1,1),(11,'Organization','Partnership',1,1),(12,'Organization','Association',1,1),(13,'Partnership','Corporation',0,2),(14,'Partner','Chair_Person',0,1),(15,'Team','Commitee',0,1),(16,'Ornament_And_Decoration','Exterior_Plant',0,1),(17,'Structural_Wall','Concrete',0,1),(18,'Management_Actor','President',1,0),(19,'Management_Actor','Supervisor',1,0),(20,'Support_Actor','Draftsperson',1,0),(21,'Support_Actor','Counsultant',1,0),(22,'Manufacturer','Product_Representative',0,1),(23,'Planner','Developer',0,1),(24,'Partner','President',0,1),(25,'Chair_Person','President',0,1);
 /*!40000 ALTER TABLE `taxonomyrelation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -864,4 +867,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-03-29 11:58:51
+-- Dump completed on 2012-03-29 18:00:34
