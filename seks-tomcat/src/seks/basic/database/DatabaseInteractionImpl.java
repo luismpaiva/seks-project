@@ -124,9 +124,10 @@ public class DatabaseInteractionImpl implements DatabaseInteraction {
     public ResultSet callProcedure(Connection con, String procedure) {
         try {
             CallableStatement statement = con.prepareCall("call " + procedure);
-            statement.execute();
-            ResultSet rs = statement.getResultSet();
-            return rs;
+            if (statement.execute()) {       
+            	ResultSet rs = statement.getResultSet();
+            	return rs;
+            }
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseInteraction.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -84,7 +84,7 @@ public class VectorComparisonService {
      * @see seks.advanced.semantic.vectors.SemanticVectorComparison#getSemanticVectorByDocumentID(java.lang.String) 
      */
     @WebMethod(operationName = "getSemanticVectorByDocumentId")
-    public String getSemanticVectorByDocumentId(@WebParam(name = "documentId") String documentId) {
+    public String getSemanticVectorByDocumentId(@WebParam(name = "documentId") int documentId) {
         SerializationTools st = new SerializationToolsImpl() ;
         SemanticVectorComparison svc = new SemanticVectorComparisonImpl() ;
         HashMap<String, SemanticWeight> map = svc.getSemanticVectorByDocumentID(documentId) ;
@@ -102,9 +102,18 @@ public class VectorComparisonService {
      * @see seks.advanced.semantic.vectors.SemanticVectorComparison#getDocumentURIs() 
      */
     @WebMethod(operationName = "getDocumentIds")
-    public ArrayList<String> getDocumentIds() {
+    public ArrayList<Integer> getDocumentIds() {
         SemanticVectorComparison svc = new SemanticVectorComparisonImpl() ;
-        return svc.getDocumentURIs() ;
+        return svc.getDocumentIds() ;
+    }
+    
+    @WebMethod(operationName = "vectorUnion")
+    public String vectorUnion(@WebParam(name = "statisticVector") String statisticVector,@WebParam(name = "semanticVector")  String semanticVector, @WebParam(name = "idDocument") int idDocument) {
+    	SerializationTools st = new SerializationToolsImpl() ;
+    	SemanticVectorComparison svc = new SemanticVectorComparisonImpl() ;
+    	HashMap<String, Double> statisticVectorMap = (HashMap<String, Double>) st.Deserialize(statisticVector) ;
+    	HashMap<String, SemanticWeight> semanticVectorMap = (HashMap<String, SemanticWeight>) st.Deserialize(semanticVector) ;
+    	return st.Serialize(svc.vectorUnion(statisticVectorMap, semanticVectorMap, idDocument)) ;
     }
     
     /**

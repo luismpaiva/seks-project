@@ -5,6 +5,8 @@ import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.rdf.model.Property;
 import java.util.ArrayList;
 
+import seks.basic.pojos.SemanticRelation;
+
 /**
  * Comprises all functions and algorithms that manage ontology interaction, 
  * ontology getters and setters included.
@@ -166,6 +168,8 @@ public interface OntologyInteraction {
      * @see java.util.ArrayList
      */
     public ArrayList<String> getAllValuesFromProperty(String propertyName) ;
+    
+    public ArrayList<SemanticRelation> getStatements() ;
     
     /**
      * Retrives the taxonomical depth of the ontology resource with localname given 

@@ -13,6 +13,10 @@
 <%@page import="seks.advanced.semantic.vectors.KeywordBasedSVCreation"%>
 <%@page import="java.util.Enumeration"%>
 <%@page import="org.hsqldb.lib.Collection"%>
+
+<%@page import="seks.basic.database.*"%>
+<%@page import="java.sql.*"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -25,7 +29,7 @@
         <%
         //String documentId = "";    
         //String folderName = request.getParameter("btnIndex");
-            KeywordBasedSVCreation svCreator = new KeywordBasedSVCreationImpl() ;
+           KeywordBasedSVCreation svCreator = new KeywordBasedSVCreationImpl() ;
             Enumeration paramNames = request.getParameterNames();
             while (paramNames.hasMoreElements()) {
                 String paramName = (String) paramNames.nextElement();
@@ -44,10 +48,10 @@
                     String concept = (String) j.next() ;
                     SemanticWeight sw = semanticVector.get(concept) ;
                 %>
-                    <tr>
+                <!-- <tr>
                         <td><%= concept%></td>
                         <td><%= sw.getWeight()%></td>
-                    </tr>
+                    </tr>  -->    
                 <%  
                 }
             }

@@ -29,7 +29,7 @@ public class ClientSupportService {
     }
     
     @WebMethod(operationName = "getJSONOntologyTree")
-    public String getJSONOntologyTree(@WebParam(name = "obj")String obj, @WebParam(name = "clsName")String clsName, @WebParam(name = "last")boolean last) {
+    public String getJSONOntologyTree(@WebParam(name = "clsName")String clsName, @WebParam(name = "last")boolean last) {
     	OntologyInteraction oi = new OntologyInteractionImpl() ;
     	return this.getJSONOntologyTree2(oi, new String(clsName), last) ;
     }

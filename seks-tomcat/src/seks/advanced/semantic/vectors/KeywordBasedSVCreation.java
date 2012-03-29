@@ -32,7 +32,7 @@ public interface KeywordBasedSVCreation {
      * @see java.sql.ResultSet
      * @see HashMap
      */
-    public HashMap<String, Double> getStatisticalVectorByDocumentURI(String documentURI) ;
+    public HashMap<String, Double> getStatisticalVectorByDocumentID(int documentID) ;
     
     
     /**
@@ -55,7 +55,7 @@ public interface KeywordBasedSVCreation {
      * @see HashMap
      * @see ArrayList
      */
-    public HashMap<String, ArrayList<String>> getConceptsFromKeywords(HashMap<String, Double> statVector) ;
+    public HashMap<String, HashMap<String, Double>> getConceptsAndWeightsFromKeywords(HashMap<String, Double> statVector) ;
     
     
     /**
@@ -83,7 +83,7 @@ public interface KeywordBasedSVCreation {
      * @see HashMap
      * @see ArrayList
      */
-    public HashMap<String, Double> getConceptsTotalWeights(HashMap<String, Double> statVector, HashMap<String, ArrayList<String>> conceptsAndKeywords) ;
+    public HashMap<String, Double> getConceptsTotalWeights(HashMap<String, HashMap<String, Double>> conceptsKeywordsAndWeights) ;
     
     
     /**
@@ -153,7 +153,7 @@ public interface KeywordBasedSVCreation {
      * @see HashMap
      * @see ArrayList
      */
-    public HashMap<String, SemanticWeight> createKeywordBasedSemanticVector (String documentURI, HashMap<String, Double> conceptsAndWeights, ArrayList<String> sortedConcepts) ;
+    public HashMap<String, SemanticWeight> createKeywordBasedSemanticVector (int documentID, HashMap<String, Double> conceptsAndWeights, ArrayList<String> sortedConcepts) ;
     
     
     /**
@@ -201,5 +201,5 @@ public interface KeywordBasedSVCreation {
      * @see seks.basic.database.DatabaseInteraction#callProcedure(java.sql.Connection, java.lang.String) 
      * @see seks.basic.database.DatabaseInteraction#closeConnection(java.sql.Connection) 
      */
-    public void storeSemanticVector(HashMap<String, SemanticWeight> semanticVector) ;
+    public void storeKeywordBasedSemanticVector(HashMap<String, SemanticWeight> semanticVector) ;
 }

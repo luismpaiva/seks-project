@@ -1,6 +1,9 @@
 package seks.basic.ontology;
 
+import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.graph.Triple;
 import com.hp.hpl.jena.ontology.Individual;
+import com.hp.hpl.jena.ontology.ObjectProperty;
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntResource;
@@ -17,6 +20,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import seks.basic.exceptions.MissingParamException;
+import seks.basic.pojos.SemanticRelation;
 
 /**
  * Implementation class of interface {@link OntologyInteraction}
@@ -71,9 +75,13 @@ public class OntologyInteractionImpl implements OntologyInteraction {
     }
     
     /**
+     * Calculates the number of subclasses for the {@link com.hp.hpl.jena.ontology.OntClass} object that 
+     * has the input parameter as local name.
      * 
-     * @param className
-     * @return
+     * @param className The {@link com.hp.hpl.jena.ontology.OntClass}'s local name
+     * 
+     * @return			The number of subclasses
+     * @see com.hp.hpl.jena.ontology.OntClass
      */
     @Override
     public int getSubClassesNumber(String className) {
@@ -274,7 +282,7 @@ public class OntologyInteractionImpl implements OntologyInteraction {
         NodeIterator iter = m.listObjectsOfProperty(property) ;
         while(iter.hasNext()) {
             Literal node = iter.next().asLiteral() ;
-            if (node.getString().matches(objectName)) {
+            if (node.getString().equalsIgnoreCase(objectName)) {
                 ResIterator i = m.listResourcesWithProperty(property, m.asRDFNode(node.asNode())) ;
                 while (i.hasNext()) {
                     list.add(i.nextResource().getLocalName());
@@ -314,12 +322,42 @@ public class OntologyInteractionImpl implements OntologyInteraction {
     }
     
     /**
-     * Retrives the taxonomical depth of the ontology resource with localname given 
+     * Gets all triple statements present in the ontology.
+     * 
+     *  @return 	A {@link java.util.ArrayList} comprised by {@link seks.basic.pojos.SemanticRelation} objects
+     *  
+     *  @see seks.basic.pojos.SemanticRelation
+     *  @see java.util.ArrayList 
+     */
+    public ArrayList<SemanticRelation> getStatements() {
+    	StmtIterator iter = m.listStatements() ;
+    	ArrayList<SemanticRelation> statements = new ArrayList<SemanticRelation>() ;
+    	while (iter.hasNext()) {
+    		Statement stmt = iter.next() ;
+    		Triple triple = stmt.asTriple() ;
+    		Node propertyNode = triple.getPredicate() ;
+    		ExtendedIterator<ObjectProperty> props = m.listObjectProperties() ;
+    		while (props.hasNext()) {
+    			String propName = props.next().getLocalName() ;
+    			if (propName.equals(propertyNode.getLocalName())) {
+    				SemanticRelation relation = new SemanticRelation(triple.getSubject().getLocalName(), triple.getObject().getLocalName(), propertyNode.getLocalName(), 0.0) ;
+    				statements.add(relation) ;
+    				break ;
+    			}
+    			else continue ;
+    		}
+    	}
+    	return statements ;
+    }
+    
+    
+    /**
+     * Retrieves the taxonomic depth of the ontology resource with local name given 
      * by the input parameter.
      * 
-     * @param resourceName The localname for an ontology resource
+     * @param resourceName The local name for an ontology resource
      * 
-     * @return          The taxonomical depth of that resource
+     * @return          The taxonomic depth of that resource
      * 
      * @see com.hp.hpl.jena.ontology.OntClass
      */

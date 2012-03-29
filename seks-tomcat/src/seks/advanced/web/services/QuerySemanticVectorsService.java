@@ -85,7 +85,7 @@ public class QuerySemanticVectorsService {
         SerializationTools st = new SerializationToolsImpl() ;
         HashMap<String, Double> statVector = (HashMap<String, Double>) st.Deserialize(statisticVector) ;
         KeywordBasedSVCreation svCreator = new KeywordBasedSVCreationImpl() ;
-        return st.Serialize(svCreator.getConceptsFromKeywords(statVector)) ;
+        return st.Serialize(svCreator.getConceptsAndWeightsFromKeywords(statVector)) ;
     }
     
     /**
@@ -112,12 +112,12 @@ public class QuerySemanticVectorsService {
      * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#getConceptsTotalWeights(java.util.HashMap, java.util.HashMap)     
      */
     @WebMethod(operationName = "getConceptsTotalWeights")
-    public String getConceptsTotalWeights(@WebParam(name = "statisticVector") String statisticVector, @WebParam(name = "conceptsAndKeywords") String conceptsAndKeywords) {
+    public String getConceptsTotalWeights(@WebParam(name = "statisticVector") String statisticVector, @WebParam(name = "conceptsAndKeywords") String conceptsKeywordsAndWeights) {
         SerializationTools st = new SerializationToolsImpl() ;
         HashMap<String, Double> statVector = (HashMap<String, Double>) st.Deserialize(statisticVector) ;
-        HashMap<String, ArrayList<String>> conceptsAndKeywordsMap = (HashMap<String, ArrayList<String>>) st.Deserialize(conceptsAndKeywords) ;
+        HashMap<String, HashMap<String, Double>> conceptsKeywordsAndWeightsMap = (HashMap<String, HashMap<String, Double>>) st.Deserialize(conceptsKeywordsAndWeights) ;
         KeywordBasedSVCreation svCreator = new KeywordBasedSVCreationImpl() ;
-        return st.Serialize(svCreator.getConceptsTotalWeights(statVector, conceptsAndKeywordsMap)) ;
+        return st.Serialize(svCreator.getConceptsTotalWeights(conceptsKeywordsAndWeightsMap)) ;
     }
 
     /**
