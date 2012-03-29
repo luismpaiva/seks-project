@@ -13,7 +13,7 @@ public class DocumentResult implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String idDocument ;
+	private int idDocument ;
     private int relevancePercentage ;
     
     /**
@@ -24,11 +24,11 @@ public class DocumentResult implements Serializable {
     /**
      * Class constructor with parameter insertion
      * 
-     * @param idDocument            An unique document's URI
+     * @param idDocument            An unique document's ID
      * @param relevancePercentage   The relevance percentage of the document, in 
      *                              comparison with a specific query
      */
-    public DocumentResult(String idDocument, int relevancePercentage) {
+    public DocumentResult(int idDocument, int relevancePercentage) {
         this.idDocument = idDocument ;
         this.relevancePercentage = relevancePercentage ;
     }
@@ -36,14 +36,14 @@ public class DocumentResult implements Serializable {
     /**
      * @return the idDocument
      */
-    public String getIdDocument() {
+    public int getIdDocument() {
         return idDocument;
     }
 
     /**
      * @param idDocument the idDocument to set
      */
-    public void setIdDocument(String idDocument) {
+    public void setIdDocument(int idDocument) {
         this.idDocument = idDocument;
     }
 

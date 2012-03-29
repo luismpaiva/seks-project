@@ -12,8 +12,7 @@ public class SemanticWeight implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String idDocument ;
-    private String parentClass ;
+	private int idDocument ;
     private String concept;
     private int idSemanticWeight;
     private double weight;
@@ -27,13 +26,11 @@ public class SemanticWeight implements Serializable{
      * Class constructor with parameter insertion.
      * 
      * @param idDocument    An unique document's URI
-     * @param parentClass   The concept's parent class local name
      * @param concept       The concept's local name
      * @param weight        The concept's weight
      */
-    public SemanticWeight(String idDocument, String parentClass, String concept, double weight) {
+    public SemanticWeight(int idDocument, String concept, double weight) {
         this.idDocument = idDocument ;
-        this.parentClass = parentClass ;
         this.concept = concept ;
         this.weight = weight ;
     }
@@ -41,29 +38,15 @@ public class SemanticWeight implements Serializable{
     /**
      * @return the idDocument
      */
-    public String getIdDocument() {
+    public int getIdDocument() {
         return idDocument;
     }
 
     /**
      * @param idDocument the idDocument to set
      */
-    public void setIdDocument(String idDocument) {
+    public void setIdDocument(int idDocument) {
         this.idDocument = idDocument;
-    }
-
-    /**
-     * @return the parentClass
-     */
-    public String getParentClass() {
-        return parentClass;
-    }
-
-    /**
-     * @param parentClass the parentClass to set
-     */
-    public void setParentClass(String parentClass) {
-        this.parentClass = parentClass;
     }
 
     /**

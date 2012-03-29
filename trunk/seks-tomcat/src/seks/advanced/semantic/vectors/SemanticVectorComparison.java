@@ -64,7 +64,7 @@ public interface SemanticVectorComparison {
      * @see java.sql.Connection
      * @see java.sql.ResultSet
      */
-    public HashMap<String, SemanticWeight> getSemanticVectorByDocumentID(String documentID) ;
+    public HashMap<String, SemanticWeight> getSemanticVectorByDocumentID(int documentID) ;
     
     /**
      * Retrieves the URI's of all documents comprised in the system's document 
@@ -78,7 +78,7 @@ public interface SemanticVectorComparison {
      * @see seks.basic.database.DatabaseInteraction#closeConnection(java.sql.Connection) 
      * @see java.util.ArrayList
      */
-    public ArrayList<String> getDocumentURIs() ;
+    public ArrayList<Integer> getDocumentIds() ;
     
     /**
      * Sorts the documents which form the response to a specific query, 
@@ -94,4 +94,6 @@ public interface SemanticVectorComparison {
      * @see java.util.ArrayList
      */
     public ArrayList<DocumentResult> sortDocumentResultsByRelevance(ArrayList<DocumentResult> documentResults) ;
+    
+    public HashMap<String, SemanticWeight> vectorUnion(HashMap<String, Double> statisticVector, HashMap<String, SemanticWeight> semanticVector, int idDocument) ;
 }

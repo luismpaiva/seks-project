@@ -33,10 +33,10 @@ public class DocumentSemanticVectorsService {
      * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#getStatisticalVectorByDocumentURI(java.lang.String) 
      */
     @WebMethod(operationName = "getStatisticalVectorByDocumentId")
-    public String getStatisticalVectorByDocumentId(@WebParam(name = "documentId") String documentId) {
+    public String getStatisticalVectorByDocumentId(@WebParam(name = "documentId") int documentId) {
         SerializationTools st = new SerializationToolsImpl() ;
         KeywordBasedSVCreation svCreator = new KeywordBasedSVCreationImpl() ;
-        return st.Serialize(svCreator.getStatisticalVectorByDocumentURI(documentId)) ;
+        return st.Serialize(svCreator.getStatisticalVectorByDocumentID(documentId)) ;
     }
 
     /**
@@ -61,7 +61,7 @@ public class DocumentSemanticVectorsService {
         SerializationTools st = new SerializationToolsImpl() ;
         HashMap<String, Double> statVector = (HashMap<String, Double>) st.Deserialize(statisticVector) ;
         KeywordBasedSVCreation svCreator = new KeywordBasedSVCreationImpl() ;
-        return st.Serialize(svCreator.getConceptsFromKeywords(statVector)) ;
+        return st.Serialize(svCreator.getConceptsAndWeightsFromKeywords(statVector)) ;
     }
 
     /**
@@ -88,12 +88,12 @@ public class DocumentSemanticVectorsService {
      * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#getConceptsTotalWeights(java.util.HashMap, java.util.HashMap)     
      */
     @WebMethod(operationName = "getConceptsTotalWeights")
-    public String getConceptsTotalWeights(@WebParam(name = "statisticVector") String statisticVector, @WebParam(name = "conceptsAndKeywords") String conceptsAndKeywords) {
+    public String getConceptsTotalWeights(@WebParam(name = "statisticVector") String statisticVector, @WebParam(name = "conceptsAndKeywords") String conceptsKeywordsAndWeights) {
         SerializationTools st = new SerializationToolsImpl() ;
         HashMap<String, Double> statVector = (HashMap<String, Double>) st.Deserialize(statisticVector) ;
-        HashMap<String, ArrayList<String>> conceptsAndKeywordsMap = (HashMap<String, ArrayList<String>>) st.Deserialize(conceptsAndKeywords) ;
+        HashMap<String, HashMap<String, Double>> conceptsKeywordsAndWeightsMap = (HashMap<String, HashMap<String, Double>>) st.Deserialize(conceptsKeywordsAndWeights) ;
         KeywordBasedSVCreation svCreator = new KeywordBasedSVCreationImpl() ;
-        return st.Serialize(svCreator.getConceptsTotalWeights(statVector, conceptsAndKeywordsMap)) ;
+        return st.Serialize(svCreator.getConceptsTotalWeights(conceptsKeywordsAndWeightsMap)) ;
     }
 
     /**
@@ -152,7 +152,7 @@ public class DocumentSemanticVectorsService {
      * @see seks.advanced.semantic.vectors.KeywordBasedSVCreation#createKeywordBasedSemanticVector(java.lang.String, java.util.HashMap, java.util.ArrayList) 
      */
     @WebMethod(operationName = "createKeywordBasedSemanticVector")
-    public String createKeywordBasedSemanticVector(@WebParam(name = "documentId") String documentId, @WebParam(name = "conceptsAndWeights") String conceptsAndWeights, @WebParam(name = "sortedConcepts") ArrayList<String> sortedConcepts) {
+    public String createKeywordBasedSemanticVector(@WebParam(name = "documentId") int documentId, @WebParam(name = "conceptsAndWeights") String conceptsAndWeights, @WebParam(name = "sortedConcepts") ArrayList<String> sortedConcepts) {
         SerializationTools st = new SerializationToolsImpl() ;
         HashMap<String, Double> conceptsAndWeightsMap = (HashMap<String, Double>) st.Deserialize(conceptsAndWeights) ;
         KeywordBasedSVCreation svCreator = new KeywordBasedSVCreationImpl() ;
@@ -178,6 +178,6 @@ public class DocumentSemanticVectorsService {
         SerializationTools st = new SerializationToolsImpl() ;
         HashMap<String, SemanticWeight> semVector = (HashMap<String, SemanticWeight>) st.Deserialize(semanticVector) ;
         KeywordBasedSVCreation svCreator = new KeywordBasedSVCreationImpl() ;
-        svCreator.storeSemanticVector(semVector) ;
+        svCreator.storeKeywordBasedSemanticVector(semVector) ;
     }
 }

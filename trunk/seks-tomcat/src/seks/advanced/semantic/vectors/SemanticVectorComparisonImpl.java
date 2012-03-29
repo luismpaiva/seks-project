@@ -12,6 +12,8 @@ import seks.basic.calculus.CalculusTools;
 import seks.basic.calculus.CalculusToolsImpl;
 import seks.basic.database.DatabaseInteraction;
 import seks.basic.database.DatabaseInteractionImpl;
+import seks.basic.ontology.OntologyInteraction;
+import seks.basic.ontology.OntologyInteractionImpl;
 import seks.basic.pojos.DocumentResult;
 import seks.basic.pojos.SemanticWeight;
 
@@ -21,9 +23,6 @@ import seks.basic.pojos.SemanticWeight;
  * @author Paulo Figueiras
  */
 public class SemanticVectorComparisonImpl implements SemanticVectorComparison {
-    
-    private DatabaseInteractionImpl dii ;
-    private CalculusToolsImpl cti ;
     
     /**
      * Class constructor.
@@ -42,11 +41,11 @@ public class SemanticVectorComparisonImpl implements SemanticVectorComparison {
     @Override
     public ArrayList<String> getSharedConcepts(HashMap<String, SemanticWeight> semanticVector1, HashMap<String, SemanticWeight> semanticVector2) {
         ArrayList<String> sharedConcepts = new ArrayList<String>() ;
-        Iterator iter1 = semanticVector1.keySet().iterator() ;
+        Iterator<String> iter1 = semanticVector1.keySet().iterator() ;
         
         while (iter1.hasNext()) {
             String concept1 = (String) iter1.next() ;
-            Iterator iter2 = semanticVector2.keySet().iterator() ;
+            Iterator<String> iter2 = semanticVector2.keySet().iterator() ;
             while (iter2.hasNext()) {
                 String concept2 = (String) iter2.next() ;
                 if (concept1.equals(concept2)) {
@@ -83,15 +82,15 @@ public class SemanticVectorComparisonImpl implements SemanticVectorComparison {
         double vector1WeightsSum = 0.0 ;
         double vector2WeightsSum = 0.0 ;
         DocumentResult docResult = new DocumentResult();
-        CalculusTools ct = getCti() ;
-        String documentURI = semanticVector1.get(semanticVector1.keySet().iterator().next()).getIdDocument() ;
+        CalculusTools ct = new CalculusToolsImpl() ;
+        int idDocument = semanticVector1.get(semanticVector1.keySet().iterator().next()).getIdDocument() ;
         
         if (sharedConcepts.isEmpty()) {
-            docResult.setIdDocument(documentURI) ;
+            docResult.setIdDocument(idDocument) ;
             docResult.setRelevancePercentage(0) ;
         }
         else {
-            Iterator iter = sharedConcepts.iterator() ;
+            Iterator<String> iter = sharedConcepts.iterator() ;
             while (iter.hasNext()) {
                 String concept = (String) iter.next() ;
                 double weight1 = semanticVector1.get(concept).getWeight() ;
@@ -113,7 +112,7 @@ public class SemanticVectorComparisonImpl implements SemanticVectorComparison {
             }
             
             int result = ct.euclidianDistanceAlgorithm(sharedWeightsSum, vector1WeightsSum, vector2WeightsSum) ;
-            docResult.setIdDocument(documentURI) ;
+            docResult.setIdDocument(idDocument) ;
             docResult.setRelevancePercentage(result) ;
         }
         return docResult ;
@@ -140,14 +139,14 @@ public class SemanticVectorComparisonImpl implements SemanticVectorComparison {
      * @see java.sql.ResultSet
      */
     @Override
-    public HashMap<String, SemanticWeight> getSemanticVectorByDocumentID(String documentID) {
-        DatabaseInteraction di = getDii() ;
+    public HashMap<String, SemanticWeight> getSemanticVectorByDocumentID(int documentID) {
+        DatabaseInteraction di = new DatabaseInteractionImpl() ;
         HashMap<String, SemanticWeight> semanticVector = new HashMap<String, SemanticWeight>() ;
         Connection con = di.openConnection("svdbConfig.xml") ;
         try {
-            ResultSet params = di.callProcedure(con, "svdb.getSemanticWeightsWithDocID(\"" + documentID + "\")") ;
+            ResultSet params = di.callProcedure(con, "svdb.getKeywordBasedWeightsWithDocID(" + documentID + ")") ;
             while (params.next()) { 
-                SemanticWeight sw = new SemanticWeight(documentID, params.getString("parentClass"), params.getString("concept"), params.getDouble("weight")) ;
+                SemanticWeight sw = new SemanticWeight(documentID, params.getString("concept"), params.getDouble("weight")) ;
                 semanticVector.put(sw.getConcept(), sw) ;
             }
         } catch (SQLException ex) {
@@ -170,19 +169,19 @@ public class SemanticVectorComparisonImpl implements SemanticVectorComparison {
      * @see java.util.ArrayList
      */
     @Override
-    public ArrayList<String> getDocumentURIs() {
-        DatabaseInteraction di = getDii() ;
-        ArrayList<String> URIs = new ArrayList<String>() ;
+    public ArrayList<Integer> getDocumentIds() {
+        DatabaseInteraction di = new DatabaseInteractionImpl() ;
+        ArrayList<Integer> Ids = new ArrayList<Integer>() ;
         Connection con = di.openConnection("svdbConfig.xml") ;
         try {
-            ResultSet rs = di.callProcedure(con, "svdb.getDocumentIDs") ;
+            ResultSet rs = di.callProcedure(con, "svdb.getAllDocumentIDs") ;
             while(rs.next()) {
-                URIs.add(rs.getString("idDocument")) ;
+                Ids.add(rs.getInt("idDocument")) ;
             }
         } catch (SQLException ex) {
             Logger.getLogger(SemanticVectorComparisonImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return URIs ;
+        return Ids ;
     }
     
     /**
@@ -200,7 +199,7 @@ public class SemanticVectorComparisonImpl implements SemanticVectorComparison {
     @Override
     public ArrayList<DocumentResult> sortDocumentResultsByRelevance(ArrayList<DocumentResult> documentResults) {
         ArrayList<DocumentResult> sortedResults = new ArrayList<DocumentResult>() ;
-        Iterator iter = documentResults.iterator() ;
+        Iterator<DocumentResult> iter = documentResults.iterator() ;
         while (iter.hasNext()) {
             DocumentResult dr = (DocumentResult) iter.next() ;
             if (!(dr.getRelevancePercentage() == 0)) {
@@ -228,32 +227,44 @@ public class SemanticVectorComparisonImpl implements SemanticVectorComparison {
         }
         return sortedResults ;
     }
-
+    
     /**
-     * @return the dii
+     * 
      */
-    public DatabaseInteractionImpl getDii() {
-        return new DatabaseInteractionImpl() ;
-    }
-
-    /**
-     * @param dii the dii to set
-     */
-    public void setDii(DatabaseInteractionImpl dii) {
-        this.dii = dii;
-    }
-
-    /**
-     * @return the cti
-     */
-    public CalculusToolsImpl getCti() {
-        return new CalculusToolsImpl() ;
-    }
-
-    /**
-     * @param cti the cti to set
-     */
-    public void setCti(CalculusToolsImpl cti) {
-        this.cti = cti;
+    
+    public HashMap<String, SemanticWeight> vectorUnion(HashMap<String, Double> statisticVector, HashMap<String, SemanticWeight> semanticVector, int idDocument) {
+    	HashMap<String, SemanticWeight> unionVector = semanticVector ;
+    	OntologyInteraction oi = new OntologyInteractionImpl() ;
+    	KeywordBasedSVCreation kbsvCreator = new KeywordBasedSVCreationImpl() ;
+    	Iterator<String> iter = statisticVector.keySet().iterator() ;
+    	HashMap<String, ArrayList<String>> missingConceptsAndKeywords = new HashMap<String, ArrayList<String>>() ;
+    	
+    	while(iter.hasNext()) {
+            String keyword = (String) iter.next() ;
+            ArrayList<String> concepts = oi.getSubjectsFromTriple(keyword, "has_Keyword") ;
+            if (!concepts.isEmpty()) {
+            	for (int i = 0 ; i < concepts.size(); i++) {
+	                String concept = concepts.get(i) ;
+	                if (!semanticVector.containsKey(concept)) {
+	                	ArrayList<String> keywords = new ArrayList<String>() ;
+	                	if (missingConceptsAndKeywords.containsKey(concept)) {
+	                        keywords = (ArrayList<String>) missingConceptsAndKeywords.get(concept) ;
+	                        keywords.add(keyword);
+	                        missingConceptsAndKeywords.put(concept, keywords) ;
+	                    }
+	                    else {
+	                        keywords = new ArrayList<String>() ;
+	                        keywords.add(keyword);
+	                        missingConceptsAndKeywords.put(concept, keywords) ;
+	                    }
+	                }
+            	}
+            }
+            else {
+            	SemanticWeight weight = new SemanticWeight(idDocument, keyword, statisticVector.get(keyword)) ;
+            	unionVector.put(keyword, weight) ;
+            }
+        }
+    	return kbsvCreator.semanticVectorNormalization(unionVector) ;
     }
 }

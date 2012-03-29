@@ -14,8 +14,6 @@ import seks.basic.pojos.SemanticWeight;
  */
 public class QueryTreatmentImpl implements QueryTreatment {
     
-    private OntologyInteractionImpl oii ;
-    
     /**
      * Class constructor.
      */
@@ -106,15 +104,13 @@ public class QueryTreatmentImpl implements QueryTreatment {
     @Override
     public HashMap<String, SemanticWeight> createQuerySemanticVector(HashMap<String, Double> conceptsAndWeights) {
         HashMap<String, SemanticWeight> semanticVector = new HashMap<String, SemanticWeight>() ;
-        OntologyInteraction oi = getOii() ;
+        OntologyInteraction oi = new OntologyInteractionImpl() ;
         Iterator iter = conceptsAndWeights.keySet().iterator() ;
         
         while (iter.hasNext()) {
             String concept = (String) iter.next() ;
             double weight = conceptsAndWeights.get(concept) ;
-            concept = oi.getDirectParentClass(concept) ;
-            String parentClass= oi.getDirectParentClass(concept) ;
-            SemanticWeight sw = new SemanticWeight("query", parentClass, concept, weight) ;
+            SemanticWeight sw = new SemanticWeight(0, concept, weight) ;
             semanticVector.put(concept, sw) ;
         }
         return semanticVector ;
@@ -131,19 +127,5 @@ public class QueryTreatmentImpl implements QueryTreatment {
         OntologyInteraction oi = new OntologyInteractionImpl() ;
         ArrayList<String> list = oi.getAllValuesFromProperty("has_Keyword") ;
         return list ;
-    }
-
-    /**
-     * @return the oii
-     */
-    public OntologyInteractionImpl getOii() {
-        return new OntologyInteractionImpl() ;
-    }
-
-    /**
-     * @param oii the oii to set
-     */
-    public void setOii(OntologyInteractionImpl oii) {
-        this.oii = oii;
     }
 }

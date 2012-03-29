@@ -4,6 +4,10 @@
  */
 package seks.advanced.semantic.vectors;
 
+import java.util.HashMap;
+
+import seks.basic.pojos.SemanticWeight;
+
 /**
  *
  * @author Paulo Figueiras
@@ -50,4 +54,13 @@ public interface TaxonomyBasedSVCreation {
      * @return 
      */
     public double calculateNonHomologousSimilarityFactor(String ancestorName, String concept1, String concept2) ;
+    
+    public HashMap<String, SemanticWeight> createTaxonomyBasedSemanticVector(HashMap<String, SemanticWeight> kbSemanticVector) ;
+    
+    public HashMap<String, SemanticWeight> addImportantConceptsToVector(HashMap<String, SemanticWeight> tbSemanticVector, double homologousThreshold, double nonHomologousThreshold) ;
+    
+    public HashMap<String, SemanticWeight> boostConceptsWeightsWithinVector(HashMap<String, SemanticWeight> kbSemanticVector) ;
+    
+    public void storeTaxonomyBasedSemanticVector(HashMap<String, SemanticWeight> tbSemanticVector) ;
+    
 }
