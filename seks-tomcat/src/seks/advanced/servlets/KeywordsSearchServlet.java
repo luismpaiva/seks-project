@@ -52,7 +52,7 @@ public class KeywordsSearchServlet extends HttpServlet {
     		HashMap<String, SemanticWeight> querySemanticVector = qt.createQuerySemanticVector(conceptsAndWeights) ;
     		ArrayList<Integer> documentIDs = svc.getDocumentIds() ;
     		for (int documentID : documentIDs) {
-    			HashMap<String, SemanticWeight> documentSemanticVector = svc.getSemanticVectorByDocumentID(documentID) ;
+    			HashMap<String, SemanticWeight> documentSemanticVector = svc.getSemanticVectorByDocumentID(documentID, 1) ;
     			ArrayList<String> sharedConcepts = svc.getSharedConcepts(documentSemanticVector, querySemanticVector) ;
     			DocumentResult result = svc.compareSemanticVectors(documentSemanticVector, querySemanticVector, sharedConcepts) ;
     			results.add(result) ;

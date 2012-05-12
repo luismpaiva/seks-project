@@ -12,8 +12,6 @@ import seks.basic.calculus.CalculusTools;
 import seks.basic.calculus.CalculusToolsImpl;
 import seks.basic.database.DatabaseInteraction;
 import seks.basic.database.DatabaseInteractionImpl;
-import seks.basic.ontology.OntologyInteraction;
-import seks.basic.ontology.OntologyInteractionImpl;
 import seks.basic.pojos.DocumentResult;
 import seks.basic.pojos.SemanticWeight;
 
@@ -139,12 +137,21 @@ public class SemanticVectorComparisonImpl implements SemanticVectorComparison {
      * @see java.sql.ResultSet
      */
     @Override
-    public HashMap<String, SemanticWeight> getSemanticVectorByDocumentID(int documentID) {
+    public HashMap<String, SemanticWeight> getSemanticVectorByDocumentID(int documentID, int type) {
         DatabaseInteraction di = new DatabaseInteractionImpl() ;
         HashMap<String, SemanticWeight> semanticVector = new HashMap<String, SemanticWeight>() ;
         Connection con = di.openConnection("svdbConfig.xml") ;
+        ResultSet params ;
         try {
-            ResultSet params = di.callProcedure(con, "svdb.getKeywordBasedWeightsWithDocID(" + documentID + ")") ;
+        	if (type == 1) {
+        		params = di.callProcedure(con, "svdb.getKeywordBasedWeightsWithDocID(" + documentID + ")") ;
+        	}
+        	else if (type == 2) {
+        		params = di.callProcedure(con, "svdb.getTaxonomyBasedWeightsWithDocID(" + documentID + ")") ;
+        	}
+        	else {
+        		params = di.callProcedure(con, "svdb.getOntologyBasedWeightsWithDocID(" + documentID + ")") ;
+        	}
             while (params.next()) { 
                 SemanticWeight sw = new SemanticWeight(documentID, params.getString("concept"), params.getDouble("weight")) ;
                 semanticVector.put(sw.getConcept(), sw) ;
@@ -232,39 +239,45 @@ public class SemanticVectorComparisonImpl implements SemanticVectorComparison {
      * 
      */
     
-    public HashMap<String, SemanticWeight> vectorUnion(HashMap<String, Double> statisticVector, HashMap<String, SemanticWeight> semanticVector, int idDocument) {
-    	HashMap<String, SemanticWeight> unionVector = semanticVector ;
-    	OntologyInteraction oi = new OntologyInteractionImpl() ;
+    public HashMap<String, SemanticWeight> vectorUnion(HashMap<String, Double> statisticVector, HashMap<String, SemanticWeight> semanticVector, int idDocument, HashMap<String, SemanticWeight> kbSemanticVector) {
+    	DatabaseInteraction di = new DatabaseInteractionImpl() ;
+    	ArrayList<Integer> semanticVectorKeywords = new ArrayList<Integer>() ;
+    	Connection con = di.openConnection("svdbConfig.xml") ;
     	KeywordBasedSVCreation kbsvCreator = new KeywordBasedSVCreationImpl() ;
-    	Iterator<String> iter = statisticVector.keySet().iterator() ;
-    	HashMap<String, ArrayList<String>> missingConceptsAndKeywords = new HashMap<String, ArrayList<String>>() ;
+    	HashMap<String, SemanticWeight> unifiedVector = new HashMap<String, SemanticWeight>() ;
     	
-    	while(iter.hasNext()) {
-            String keyword = (String) iter.next() ;
-            ArrayList<String> concepts = oi.getSubjectsFromTriple(keyword, "has_Keyword") ;
-            if (!concepts.isEmpty()) {
-            	for (int i = 0 ; i < concepts.size(); i++) {
-	                String concept = concepts.get(i) ;
-	                if (!semanticVector.containsKey(concept)) {
-	                	ArrayList<String> keywords = new ArrayList<String>() ;
-	                	if (missingConceptsAndKeywords.containsKey(concept)) {
-	                        keywords = (ArrayList<String>) missingConceptsAndKeywords.get(concept) ;
-	                        keywords.add(keyword);
-	                        missingConceptsAndKeywords.put(concept, keywords) ;
-	                    }
-	                    else {
-	                        keywords = new ArrayList<String>() ;
-	                        keywords.add(keyword);
-	                        missingConceptsAndKeywords.put(concept, keywords) ;
-	                    }
-	                }
-            	}
-            }
-            else {
-            	SemanticWeight weight = new SemanticWeight(idDocument, keyword, statisticVector.get(keyword)) ;
-            	unionVector.put(keyword, weight) ;
-            }
-        }
-    	return kbsvCreator.semanticVectorNormalization(unionVector) ;
+    	unifiedVector.putAll(semanticVector) ;
+    	
+    	Iterator<String> semVectorIter = kbSemanticVector.keySet().iterator() ;
+    	
+    	ResultSet rs ;
+    	try {
+	    	while (semVectorIter.hasNext()) {
+	    		rs = di.callProcedure(con, "svdb.getKeywordBasedSemanticVectorByConcept('" + semVectorIter.next() + "', " + idDocument + ")") ;
+				rs.next() ;
+				int kbSemanticWeightId = rs.getInt("idKeywordBasedSemanticVector") ;
+				rs = di.callProcedure(con, "svdb.getKeywordsForConcept(" + kbSemanticWeightId + ")") ;
+				while (rs.next()) {
+					semanticVectorKeywords.add(rs.getInt("keywordId")) ;
+				}
+	    	}
+	    	
+	    	rs = di.callProcedure(con, "svdb.getStatisticWeightsWithDocID(" + idDocument + ")") ;
+	    	while (rs.next()) {
+	    		if (!semanticVectorKeywords.contains(rs.getInt("idStatisticWeight"))) {
+	    			SemanticWeight sw = new SemanticWeight() ;
+	    			sw.setConcept(rs.getString("keyword")) ;
+	    			sw.setIdDocument(idDocument) ;
+	    			sw.setWeight(rs.getDouble("weight")) ;
+	    			unifiedVector.put(rs.getString("keyword"), sw) ;
+	    		}
+	    	}
+    	
+    	} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	return kbsvCreator.semanticVectorNormalization(unifiedVector) ;
     }
 }
