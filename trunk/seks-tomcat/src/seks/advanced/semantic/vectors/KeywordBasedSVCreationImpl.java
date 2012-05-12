@@ -121,7 +121,7 @@ public class KeywordBasedSVCreationImpl implements KeywordBasedSVCreation {
 								}
 								if ((counter == words.size()) && (!usedKeywords.contains(ontoKeyword))) {
 									usedKeywords.add(ontoKeyword) ;
-									conceptsKeywordsAndWeights = this.getConceptsKeywordsAndWeights(conceptsKeywordsAndWeights, ontoKeyword, weight, oi) ;
+									conceptsKeywordsAndWeights = this.getConceptsKeywordsAndWeights(conceptsKeywordsAndWeights, ontoKeyword, keyword, weight, oi) ;
 								}
 							}
 						}
@@ -133,7 +133,7 @@ public class KeywordBasedSVCreationImpl implements KeywordBasedSVCreation {
 						if ((!usedKeywords.contains(ontoKeyword)) && (!ontoKeyword.contains(" "))) {
 							if (ontoKeyword.equals(keyword) || ontoKeyword.startsWith(keyword)) {
 								usedKeywords.add(ontoKeyword) ;
-								conceptsKeywordsAndWeights = this.getConceptsKeywordsAndWeights(conceptsKeywordsAndWeights, ontoKeyword, weight, oi) ;
+								conceptsKeywordsAndWeights = this.getConceptsKeywordsAndWeights(conceptsKeywordsAndWeights, ontoKeyword, keyword, weight, oi) ;
 							}
 						}
 					}
@@ -393,13 +393,29 @@ public class KeywordBasedSVCreationImpl implements KeywordBasedSVCreation {
      * @see seks.basic.database.DatabaseInteraction#closeConnection(java.sql.Connection) 
      */
     @Override
-    public void storeKeywordBasedSemanticVector(HashMap<String, SemanticWeight> semanticVector) {
+    public void storeKeywordBasedSemanticVector(HashMap<String, SemanticWeight> semanticVector, HashMap<String, HashMap<String, Double>> conceptsKeywordsAndWeights) {
         DatabaseInteraction di = new DatabaseInteractionImpl() ;
         Connection con = di.openConnection("svdbConfig.xml") ;
         Iterator<String> iter = semanticVector.keySet().iterator() ;
         while (iter.hasNext()) {
-            SemanticWeight sw = semanticVector.get(iter.next()) ;
-            di.callProcedure(con, "svdb.insertKeywordBasedWeight('" + sw.getConcept() + "'," + sw.getWeight() + "," + sw.getIdDocument() + ")") ;
+        	try {
+	        	SemanticWeight sw = semanticVector.get(iter.next()) ;
+	            di.callProcedure(con, "svdb.insertKeywordBasedWeight('" + sw.getConcept() + "'," + sw.getWeight() + "," + sw.getIdDocument() + ")") ;
+	            ResultSet rs = di.callProcedure(con, "svdb.getKeywordBasedSemanticWeightByConcept('" + sw.getConcept() + "', " + sw.getIdDocument() + ")") ;	
+	            rs.next() ;
+	            int kbSemanticWeightId = rs.getInt("idKeywordBasedSemanticWeight") ;
+	            Iterator<String> keywords = conceptsKeywordsAndWeights.get(sw.getConcept()).keySet().iterator() ;
+	            while (keywords.hasNext()) {
+	            	rs = di.callProcedure(con, "svdb.getStatisticWeightByKeyword('" + keywords.next() + "', " + sw.getIdDocument() + ")") ;
+	            	rs.next() ;
+	            	int statisticWeightId = rs.getInt("idStatisticWeight") ;
+	            	di.callProcedure(con, "svdb.insertKeywordForConcept(" + statisticWeightId + ", " + kbSemanticWeightId + ")") ;
+	            }
+	            rs.close();
+        	} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
         di.closeConnection(con) ;
     }
@@ -468,7 +484,7 @@ public class KeywordBasedSVCreationImpl implements KeywordBasedSVCreation {
         return 0 ;
     }
     
-    private HashMap<String, HashMap<String, Double>> getConceptsKeywordsAndWeights(HashMap<String, HashMap<String, Double>> conceptsKeywordsAndWeights, String ontoKeyword, double weight, OntologyInteraction oi) {
+    private HashMap<String, HashMap<String, Double>> getConceptsKeywordsAndWeights(HashMap<String, HashMap<String, Double>> conceptsKeywordsAndWeights, String ontoKeyword, String keyword, double weight, OntologyInteraction oi) {
 		
 		ArrayList<String> concepts = oi.getSubjectsFromTriple(ontoKeyword, "has_Keyword") ;
 		HashMap<String, Double> keywordsAndWeights = new HashMap<String, Double>() ;
@@ -476,14 +492,14 @@ public class KeywordBasedSVCreationImpl implements KeywordBasedSVCreation {
             for(int i = 0; i < concepts.size(); i++) {
             	if (conceptsKeywordsAndWeights.containsKey(concepts.get(i))) {
                     keywordsAndWeights = conceptsKeywordsAndWeights.get(concepts.get(i)) ;
-                    if (!keywordsAndWeights.containsKey(ontoKeyword)) {
-                    	keywordsAndWeights.put(ontoKeyword, weight);
+                    if (!keywordsAndWeights.containsKey(keyword)) {
+                    	keywordsAndWeights.put(keyword, weight);
                     	conceptsKeywordsAndWeights.put(oi.getDirectParentClass(concepts.get(i)), keywordsAndWeights) ;
                     }
                 }
                 else {
                     keywordsAndWeights = new HashMap<String, Double>() ;
-                    keywordsAndWeights.put(ontoKeyword, weight);
+                    keywordsAndWeights.put(keyword, weight);
                     conceptsKeywordsAndWeights.put(oi.getDirectParentClass(concepts.get(i)), keywordsAndWeights) ;
                 }
             }

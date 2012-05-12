@@ -201,5 +201,5 @@ public interface KeywordBasedSVCreation {
      * @see seks.basic.database.DatabaseInteraction#callProcedure(java.sql.Connection, java.lang.String) 
      * @see seks.basic.database.DatabaseInteraction#closeConnection(java.sql.Connection) 
      */
-    public void storeKeywordBasedSemanticVector(HashMap<String, SemanticWeight> semanticVector) ;
+    public void storeKeywordBasedSemanticVector(HashMap<String, SemanticWeight> semanticVector, HashMap<String, HashMap<String, Double>> conceptsKeywordsAndWeights) ; 
 }

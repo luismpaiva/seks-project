@@ -108,6 +108,10 @@ public class CalculusToolsImpl implements CalculusTools {
     @Override
     public double homologousFactorAlgorithm(double alpha, double beta, int depthA, int depthB, int sonsA, int sonsB) {
         double result = 0.0 ;
+        depthA++ ;
+        depthB++ ;
+        sonsA++ ;
+        sonsB++ ;
         /*
          A - Ancestor node
          B - Sibling node
@@ -138,6 +142,12 @@ public class CalculusToolsImpl implements CalculusTools {
     public double nonHomologousFactorAlgorithm(double alpha, double beta, int depthA, int depthB, int depthR, int sonsA, int sonsB, int sonsR) {
         double result = 0.0 ;
         // In the paper the two values below are inverse-calculated, which means that they would be negative, so I changed the parameters of both subtractions
+        depthA++ ;
+        depthB++ ;
+        depthR++ ;
+        sonsA++ ;
+        sonsB++ ;
+        sonsR++ ;
         double dRA = (double) depthA - (double) depthR ;
         double dRB = (double) depthB - (double) depthR ;
         double dAB = dRA + dRB ;

@@ -4,8 +4,10 @@
  */
 package seks.advanced.semantic.vectors;
 
+import java.sql.Connection;
 import java.util.HashMap;
 
+import seks.basic.ontology.OntologyInteraction;
 import seks.basic.pojos.SemanticWeight;
 
 /**
@@ -36,7 +38,7 @@ public interface TaxonomyBasedSVCreation {
      *                  If the concepts are non-homologous, retrieves the nearest parent class
      *                  shared by both concepts
      */
-    public String checkHomologyBetweenConcepts(String concept1, String concept2) ;
+    public String checkHomologyBetweenConcepts(String concept1, String concept2, OntologyInteraction oi) ;
     
     /**
      * 
@@ -44,7 +46,7 @@ public interface TaxonomyBasedSVCreation {
      * @param siblingName
      * @return 
      */
-    public double calculateHomologousSimilarityFactor(String ancestorName, String siblingName) ;
+    public double calculateHomologousSimilarityFactor(String ancestorName, String siblingName, int occurrences, OntologyInteraction oi, Connection con) ;
     
     /**
      * 
@@ -53,13 +55,13 @@ public interface TaxonomyBasedSVCreation {
      * @param concept2
      * @return 
      */
-    public double calculateNonHomologousSimilarityFactor(String ancestorName, String concept1, String concept2) ;
+    public double calculateNonHomologousSimilarityFactor(String ancestorName, String concept1, String concept2, int occurrences, OntologyInteraction oi, Connection con) ;
     
     public HashMap<String, SemanticWeight> createTaxonomyBasedSemanticVector(HashMap<String, SemanticWeight> kbSemanticVector) ;
     
-    public HashMap<String, SemanticWeight> addImportantConceptsToVector(HashMap<String, SemanticWeight> tbSemanticVector, double homologousThreshold, double nonHomologousThreshold) ;
+    public HashMap<String, SemanticWeight> addImportantConceptsToVector(HashMap<String, SemanticWeight> tbSemanticVector, double homologousThreshold, double nonHomologousThreshold, OntologyInteraction oi, Connection con) ;
     
-    public HashMap<String, SemanticWeight> boostConceptsWeightsWithinVector(HashMap<String, SemanticWeight> kbSemanticVector) ;
+    public HashMap<String, SemanticWeight> boostConceptsWeightsWithinVector(HashMap<String, SemanticWeight> kbSemanticVector, double homologousThreshold, double nonHomologousThreshold, OntologyInteraction oi, Connection con) ;
     
     public void storeTaxonomyBasedSemanticVector(HashMap<String, SemanticWeight> tbSemanticVector) ;
     

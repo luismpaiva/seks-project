@@ -187,7 +187,9 @@ public class OntologyInteractionImpl implements OntologyInteraction {
     	OntClass cls = this.getClass(className) ;
     	ExtendedIterator<OntClass> subclasses = cls.listSubClasses() ;
     	while(subclasses.hasNext()) {
-    		subclassesNames.add(subclasses.next().getLocalName()) ;
+    		OntClass current = subclasses.next() ;
+    		subclassesNames.add(current.getLocalName()) ;
+    		subclassesNames.addAll(this.getAllSubclasses(current.getLocalName())) ;
     	}
     	return subclassesNames ;
     }
