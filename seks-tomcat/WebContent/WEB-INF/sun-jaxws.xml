@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<endpoints version="2.0" xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime">
-  <endpoint implementation="seks.advanced.web.services.DocumentSemanticVectorsService" name="DocumentSemanticVectorsService" url-pattern="/DocumentSemanticVectorsService"/>
-  <endpoint implementation="seks.advanced.web.services.QuerySemanticVectorsService" name="QuerySemanticVectorsService" url-pattern="/QuerySemanticVectorsService"/>
-  <endpoint implementation="seks.advanced.web.services.VectorComparisonService" name="VectorComparisonService" url-pattern="/VectorComparisonService"/>
-  <endpoint implementation="seks.advanced.web.services.ClientSupportService" name="ClientSupportService" url-pattern="/ClientSupportService"/>
-</endpoints>
